@@ -15,7 +15,7 @@ spring:
             uri: https://github.com/cby86/cloud.git
             username:
             password:
-            search-paths: config/{appliction}/{profile}
+            search-paths: config/{application}/{profile}
   security:
     basic:
       enabled: true               # 开启基于HTTP basic的认证

@@ -1,0 +1,10 @@
+security.oauth2.resource.id: spring-auth
+security.oauth2.resource.user-info-uri: http://localhost:8086/user
+security.oauth2.resource.prefer-token-info: false
+
+logging.level.org.springframework.security: DEBUG
+spring:
+  redis:
+    host: 192.168.3.9
+    port: 6379
+    password: 123456

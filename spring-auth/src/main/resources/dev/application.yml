@@ -1,0 +1,30 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: spring-auth
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
+  datasource:
+    platform: mysql
+    url: jdbc:mysql://192.168.3.9:3306/mb-test2?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&autoReconnect=true&failOverReadOnly=false
+    username: root
+    password: admin123
+server:
+  port: 8086
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    appname: ${spring.application.name}
+    preferIpAddress: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}:${spring.application.name}
+    lease-renewal-interval-in-seconds: 1
+    lease-expiration-duration-in-seconds: 2
+
+
+logging.level.org.springframework.security: DEBUG

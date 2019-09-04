@@ -12,11 +12,12 @@ spring:
       config:
         server:
           git:
-            uri: https://github.com/cby86/spring-cloud
+            uri: https://github.com/cby86/cloud.git
             username:
             password:
+            search-paths: src*
 server:
-  port: 8087
+  port: 8088
 
 eureka:
   client:

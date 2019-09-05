@@ -98,6 +98,7 @@
         <module>spring-auth</module>
         <module>spring-turbine</module>
         <module>spring-config</module>
+        <module>spring-task</module>
     </modules>
 
     <build>

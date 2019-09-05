@@ -29,6 +29,7 @@ public class OrderController {
 
     @RequestMapping("/home")
     public String home() {
+        System.out.println(parameter);
         List<ServiceInstance> instances = discoveryClient.getInstances("spring-user");
         System.out.println(instances.size());
         for (ServiceInstance serviceInstance : instances) {

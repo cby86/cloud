@@ -21,4 +21,7 @@
             <version>2.1.2.RELEASE</version>
         </dependency>
     </dependencies>
+    <build>
+        <finalName>eureka-server</finalName>
+    </build>
 </project>

@@ -1,5 +1,5 @@
 package com.spring.cloud.utils;
-import com.spring.cloud.model.User;
+import org.springframework.security.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 

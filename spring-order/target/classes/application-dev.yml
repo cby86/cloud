@@ -1,7 +1,0 @@
-spring:
-   cloud:
-      config:
-        uri: http://localhost:8088/        #Config server的uri
-        profile: prod                       #指定的环境
-        label: master
-        name: auth

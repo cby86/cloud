@@ -13,22 +13,23 @@ import javax.servlet.http.HttpServletResponse;
 public class ErrorHandlerController implements ErrorController {
     @RequestMapping("/error")
     public Object error(HttpServletRequest request, HttpServletResponse response) {
-        //
+        if (response.getStatus() == 401) {
+            return "没有授权";
+        }
         RequestContext ctx = RequestContext.getCurrentContext();
         ZuulException exception = (ZuulException)ctx.getThrowable();
-//        return Result.choose(exception.nStatusCode, exception.getMessage());
         exception.printStackTrace();
         if (exception.getCause().getMessage().contains("Forwarding error")) {
-            return "服务不可以用，请稍后再试";
+            return "服务繁忙，请稍后再试";
         }
         Integer status = (Integer) request.getAttribute("javax.servlet.error.status_code");
         if (status == 404) {
             return "服务不可以用，请稍后再试";
         }
         if (status == 500) {
-            return "服务发送错误，请稍后再试";
+            return "服务错误，请稍后再试";
         }
-        return "服务不可以用，请稍后再试";
+        return "服务繁忙，请稍后再试";
     }
 
     @Override

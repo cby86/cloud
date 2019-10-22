@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
         }
         HashMap hashMap = new HashMap();
         hashMap.put("status", 0);
-        String message = ex.getMessage();
+        String message = "系统内部错误";
         if (ex instanceof HttpRequestMethodNotSupportedException) {
             message = "不支持的访问方式";
         }

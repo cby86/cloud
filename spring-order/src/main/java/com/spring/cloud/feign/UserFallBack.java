@@ -1,5 +1,4 @@
 package com.spring.cloud.feign;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.stereotype.Component;
 
 @Component

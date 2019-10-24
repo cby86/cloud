@@ -104,6 +104,7 @@
         <module>spring-turbine</module>
         <module>spring-config</module>
         <module>spring-task</module>
+        <module>spring-gateway</module>
     </modules>
 
     <build>

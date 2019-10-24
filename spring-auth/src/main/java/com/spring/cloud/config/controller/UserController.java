@@ -11,5 +11,10 @@ public class UserController {
     public Principal user(Principal user){
         return user;
     }
+
+    @GetMapping("/test")
+    public String test(){
+        return "test";
+    }
 }
 

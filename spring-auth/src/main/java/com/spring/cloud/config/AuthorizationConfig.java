@@ -31,13 +31,11 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
     @Autowired
     RedisConnectionFactory redisConnectionFactory;
 
+    @Autowired
+    JwtTokenStore jwtTokenStore;
 
-    @Bean
-    public RedisTokenStore tokenStore() {
-
-        return new RedisTokenStore(redisConnectionFactory);
-    }
-
+    @Autowired
+    JwtAccessTokenConverter jwtAccessTokenConverter;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -45,6 +43,8 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
                 .withClient("client") // client_id
                 .secret("$2a$10$DoeJkpCczRp72DZiyXeHRO6ictIipY9yO0t2AScsMeP1JoQN81hqK") // client_secret
                 .authorizedGrantTypes("password","authorization_code", "refresh_token") // 该client允许的授权类型
+                //过期
+                .accessTokenValiditySeconds(2*60*1000)
                 .scopes("app") // 允许的授权范围
                 .redirectUris("http://localhost:8085/spring-user/home");
     }
@@ -62,23 +62,11 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
                 .allowFormAuthenticationForClients();  //允许表单认证
     }
 
-    @Bean
-    public JwtAccessTokenConverter accessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey("bcrypt");
-        return converter;
-    }
-
-
-    @Bean
-    public ResourceServerTokenServices tokenService() {
-        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-        defaultTokenServices.setTokenStore(tokenStore());
-        defaultTokenServices.setSupportRefreshToken(true);
-        return defaultTokenServices;
-    }
 
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore()).userDetailsService(userService);
+        endpoints.authenticationManager(authenticationManager).
+                tokenStore(jwtTokenStore)
+                .userDetailsService(userService).
+                accessTokenConverter(jwtAccessTokenConverter);
     }
 }

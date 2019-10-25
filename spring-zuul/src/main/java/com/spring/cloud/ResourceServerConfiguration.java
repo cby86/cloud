@@ -7,6 +7,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
@@ -37,11 +40,14 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     }
 
     @Autowired
-    RedisConnectionFactory redisConnectionFactory;
-
+    JwtTokenStore jwtTokenStore;
 
     @Bean
-    public RedisTokenStore tokenStore() {
-        return new RedisTokenStore(redisConnectionFactory);
+    public ResourceServerTokenServices tokenService() {
+        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+        defaultTokenServices.setTokenStore(jwtTokenStore);
+        defaultTokenServices.setSupportRefreshToken(true);
+        return defaultTokenServices;
     }
+
 }

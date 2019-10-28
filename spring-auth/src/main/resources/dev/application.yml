@@ -7,11 +7,14 @@ spring:
     throw-exception-if-no-handler-found: true
   resources:
     add-mappings: false
-  datasource:
-    platform: mysql
-    url: jdbc:mysql://192.168.3.9:3306/mb-test2?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&autoReconnect=true&failOverReadOnly=false
-    username: root
-    password: admin123
+  sleuth:
+        web:
+          client:
+            enabled: true
+        sampler:
+          probability: 1.0 # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
+  zipkin:
+      base-url: http://192.168.3.15:9411/ # 指定了 Zipkin 服务器的地址
 server:
   port: 8086
 
@@ -25,6 +28,30 @@ eureka:
     instance-id: ${spring.cloud.client.ip-address}:${server.port}:${spring.application.name}
     lease-renewal-interval-in-seconds: 1
     lease-expiration-duration-in-seconds: 2
+feign:
+   hystrix:
+      enabled: true
+
+hystrix:
+   command:
+      default:
+        execution:
+          isolation:
+                 strategy: SEMAPHORE
+                 thread:
+                     timeoutInMilliseconds: 500
+                     interruptOnTimeout: true
+                     interruptOnCancel: true
+                 semaphore:
+                    maxConcurrentRequests: 1000
+          fallback:
+             isolation:
+                 semaphore:
+                    maxConcurrentRequests: 1000
+   threadpool:
+      default:
+          coreSize: 100
+          maxQueueSize: 200
 
 management:
   endpoints:
@@ -32,5 +59,10 @@ management:
       exposure:
         include: '*'
 
+ribbon:
+    ReadTimeout: 3000
+    ConnectTimeout: 3000
+    MaxAutoRetries: 0
+    MaxAutoRetriesNextServer: 0
 
 logging.level.org.springframework.security: DEBUG

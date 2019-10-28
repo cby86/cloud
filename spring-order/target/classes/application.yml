@@ -56,7 +56,7 @@ hystrix:
                  semaphore:
                     maxConcurrentRequests: 1000
    threadpool:
-      default:
+       spring-order:
          coreSize: 100
          maxQueueSize: 1500
          queueSizeRejectionThreshold: 1000

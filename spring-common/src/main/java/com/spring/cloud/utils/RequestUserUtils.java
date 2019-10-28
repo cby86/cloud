@@ -21,6 +21,7 @@ public class RequestUserUtils {
             }
             SecurityUser user = new SecurityUser();
             user.setUsername(username);
+            user.setId(jsonObject.getString("identify"));
             JSONArray authorities = jsonObject.getJSONArray("authorities");
             for (Object obj : authorities) {
                 user.addAuthority(obj.toString());

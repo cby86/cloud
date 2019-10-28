@@ -1,4 +1,4 @@
-package com.spring.cloud.service.support.exception;
+package com.spring.cloud.support.exception;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

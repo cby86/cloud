@@ -1,4 +1,4 @@
-package com.spring.cloud.service.support;
+package com.spring.cloud.support;
 import org.springframework.http.HttpStatus;
 
 

@@ -1,4 +1,4 @@
-package com.spring.cloud.service.utils;
+package com.spring.cloud.utils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.security.SecurityUser;

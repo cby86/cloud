@@ -1,12 +1,11 @@
 package com.spring.cloud;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSONPObject;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 import com.spring.cloud.utils.RequestUserUtils;
 import com.spring.cloud.utils.SecurityUtils;
-import org.springframework.security.User;
+import org.springframework.security.SecurityUser;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -37,7 +36,7 @@ public class AuthPreRequestFilter extends ZuulFilter {
     @Override
     public Object run() throws ZuulException {
         RequestContext currentContext = RequestContext.getCurrentContext();
-        User user = SecurityUtils.currentUser();
+        SecurityUser user = SecurityUtils.currentUser();
         if (user != null) {
             currentContext.addZuulRequestHeader(RequestUserUtils.USERHEADERKEY, JSONObject.toJSON(user).toString());
         }

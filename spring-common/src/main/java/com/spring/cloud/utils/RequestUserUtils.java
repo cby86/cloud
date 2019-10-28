@@ -1,7 +1,7 @@
 package com.spring.cloud.utils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.springframework.security.User;
+import org.springframework.security.SecurityUser;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class RequestUserUtils {
     public static final String USERHEADERKEY = "user";
-    public static User currentUser() {
+    public static SecurityUser currentUser() {
         try {
             HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
             String userInfo = request.getHeader(USERHEADERKEY);
@@ -19,7 +19,7 @@ public class RequestUserUtils {
             if (StringUtils.isEmpty(username)) {
                 return null;
             }
-            User user = new User();
+            SecurityUser user = new SecurityUser();
             user.setUsername(username);
             JSONArray authorities = jsonObject.getJSONArray("authorities");
             for (Object obj : authorities) {

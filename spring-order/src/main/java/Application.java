@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication(scanBasePackages  = {"com.spring.cloud"})
 @EnableEurekaClient
-@EnableFeignClients(basePackages = {"com.spring.cloud.feign"})
+@EnableFeignClients(basePackages = {"com.spring.cloud.service.feign"})
 @EnableHystrix
 @EnableCircuitBreaker
 public class Application {

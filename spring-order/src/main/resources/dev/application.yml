@@ -44,7 +44,7 @@ hystrix:
       default:
         execution:
           isolation:
-                 strategy: Thread
+                 strategy: THREAD
                  thread:
                      timeoutInMilliseconds: 500
                      interruptOnTimeout: true

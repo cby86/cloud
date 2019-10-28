@@ -1,14 +1,22 @@
 package org.springframework.security;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class SecurityUser implements UserDetails {
+    private String id;
     private String username;
     private String password;
     private Collection<CustomerSimpleGrantedAuthority> authorities;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     @Override
     public boolean isAccountNonExpired() {

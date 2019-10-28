@@ -37,7 +37,7 @@ hystrix:
       default:
         execution:
           isolation:
-                 strategy: SEMAPHORE
+                 strategy: Thread
                  thread:
                      timeoutInMilliseconds: 500
                      interruptOnTimeout: true
@@ -51,7 +51,8 @@ hystrix:
    threadpool:
       default:
           coreSize: 100
-          maxQueueSize: 200
+          maxQueueSize: 1500
+          queueSizeRejectionThreshold: 1000
 
 management:
   endpoints:

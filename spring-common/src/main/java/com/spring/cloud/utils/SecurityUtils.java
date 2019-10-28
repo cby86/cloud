@@ -20,6 +20,8 @@ public class SecurityUtils {
             User user = new User();
             if (!StringUtils.isEmpty(principal)) {
                 user.setUsername(principal.toString());
+            }else {
+                return null;
             }
             if (authorities != null) {
                 user.setAuthorities(authorities);

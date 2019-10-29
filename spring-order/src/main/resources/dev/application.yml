@@ -56,7 +56,7 @@ hystrix:
                  semaphore:
                     maxConcurrentRequests: 1000
    threadpool:
-       default:
+       serviceB:
          coreSize: 100
          maxQueueSize: 1500
          queueSizeRejectionThreshold: 1000

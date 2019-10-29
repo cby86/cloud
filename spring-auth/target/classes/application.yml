@@ -49,7 +49,7 @@ hystrix:
                  semaphore:
                     maxConcurrentRequests: 1000
    threadpool:
-      spring-auth:
+      serviceA:
           coreSize: 100
           maxQueueSize: 1500
           queueSizeRejectionThreshold: 1000

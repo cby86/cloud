@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: prod
   application:
     name: spring-register-server
 server:
@@ -17,5 +17,5 @@ eureka:
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:8761/eureka/
   server:
-     enable-self-preservation: false
-     eviction-interval-timer-in-ms: 4000
+     enable-self-preservation: true
+     eviction-interval-timer-in-ms: 60000

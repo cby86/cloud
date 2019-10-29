@@ -26,6 +26,11 @@ eureka:
 feign:
    hystrix:
       enabled: true
+   compression:
+      request:
+         enabled: true # 开启请求压缩
+      response:
+         enabled: true # 开启响应压缩
 
 hystrix:
    command:

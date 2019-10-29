@@ -28,7 +28,7 @@ eureka:
     preferIpAddress: true
     instance-id: ${spring.cloud.client.ip-address}:${server.port}:${spring.application.name}
     lease-renewal-interval-in-seconds: 1
-    lease-expiration-duration-in-seconds: 10
+    lease-expiration-duration-in-seconds: 2
 feign:
    hystrix:
       enabled: true
@@ -61,10 +61,10 @@ hystrix:
          maxQueueSize: 1500
          queueSizeRejectionThreshold: 1000
 ribbon:
-    ReadTimeout: 3000
-    ConnectTimeout: 3000
-    MaxAutoRetries: 0
-    MaxAutoRetriesNextServer: 0
+  ReadTimeout: 3000
+  ConnectTimeout: 3000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 0
 
 
 

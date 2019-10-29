@@ -60,12 +60,11 @@ hystrix:
          coreSize: 100
          maxQueueSize: 1500
          queueSizeRejectionThreshold: 1000
-order-service:
-  ribbon:
-      ReadTimeout: 3000
-      ConnectTimeout: 3000
-      MaxAutoRetries: 0
-      MaxAutoRetriesNextServer: 0
+ribbon:
+  ReadTimeout: 3000
+  ConnectTimeout: 3000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 0
 
 
 

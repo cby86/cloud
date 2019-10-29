@@ -24,7 +24,7 @@ public class OrderController {
     @Autowired
     private UserInterface userInterface;
 
-    @Value("${test}")
+    @Value("${test:9}")
     private String parameter;
 
     @RequestMapping("/home")

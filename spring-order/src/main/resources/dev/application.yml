@@ -3,57 +3,8 @@ spring:
     active: dev
   application:
       name: spring-order
-  mvc:
-     throw-exception-if-no-handler-found: true
-  resources:
-    add-mappings: false
-  sleuth:
-      web:
-        client:
-          enabled: true
-      sampler:
-        probability: 1.0 # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
-  zipkin:
-      base-url: http://192.168.3.15:9411/ # 指定了 Zipkin 服务器的地址
 server:
   port: 8083
-
-feign:
-   hystrix:
-      enabled: true
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-
-hystrix:
-   command:
-      default:
-        execution:
-          isolation:
-                 strategy: THREAD
-                 thread:
-                     timeoutInMilliseconds: 500
-                     interruptOnTimeout: true
-                     interruptOnCancel: true
-                 semaphore:
-                    maxConcurrentRequests: 1000
-          fallback:
-             isolation:
-                 semaphore:
-                    maxConcurrentRequests: 1000
-   threadpool:
-       serviceB:
-         coreSize: 100
-         maxQueueSize: 1500
-         queueSizeRejectionThreshold: 1000
-ribbon:
-  ReadTimeout: 3000
-  ConnectTimeout: 3000
-  MaxAutoRetries: 0
-  MaxAutoRetriesNextServer: 0
 
 
 

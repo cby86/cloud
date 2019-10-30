@@ -8,6 +8,16 @@ public class SecurityUser implements UserDetails {
     private String id;
     private String username;
     private String password;
+    private String roleId;
+
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
+
     private Collection<CustomerSimpleGrantedAuthority> authorities;
 
     public String getId() {

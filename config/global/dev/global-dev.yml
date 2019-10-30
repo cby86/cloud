@@ -4,8 +4,8 @@ spring:
   resources:
     add-mappings: false
   sleuth:
-        web:
-          client:
+     web:
+        client:
             enabled: true
         sampler:
           probability: 1.0 # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
@@ -37,20 +37,25 @@ hystrix:
       default:
         execution:
           isolation:
-                 strategy: THREAD
-                 thread:
-                     timeoutInMilliseconds: 500
-                     interruptOnTimeout: true
-                     interruptOnCancel: true
-                 semaphore:
-                    maxConcurrentRequests: 1000
+            strategy: THREAD
+            thread:
+              timeoutInMilliseconds: 500
+                interruptOnTimeout: true
+                interruptOnCancel: true
+              semaphore:
+                maxConcurrentRequests: 1000
           fallback:
-             isolation:
-                 semaphore:
-                    maxConcurrentRequests: 1000
+            isolation:
+              semaphore:
+                maxConcurrentRequests: 1000
+          circuitBreaker:
+            sleepWindowInMilliseconds: 5000
    threadpool:
       default:
-          coreSize: 100
+          coreSize: 10
+          maximumSize: 500
+          #设置allowMaximumSizeToDivergeFromCoreSize值为true时，maximumSize才有作用
+          allowMaximumSizeToDivergeFromCoreSize: true
           maxQueueSize: 1500
           queueSizeRejectionThreshold: 1000
 

@@ -33,20 +33,25 @@ hystrix:
       default:
         execution:
           isolation:
-                 strategy: THREAD
-                 thread:
-                     timeoutInMilliseconds: 500
-                     interruptOnTimeout: true
-                     interruptOnCancel: true
-                 semaphore:
-                    maxConcurrentRequests: 1000
+            strategy: THREAD
+            thread:
+              timeoutInMilliseconds: 500
+                interruptOnTimeout: true
+                interruptOnCancel: true
+              semaphore:
+                maxConcurrentRequests: 1000
           fallback:
-             isolation:
-                 semaphore:
-                    maxConcurrentRequests: 1000
+            isolation:
+              semaphore:
+                maxConcurrentRequests: 1000
+          circuitBreaker:
+            sleepWindowInMilliseconds: 5000
    threadpool:
       default:
           coreSize: 100
+          maximumSize: 500
+          #设置allowMaximumSizeToDivergeFromCoreSize值为true时，maximumSize才有作用
+          allowMaximumSizeToDivergeFromCoreSize: true
           maxQueueSize: 1500
           queueSizeRejectionThreshold: 1000
 

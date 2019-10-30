@@ -61,5 +61,5 @@ ribbon:
     ConnectTimeout: 3000
     MaxAutoRetries: 0
     MaxAutoRetriesNextServer: 0
-
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.BestAvailableRule
 logging.level.org.springframework.security: DEBUG

@@ -65,6 +65,6 @@ ribbon:
     ConnectTimeout: 3000
     MaxAutoRetries: 0
     MaxAutoRetriesNextServer: 0
-    ServerListRefreshInterval: 3000
+    ServerListRefreshInterval: 1000
 
 logging.level.org.springframework.security: DEBUG

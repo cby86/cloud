@@ -45,6 +45,7 @@ public class GlobalExceptionHandler {
             message = "不支持的访问方式";
         }
         if (ex instanceof NoHandlerFoundException) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             message = "资源不存在";
         }
         if (ex instanceof MultipartException) {

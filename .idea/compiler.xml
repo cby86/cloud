@@ -6,7 +6,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="spring-auth" />
+        <module name="spring-auth-dao" />
+        <module name="spring-auth-service" />
+        <module name="spring-auth-starter" />
         <module name="spring-common" />
         <module name="spring-config" />
         <module name="spring-eureka-server" />
@@ -24,6 +26,9 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="spring-auth" target="1.8" />
+      <module name="spring-auth-dao" target="1.8" />
+      <module name="spring-auth-service" target="1.8" />
+      <module name="spring-auth-starter" target="1.8" />
       <module name="spring-cloud" target="1.8" />
       <module name="spring-common" target="1.8" />
       <module name="spring-config" target="1.8" />

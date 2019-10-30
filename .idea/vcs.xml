@@ -2,6 +2,9 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/spring-auth/spring-auth-dao" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/spring-auth/spring-auth-service" vcs="svn" />
+    <mapping directory="$PROJECT_DIR$/spring-auth/spring-auth-starter" vcs="svn" />
     <mapping directory="$PROJECT_DIR$/spring-gateway" vcs="svn" />
     <mapping directory="$PROJECT_DIR$/spring-user/spring-user-dao" vcs="svn" />
     <mapping directory="$PROJECT_DIR$/spring-user/spring-user-service" vcs="svn" />

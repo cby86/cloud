@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/spring-auth/spring-auth.iml" filepath="$PROJECT_DIR$/spring-auth/spring-auth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-auth/spring-auth-dao/spring-auth-dao.iml" filepath="$PROJECT_DIR$/spring-auth/spring-auth-dao/spring-auth-dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-auth/spring-auth-service/spring-auth-service.iml" filepath="$PROJECT_DIR$/spring-auth/spring-auth-service/spring-auth-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-auth/spring-auth-starter/spring-auth-starter.iml" filepath="$PROJECT_DIR$/spring-auth/spring-auth-starter/spring-auth-starter.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-cloud.iml" filepath="$PROJECT_DIR$/spring-cloud.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-common/spring-common.iml" filepath="$PROJECT_DIR$/spring-common/spring-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-config/spring-config.iml" filepath="$PROJECT_DIR$/spring-config/spring-config.iml" />

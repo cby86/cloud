@@ -36,8 +36,8 @@ hystrix:
             strategy: THREAD
             thread:
               timeoutInMilliseconds: 500
-                interruptOnTimeout: true
-                interruptOnCancel: true
+              interruptOnTimeout: true
+              interruptOnCancel: true
               semaphore:
                 maxConcurrentRequests: 1000
           fallback:

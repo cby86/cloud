@@ -1,0 +1,19 @@
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
+  datasource:
+     platform: mysql
+     url: jdbc:mysql://192.168.3.89:3306/test?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&autoReconnect=true&failOverReadOnly=false&serverTimezone=UTC
+     username: root
+     password: 123456
+     driverClassName: com.mysql.cj.jdbc.Driver
+     max-active: 5
+     max-idle: 2
+     initialization-mode: NEVER
+     min-idle: 1
+     initial-size: 1
+     test-while-idle: true
+     test-on-borrow: false
+     time-between-eviction-runs-millis: 18800   

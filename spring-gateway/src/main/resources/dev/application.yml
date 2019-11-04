@@ -1,0 +1,28 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: spring-gateway
+  sleuth:
+        web:
+          client:
+            enabled: true
+        sampler:
+          probability: 1.0 # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
+  zipkin:
+        base-url: http://192.168.3.15:9411/ # 指定了 Zipkin 服务器的地址
+server:
+  port: 8085
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    registry-fetch-interval-seconds: 5
+  instance:
+    appname: ${spring.application.name}
+    preferIpAddress: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}:${spring.application.name}
+    lease-renewal-interval-in-seconds: 1
+    lease-expiration-duration-in-seconds: 10
+

@@ -1,4 +1,5 @@
 package com.spring.cloud.config;
+import com.spring.cloud.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -20,7 +21,7 @@ public class AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Autowired
     RedisConnectionFactory redisConnectionFactory;

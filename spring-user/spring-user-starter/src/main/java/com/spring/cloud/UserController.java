@@ -26,8 +26,8 @@ public class UserController {
 
     @RequestMapping("/index")
     public String index() {
-        List<com.spring.cloud.entity.User> all = userService.findAll();
-        for (com.spring.cloud.entity.User u : all) {
+        List<User> all = userService.findAll();
+        for (User u : all) {
             System.err.println(u.getId());
         }
         return "Hello index";

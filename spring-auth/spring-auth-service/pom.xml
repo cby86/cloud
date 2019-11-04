@@ -10,4 +10,11 @@
     </parent>
     <artifactId>spring-auth-service</artifactId>
     <packaging>jar</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>com.spring.cloud</groupId>
+            <artifactId>spring-auth-dao</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

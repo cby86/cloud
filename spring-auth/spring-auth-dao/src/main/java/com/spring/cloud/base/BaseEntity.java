@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Configurable;
 
+import javax.persistence.*;
 import java.util.Date;
 
 /**

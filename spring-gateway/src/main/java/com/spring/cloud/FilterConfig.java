@@ -45,8 +45,8 @@ public class FilterConfig {
             context.subscribe(c -> {
                 Authentication authentication = c.getAuthentication();
                 userInfo.put("username", authentication.getPrincipal());
-                userInfo.put("authorities",authentication.getAuthorities());
-                userInfo.put("identify",authentication.getCredentials());
+                userInfo.put("authorities", authentication.getAuthorities());
+                userInfo.put("identify", authentication.getCredentials());
             });
             String user = JSONObject.toJSONString(userInfo);
             ServerHttpRequest mutableReq = exchange.getRequest().mutate().header("user", user).build();

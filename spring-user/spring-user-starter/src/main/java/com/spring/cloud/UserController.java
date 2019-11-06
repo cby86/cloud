@@ -2,6 +2,8 @@ package com.spring.cloud;
 import com.spring.cloud.entity.User;
 import com.spring.cloud.service.UserService;
 import com.spring.cloud.utils.RequestUserUtils;
+import com.spring.cloud.utils.SecurityUtils;
+import org.apache.catalina.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.SecurityUser;
 import org.springframework.web.bind.annotation.RequestMapping;

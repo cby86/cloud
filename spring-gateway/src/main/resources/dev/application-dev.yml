@@ -16,8 +16,8 @@ spring:
           args:
             name: gateway-user-service
             fallbackUri: forward:/fallback
-      - id: spring-auth
-        uri: lb://spring-auth
+      - id: spring-auth-center
+        uri: lb://spring-auth-center
         predicates:
         - Path=/auth/**
         filters:
@@ -26,10 +26,10 @@ spring:
           args:
             name: gateway-auth-service
             fallbackUri: forward:/fallback
-      - id: spring-order
-        uri: lb://spring-order
+      - id: spring-backend-center
+        uri: lb://spring-backend-center
         predicates:
-        - Path=/spring-order/**
+        - Path=/backend/**
         filters:
         - StripPrefix=1
         - name: RequestRateLimiter

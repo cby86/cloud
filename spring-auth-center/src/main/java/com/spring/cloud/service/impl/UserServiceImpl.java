@@ -1,25 +1,18 @@
 package com.spring.cloud.service.impl;
-import com.spring.cloud.entity.User;
-import com.spring.cloud.repository.UserRepository;
 import com.spring.cloud.service.UserService;
+import com.spring.cloud.service.feign.UserInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
     @Autowired
-    UserRepository userRepository;
+    UserInterface userInterface;
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
-
-    @Override
-    public User findUserByName(String username) {
-        return userRepository.findUserByName(username);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userInterface.findUserByName(username);
     }
 }

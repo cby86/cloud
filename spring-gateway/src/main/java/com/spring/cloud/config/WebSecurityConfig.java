@@ -27,7 +27,7 @@ public class WebSecurityConfig {
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http.csrf().disable();
         http.authorizeExchange()
-                .pathMatchers("/spring-order/order/home").hasAuthority("ROLE_ADMIN") //无需进行权限过滤的请求路径
+                .pathMatchers("/backend/order/home").hasAuthority("ROLE_ADMIN") //无需进行权限过滤的请求路径
                 .anyExchange().permitAll().and().exceptionHandling().authenticationEntryPoint(getServerAuthenticationEntryPoint())
                 .and().httpBasic().disable().addFilterAt(new JwtReactorContextWebFilter(), SecurityWebFiltersOrder.REACTOR_CONTEXT);
         return http.build();

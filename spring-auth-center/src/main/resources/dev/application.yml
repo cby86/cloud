@@ -2,6 +2,6 @@ spring:
   profiles:
     active: dev
   application:
-    name: spring-auth
+    name: spring-auth-center
 server:
   port: 8086

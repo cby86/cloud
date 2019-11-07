@@ -11,8 +11,8 @@ import java.util.List;
  * @Author panyuanjun
  * @Date 2019/11/7/007 11:00
  **/
-@FeignClient(value = "spring-user",fallback = RoleFallBack.class)
-public interface RoleService {
+@FeignClient(value = "spring-role",fallback = RoleFallBack.class)
+public interface RoleInterface {
     @RequestMapping(value = "/findRoles", method = RequestMethod.POST, produces = "application/json")
     List<Role> findRoles();
     @RequestMapping(value = "/findRoleById", method = RequestMethod.POST, produces = "application/json")

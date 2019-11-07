@@ -23,7 +23,7 @@ eureka:
     lease-expiration-duration-in-seconds: 2
 
 turbine:
-   app-config: spring-user,spring-order,spring-auth,spring-gateway
+   app-config: spring-user,spring-backend-center,spring-auth,spring-gateway
    cluster-name-expression: new String('default')
    combine-host-port: true
 

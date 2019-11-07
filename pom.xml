@@ -97,10 +97,11 @@
     <modules>
         <module>spring-eureka-server</module>
         <module>spring-user</module>
-        <module>spring-order</module>
+        <module>spring-backend-center</module>
         <module>spring-zuul</module>
         <module>spring-common</module>
-        <module>spring-auth</module>
+        <module>spring-resource</module>
+        <module>spring-auth-center</module>
         <module>spring-turbine</module>
         <module>spring-config</module>
         <module>spring-task</module>

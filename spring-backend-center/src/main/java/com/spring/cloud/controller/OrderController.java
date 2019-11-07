@@ -37,7 +37,7 @@ public class OrderController {
         String services = "Services: " + discoveryClient.getServices();
         System.out.println(services);
 //        return restTemplate.getForEntity("http://spring-user/home", String.class).getBody();
-        return "";
+        return parameter;
 
     }
 }

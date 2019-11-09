@@ -32,7 +32,7 @@ public class JwtReactorContextWebFilter implements WebFilter {
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         return ReactiveSecurityContextHolder.getContext().map(securityContext -> {
             Authentication authentication = securityContext.getAuthentication();
-            ServerHttpRequest mutableReq = exchange.getRequest().mutate().header("Authorization", new String[]{JSONObject.toJSONString(authentication)}).build();
+            ServerHttpRequest mutableReq = exchange.getRequest().mutate().header("Authorization", new String[]{JSONObject.toJSONString(authentication.getPrincipal())}).build();
             ServerWebExchange mutableExchange = exchange.mutate().request(mutableReq).build();
             return mutableExchange;
         }).switchIfEmpty(Mono.just(exchange)).flatMap(e -> chain.filter(e)).subscriberContext(c -> c.hasKey(SecurityContext.class) ? c :
@@ -60,16 +60,16 @@ public class JwtReactorContextWebFilter implements WebFilter {
             Claim identify = stringClaimMap.get("identify");
             Map<String, Object> userInfo = new HashMap<>();
             userInfo.put("username", userName.asString());
+            userInfo.put("id", identify.asString());
             List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
             if (authorities != null) {
-                userInfo.put("authorities", authorities.asArray(String.class));
                 List<String> roles = authorities.asList(String.class);
                 for (String role : roles) {
                     grantedAuthorities.add(new SimpleGrantedAuthority(role));
                 }
             }
             securityContext = new SecurityContextImpl();
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userName.asString(), identify.asString(), grantedAuthorities);
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userInfo, identify.asString(), grantedAuthorities);
             securityContext.setAuthentication(authentication);
             return mainContext.putAll(Mono.just(securityContext)
                     .as(ReactiveSecurityContextHolder::withSecurityContext));

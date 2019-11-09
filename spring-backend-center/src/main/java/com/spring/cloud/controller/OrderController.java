@@ -31,7 +31,8 @@ public class OrderController {
     @RequestMapping("/home")
     public String home() {
         SecurityUser securityUser = RequestUserUtils.currentUser();
-        System.out.println(securityUser);
+        System.out.println(securityUser.getId());
+        System.out.println(securityUser.getUsername());
         System.out.println(parameter);
         List<ServiceInstance> instances = discoveryClient.getInstances("spring-user");
         System.out.println(instances.size());

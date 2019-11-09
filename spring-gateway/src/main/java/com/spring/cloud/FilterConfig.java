@@ -18,10 +18,9 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Configuration
 public class FilterConfig {
@@ -40,14 +39,14 @@ public class FilterConfig {
     @Order(-1)
     public GlobalFilter a() {
         return (exchange, chain) -> {
-            Map<String, Object> userInfo = new HashMap<>();
             Mono<SecurityContext> context = ReactiveSecurityContextHolder.getContext();
-            context.subscribe(c -> {
+            Map<String, Object> userInfo = new HashMap<>();
+            context.doOnNext(c -> {
                 Authentication authentication = c.getAuthentication();
                 userInfo.put("username", authentication.getPrincipal());
                 userInfo.put("authorities", authentication.getAuthorities());
                 userInfo.put("identify", authentication.getCredentials());
-            });
+            }).subscribe();
             String user = JSONObject.toJSONString(userInfo);
             ServerHttpRequest mutableReq = exchange.getRequest().mutate().header("user", user).build();
             ServerWebExchange mutableExchange = exchange.mutate().request(mutableReq).build();
@@ -55,6 +54,23 @@ public class FilterConfig {
                 System.err.println("first post filter");
             }));
         };
+    }
+
+    public static void main(String[] args) throws IOException {
+
+
+        Mono<String> t = Mono.just("ffff");
+        t.doOnNext(c -> {
+            Mono<String> test = Mono.just("test");
+            List<String> tests = new ArrayList<>();
+            test.doOnNext(td -> {
+                tests.add(td);
+            }).subscribe();
+
+            System.out.println(tests.size());
+        }).subscribe();
+
+
     }
 
 

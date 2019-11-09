@@ -1,4 +1,5 @@
 package com.spring.cloud.config;
+
 import com.spring.cloud.service.UserService;
 import com.spring.cloud.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
@@ -46,8 +49,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests().antMatchers("/actuator/**").permitAll()
                 .anyRequest()
-
                 .authenticated().and()
+                .exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPoint() {
+            @Override
+            public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+                System.out.println(request.getRequestURL());
+            }
+        }).and()
                 .logout().and()
                 .httpBasic();
     }

@@ -9,10 +9,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 
 public class RequestUserUtils {
-    public static final String USERHEADERKEY = "user";
+    public static final String USERHEADERKEY = "Authorization";
     public static SecurityUser currentUser() {
         try {
-            HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
+                HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
             String userInfo = request.getHeader(USERHEADERKEY);
             JSONObject jsonObject = JSONObject.parseObject(userInfo);
             String username = jsonObject.getString("username");

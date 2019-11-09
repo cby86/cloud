@@ -1,20 +1,21 @@
 package com.spring.cloud.config;
+
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.server.ServerHttpResponse;
-import org.springframework.http.server.ServletServerHttpResponse;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoderJwkSupport;
+import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
+import org.springframework.security.oauth2.server.resource.web.server.ServerBearerTokenAuthenticationConverter;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
-import org.springframework.web.server.ServerWebExchange;
+import org.springframework.security.web.server.context.ServerSecurityContextRepository;
+import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -23,12 +24,16 @@ import java.util.Map;
 @Configuration
 @EnableWebFluxSecurity
 public class WebSecurityConfig {
+    private ServerSecurityContextRepository serverSecurityContextRepository = new WebSessionServerSecurityContextRepository();
+
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http.csrf().disable();
         http.authorizeExchange()
                 .pathMatchers("/backend/order/home").hasAuthority("ROLE_ADMIN") //无需进行权限过滤的请求路径
                 .anyExchange().permitAll().and().exceptionHandling().authenticationEntryPoint(getServerAuthenticationEntryPoint())
+//                .and().oauth2ResourceServer().jwt().jwtDecoder(new NimbusJwtDecoderJwkSupport())
+//                .and().bearerTokenConverter(new ServerBearerTokenAuthenticationConverter())
                 .and().httpBasic().disable().addFilterAt(new JwtReactorContextWebFilter(), SecurityWebFiltersOrder.REACTOR_CONTEXT);
         return http.build();
     }

@@ -6,7 +6,7 @@ spring:
         enabled: true
         service-id: spring-config
       profile: dev
-      name: global
+      name: global,resource
       username: user
       password: password123
       fail-fast: true

@@ -19,11 +19,11 @@
 
 
     <repositories>
-        <repository>
-            <id>nexusPublic</id>
-            <name>Public Repositories</name>
-            <url>http://192.168.3.9:8081/repository/maven-public/</url>
-        </repository>
+        <!--<repository>-->
+            <!--<id>nexusPublic</id>-->
+            <!--<name>Public Repositories</name>-->
+            <!--<url>http://192.168.3.9:8081/repository/maven-public/</url>-->
+        <!--</repository>-->
         <repository>
             <snapshots>
                 <enabled>false</enabled>

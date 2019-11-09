@@ -69,7 +69,7 @@ public class JwtReactorContextWebFilter implements WebFilter {
                 }
             }
             securityContext = new SecurityContextImpl();
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userInfo, identify.asString(), grantedAuthorities);
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userName.asString(), identify.asString(), grantedAuthorities);
             securityContext.setAuthentication(authentication);
             return mainContext.putAll(Mono.just(securityContext)
                     .as(ReactiveSecurityContextHolder::withSecurityContext));

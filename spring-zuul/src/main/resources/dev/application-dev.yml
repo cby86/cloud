@@ -1,5 +1,13 @@
-spring:
-  redis:
-    host: 192.168.3.9
-    port: 6379
-    password: 123456
+zuul:
+#   ignoredServices: '*'
+   routes:
+        user:
+           path: /spring-user/**
+           serviceId: spring-user
+        auth:
+           path: /auth/**
+           serviceId: spring-auth
+        backend:
+            path: /backend/**
+            serviceId: spring-backend-center
+   sensitive-headers:

@@ -10,6 +10,9 @@ import org.springframework.security.oauth2.provider.error.WebResponseExceptionTr
 public class CustomerExceptionTranslator implements WebResponseExceptionTranslator<OAuth2Exception> {
     @Override
     public ResponseEntity<OAuth2Exception> translate(Exception e) throws Exception {
+        if (!(e instanceof OAuth2Exception)) {
+            return null;
+        }
         OAuth2Exception exception = (OAuth2Exception) e;
         int status = exception.getHttpErrorCode();
         HttpHeaders headers = new HttpHeaders();

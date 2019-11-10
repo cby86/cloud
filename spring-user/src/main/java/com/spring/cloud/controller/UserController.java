@@ -32,17 +32,12 @@ public class UserController {
     }
 
     @RequestMapping(value = "/findUserByName",method = RequestMethod.POST)
-    public SecurityUser findUserByName(String username) {
+    public User findUserByName(String username) {
         User user = userService.findUserByName(username);
         if (user == null) {
             return null;
         }
-        SecurityUser securityUser = new SecurityUser();
-        securityUser.setUsername(user.getUsername());
-        securityUser.setPassword(user.getPassword());
-        securityUser.setId(user.getId());
-        securityUser.setRoleId(user.getRoleId());
-        return securityUser;
+        return user;
     }
 
 }

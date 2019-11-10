@@ -1,8 +1,8 @@
 package com.spring.cloud.controller;
 
+import com.spring.cloud.entity.Role;
 import com.spring.cloud.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.Role;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,10 +18,7 @@ public class RoleController {
 
     @RequestMapping("/findRoleById")
     public Role findRoleById(String roleId) {
-        com.spring.cloud.entity.Role roleEntity = roleRepository.findRoleById(roleId);
-        org.springframework.security.Role role = new Role();
-        role.setName(roleEntity.getName());
-        role.setCode(roleEntity.getCode());
+        Role role = roleRepository.findRoleById(roleId);
         return role;
     }
 

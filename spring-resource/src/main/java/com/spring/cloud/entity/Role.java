@@ -1,17 +1,14 @@
 package com.spring.cloud.entity;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spring.cloud.base.BaseEntity;
-import org.springframework.security.CustomerSimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.Collection;
 
 @Entity
 @Table(name = "mb_hunter_role")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","fieldHandler"})
 public class Role extends BaseEntity {
     private String name;
 

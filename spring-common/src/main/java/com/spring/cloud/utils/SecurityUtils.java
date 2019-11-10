@@ -1,7 +1,7 @@
 package com.spring.cloud.utils;
-import org.springframework.security.CustomerSimpleGrantedAuthority;
 import org.springframework.security.SecurityUser;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 
@@ -16,7 +16,7 @@ public class SecurityUtils {
                 return null;
             }
             Object principal = authentication.getPrincipal();
-            Collection<CustomerSimpleGrantedAuthority> authorities = (Collection<CustomerSimpleGrantedAuthority>) authentication.getAuthorities();
+            Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>) authentication.getAuthorities();
             SecurityUser user = new SecurityUser();
             if (!StringUtils.isEmpty(principal)) {
                 user.setUsername(principal.toString());

@@ -1,4 +1,4 @@
-package org.springframework.security;
+package com.spring.cloud.security;
 
 /**
  * @Author panyuanjun

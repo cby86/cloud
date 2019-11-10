@@ -1,4 +1,6 @@
 package org.springframework.security;
+
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ public class SecurityUser implements UserDetails {
         this.roleId = roleId;
     }
 
-    private Collection<CustomerSimpleGrantedAuthority> authorities;
+    private Collection<SimpleGrantedAuthority> authorities;
 
     public String getId() {
         return id;
@@ -52,7 +54,7 @@ public class SecurityUser implements UserDetails {
         this.username = username;
     }
 
-    public void setAuthorities(Collection<CustomerSimpleGrantedAuthority> authorities) {
+    public void setAuthorities(Collection<SimpleGrantedAuthority> authorities) {
         this.authorities = authorities;
     }
 
@@ -64,7 +66,7 @@ public class SecurityUser implements UserDetails {
         if (authorities == null) {
             authorities = new ArrayList<>();
         }
-        authorities.add(new CustomerSimpleGrantedAuthority(role));
+        authorities.add(new SimpleGrantedAuthority(role));
     }
 
     @Override
@@ -78,7 +80,7 @@ public class SecurityUser implements UserDetails {
     }
 
     @Override
-    public Collection<CustomerSimpleGrantedAuthority> getAuthorities() {
+    public Collection<SimpleGrantedAuthority> getAuthorities() {
         return authorities;
     }
 }

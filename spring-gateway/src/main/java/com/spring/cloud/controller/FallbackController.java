@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @RequestMapping("")
 @RefreshScope
 public class FallbackController {
-    @Value("${route.returnFailRoutePath:false}")
+    @Value("${route.returnFailRoutePath}")
     private boolean returnFailRoutePath = false;
 
     @RequestMapping("/fallback")

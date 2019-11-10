@@ -1,6 +1,6 @@
 package com.spring.cloud.service.impl;
 import com.spring.cloud.security.Role;
-import com.spring.cloud.security.SecurityUser;
+import org.springframework.security.SecurityUser;
 import com.spring.cloud.service.UserService;
 import com.spring.cloud.service.feign.RoleInterface;
 import com.spring.cloud.service.feign.UserInterface;
@@ -26,9 +26,6 @@ public class UserServiceImpl implements UserService {
                 user.addAuthority(role.getCode());
             }
         }
-        return User.builder().username(username).
-                password(user.getPassword()).
-                authorities(user.getAuthorities())
-                .build();
+        return user;
     }
 }

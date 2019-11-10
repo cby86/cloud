@@ -1,5 +1,5 @@
 package com.spring.cloud.utils;
-import com.spring.cloud.security.SecurityUser;
+import org.springframework.security.SecurityUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;

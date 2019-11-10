@@ -1,7 +1,9 @@
 package com.spring.cloud.config;
-import com.spring.cloud.security.SecurityUser;
+
+import org.springframework.security.SecurityUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
 
 import java.util.LinkedHashMap;

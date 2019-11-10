@@ -15,6 +15,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,7 +29,7 @@ public class FallbackController {
 
     @RequestMapping("/fallback")
     public Map<String, Object> fallback(ServerWebExchange exchange, BindingContext bindingContext) {
-        Object attribute = exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_ORIGINAL_REQUEST_URL_ATTR);
+        LinkedHashSet<String> attribute = exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_ORIGINAL_REQUEST_URL_ATTR);
         Map<String, Object> data = new HashMap<>();
         data.put("status", 0);
         data.put("message", "系统繁忙，请稍后再试");

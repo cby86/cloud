@@ -36,6 +36,8 @@ public class AuthPreRequestFilter extends ZuulFilter {
     @Override
     public Object run() throws ZuulException {
         RequestContext currentContext = RequestContext.getCurrentContext();
+        // TODO 这里只取到用户的基本信息。ID 并没有获取到，因为token解析后并没有设置到authentication对象中
+        // TODO 需要进行转换
         SecurityUser user = SecurityUtils.currentUser();
         if (user != null) {
             currentContext.addZuulRequestHeader(RequestUserUtils.USERHEADERKEY, JSONObject.toJSON(user).toString());

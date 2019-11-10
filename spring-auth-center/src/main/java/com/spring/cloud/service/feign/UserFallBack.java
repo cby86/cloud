@@ -1,5 +1,6 @@
 package com.spring.cloud.service.feign;
-import org.springframework.security.SecurityUser;
+
+import com.spring.cloud.security.SecurityUser;
 import org.springframework.stereotype.Component;
 
 @Component

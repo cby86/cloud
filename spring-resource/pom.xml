@@ -74,5 +74,10 @@
             <artifactId>jackson-core-asl</artifactId>
             <version>RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>com.spring.cloud</groupId>
+            <artifactId>spring-common-dao</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
     </dependencies>
 </project>

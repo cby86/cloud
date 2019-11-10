@@ -1,6 +1,6 @@
 package com.spring.cloud.utils;
 import com.alibaba.fastjson.JSONObject;
-import org.springframework.security.SecurityUser;
+import com.spring.cloud.security.SecurityUser;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;

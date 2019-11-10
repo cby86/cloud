@@ -1,5 +1,5 @@
 package com.spring.cloud.config;
-import org.springframework.security.SecurityUser;
+import com.spring.cloud.security.SecurityUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;

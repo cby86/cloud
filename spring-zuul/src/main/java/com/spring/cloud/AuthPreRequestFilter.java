@@ -5,7 +5,7 @@ import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
 import com.spring.cloud.utils.SecurityUtils;
 import com.spring.cloud.utils.RequestUserUtils;
-import org.springframework.security.SecurityUser;
+import com.spring.cloud.security.SecurityUser;
 
 import javax.servlet.http.HttpServletRequest;
 

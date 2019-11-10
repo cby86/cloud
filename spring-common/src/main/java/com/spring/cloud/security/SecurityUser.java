@@ -1,4 +1,4 @@
-package org.springframework.security;
+package com.spring.cloud.security;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,10 +1,11 @@
 package com.spring.cloud.service.impl;
 import com.spring.cloud.security.Role;
+import com.spring.cloud.security.SecurityUser;
 import com.spring.cloud.service.UserService;
 import com.spring.cloud.service.feign.RoleInterface;
 import com.spring.cloud.service.feign.UserInterface;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.SecurityUser;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,9 @@ public class UserServiceImpl implements UserService {
                 user.addAuthority(role.getCode());
             }
         }
-        return user;
+        return User.builder().username(username).
+                password(user.getPassword()).
+                authorities(user.getAuthorities())
+                .build();
     }
 }

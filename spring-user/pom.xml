@@ -64,5 +64,10 @@
             <artifactId>spring-cloud-starter-config</artifactId>
             <version>2.1.2.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>com.spring.cloud</groupId>
+            <artifactId>spring-common-dao</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
     </dependencies>
 </project>

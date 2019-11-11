@@ -37,8 +37,8 @@ public class RoleController extends BaseController {
     }
 
 
-    @RequestMapping("/findRoles")
-    public Map<String, Object> save(String id, String code, String menuIds) {
+    @RequestMapping("/saveRole")
+    public Map<String, Object> saveRole(String id, String code, String menuIds) {
         roleService.saveOrUpdate(id, code, menuIds);
         return this.resultMap("0", "success", null);
     }

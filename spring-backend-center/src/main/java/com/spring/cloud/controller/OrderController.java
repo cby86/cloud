@@ -1,5 +1,6 @@
 package com.spring.cloud.controller;
 
+import com.spring.cloud.support.mvc.ApiVersion;
 import com.spring.cloud.utils.RequestUserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,8 +29,15 @@ public class OrderController {
     @Value("${test}")
     private String parameter;
 
-    @RequestMapping("/home")
+    @RequestMapping(name = "订单管理",value = "/home")
+    @ApiVersion(1)
     public String home() {
+        return "1";
+
+    }
+
+    @RequestMapping(name = "订单管理",value = "/home")
+    public String home1() {
         SecurityUser securityUser = RequestUserUtils.currentUser();
         System.out.println(securityUser.getId());
         System.out.println(securityUser.getUsername());

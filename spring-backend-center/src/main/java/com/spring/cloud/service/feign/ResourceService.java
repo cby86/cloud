@@ -14,16 +14,16 @@ import java.util.Map;
 @FeignClient(value = "spring-resource",fallback = ResourceFailBack.class)
 public interface ResourceService {
 
-    @RequestMapping(value = "/findRoles", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/role/findRoles", method = RequestMethod.POST, produces = "application/json")
     Map<String, Object> findRoles();
 
 
-    @RequestMapping(value = "/saveMenu", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/menu/saveMenu", method = RequestMethod.POST, produces = "application/json")
     Map<String, Object> saveMenu(@RequestParam(value = "id") String id, @RequestParam(value = "name") String name,
                                  @RequestParam(value = "menuType") int menuType, @RequestParam(value = "url") String url,
                                  @RequestParam(value = "parentId") String parentId);
 
-    @RequestMapping(value = "/findMenus", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/menu/findMenus", method = RequestMethod.POST, produces = "application/json")
     Map<String, Object> findMenus();
 
 }

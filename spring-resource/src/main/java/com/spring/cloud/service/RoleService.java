@@ -18,5 +18,5 @@ public interface RoleService {
 
     List<Role> findRoleList();
 
-    void saveOrUpdate(String id, String code, String menuIds);
+    void saveOrUpdate(String id, String name, String code, String menuIds);
 }

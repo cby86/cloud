@@ -38,8 +38,8 @@ public class RoleController extends BaseController {
 
 
     @RequestMapping("/saveRole")
-    public Map<String, Object> saveRole(String id, String code, String menuIds) {
-        roleService.saveOrUpdate(id, code, menuIds);
+    public Map<String, Object> saveRole(String id, String name, String code, String menuIds) {
+        roleService.saveOrUpdate(id, name, code, menuIds);
         return this.resultMap("0", "success", null);
     }
 }

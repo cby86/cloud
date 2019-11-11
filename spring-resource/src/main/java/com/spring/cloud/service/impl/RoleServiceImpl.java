@@ -47,7 +47,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void saveOrUpdate(String id, String code, String menuIds) {
+    public void saveOrUpdate(String id, String name, String code, String menuIds) {
         Role role = null;
         if (StringUtils.isEmpty(id)) {
             role = new Role();
@@ -58,6 +58,7 @@ public class RoleServiceImpl implements RoleService {
             throw new UnsupportedOperationException("非法数据请求");
         }
         role.setCode(code);
+        role.setName(name);
         if (StringUtils.isNotEmpty(menuIds)) {
             List<Menu> menus = menuService.findMenuByIds(menuIds);
             role.setMenuList(menus);

@@ -12,6 +12,8 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
  */
 public class CustomRequestMappingHandlerMapping extends RequestMappingHandlerMapping {
 
+    private ResourceRegister resourceRegister;
+
     @Override
     protected RequestCondition<ApiVersionCondition> getCustomTypeCondition(Class<?> handlerType) {
         ApiVersion apiVersion = AnnotationUtils.findAnnotation(handlerType, ApiVersion.class);

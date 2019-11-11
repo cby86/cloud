@@ -15,6 +15,6 @@ import java.util.List;
  **/
 @FeignClient(value = "spring-resource",fallback = RoleFallBack.class)
 public interface RoleInterface {
-    @RequestMapping(value = "/findRoleById", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/role/findRoleById", method = RequestMethod.POST, produces = "application/json")
     Role findRoleById(@RequestParam(value = "roleId") String roleId);
 }

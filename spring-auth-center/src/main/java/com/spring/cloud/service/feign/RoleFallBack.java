@@ -8,6 +8,9 @@ import java.util.List;
 public class RoleFallBack implements RoleInterface {
     @Override
     public Role findRoleById(String roleId) {
-        return null;
+        Role role = new Role();
+        role.setCode("ROLE_NO_ROLE");
+        role.setName("无角色");
+        return role;
     }
 }

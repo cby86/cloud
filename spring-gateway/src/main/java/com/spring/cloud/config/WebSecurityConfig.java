@@ -10,9 +10,12 @@ import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
+import org.springframework.security.web.server.authorization.ServerAccessDeniedHandler;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
 import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -29,25 +32,32 @@ public class WebSecurityConfig {
         http.authorizeExchange()
                 .pathMatchers("/backend/order/home").hasAuthority("ROLE_ADMIN") //无需进行权限过滤的请求路径
                 .anyExchange().permitAll().and().exceptionHandling().authenticationEntryPoint(getServerAuthenticationEntryPoint())
+                .accessDeniedHandler(getAccessDeniedHandler())
 //                .and().oauth2ResourceServer().jwt().jwtDecoder(new NimbusJwtDecoderJwkSupport())
 //                .and().bearerTokenConverter(new ServerBearerTokenAuthenticationConverter())
                 .and().httpBasic().disable().addFilterAt(new JwtReactorContextWebFilter(), SecurityWebFiltersOrder.REACTOR_CONTEXT);
         return http.build();
     }
 
+    private ServerAccessDeniedHandler getAccessDeniedHandler() {
+        return (exchange, exception) -> exceptionHandler(exchange);
+    }
+
+    private Mono<Void> exceptionHandler(ServerWebExchange exchange) {
+        org.springframework.http.server.reactive.ServerHttpResponse originalResponse = exchange.getResponse();
+        originalResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
+        originalResponse.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
+        Map<String, Object> data = new HashMap<>();
+        data.put("status", 0);
+        data.put("message", "没有权限访问");
+        byte[] response = new JSONObject(data).toJSONString()
+                .getBytes(StandardCharsets.UTF_8);
+        DataBuffer buffer = originalResponse.bufferFactory().wrap(response);
+        originalResponse.writeWith(Flux.just(buffer));
+        return originalResponse.writeWith(Flux.just(buffer));
+    }
+
     private ServerAuthenticationEntryPoint getServerAuthenticationEntryPoint() {
-        return (exchange, exception) -> {
-            org.springframework.http.server.reactive.ServerHttpResponse originalResponse = exchange.getResponse();
-            originalResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
-            originalResponse.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
-            Map<String, Object> data = new HashMap<>();
-            data.put("status", 0);
-            data.put("message", "没有权限访问");
-            byte[] response = new JSONObject(data).toJSONString()
-                    .getBytes(StandardCharsets.UTF_8);
-            DataBuffer buffer = originalResponse.bufferFactory().wrap(response);
-            originalResponse.writeWith(Flux.just(buffer));
-            return originalResponse.writeWith(Flux.just(buffer));
-        };
+        return (exchange, exception) -> exceptionHandler(exchange);
     }
 }

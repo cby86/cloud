@@ -37,6 +37,13 @@ public class OrderController {
         return "1";
     }
 
+    @RequestMapping(value = "/home/{test}/{test1}")
+    @ApiVersion(1)
+    @ResourceDesc(model = "订单管理", name = "订单添加", desc = "订单添加处理")
+    public String test() {
+        return "1";
+    }
+
     @RequestMapping(value = "/home")
     @ResourceDesc(desc = "订单添加处理2")
     public String home1() {

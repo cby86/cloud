@@ -4,6 +4,7 @@ import com.spring.cloud.base.BaseController;
 import com.spring.cloud.entity.Menu;
 import com.spring.cloud.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,6 +34,11 @@ public class MenuController extends BaseController {
     public Map<String, Object> findMenus() {
         List<Menu> menuList = menuService.findMenuList(0);
         return this.resultMap("0", "success", menuList);
+    }
+
+    @RequestMapping("/register")
+    public Map<String, Object> register(@RequestBody  Map<String,Object> resource) {
+        return this.resultMap("0", "success", null);
     }
 
 }

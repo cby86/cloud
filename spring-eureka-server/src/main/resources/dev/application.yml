@@ -13,8 +13,8 @@ eureka:
     preferIpAddress: true
     instance-id: ${spring.cloud.client.ip-address}:${server.port}:${spring.application.name}
   client:
-    registerWithEureka: false
-    fetchRegistry: false
+    registerWithEureka: true
+    fetchRegistry: true
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:8761/eureka/
   server:

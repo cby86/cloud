@@ -39,7 +39,7 @@ hystrix:
           isolation:
             strategy: THREAD
             thread:
-              timeoutInMilliseconds: 500
+              timeoutInMilliseconds: 3000
               interruptOnTimeout: true
               interruptOnCancel: true
               semaphore:

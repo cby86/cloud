@@ -49,9 +49,9 @@ public class OrderController {
     @RequestMapping(value = "/home")
     @ResourceDesc(desc = "订单添加处理2")
     public String home1() {
-        SecurityUser securityUser = RequestUserUtils.currentUser();
-        System.out.println(securityUser.getId());
-        System.out.println(securityUser.getUsername());
+//        SecurityUser securityUser = RequestUserUtils.currentUser();
+//        System.out.println(securityUser.getId());
+//        System.out.println(securityUser.getUsername());
         System.out.println(parameter);
         List<ServiceInstance> instances = discoveryClient.getInstances("spring-user");
         System.out.println(instances.size());
@@ -60,8 +60,8 @@ public class OrderController {
         }
         String services = "Services: " + discoveryClient.getServices();
         System.out.println(services);
-//        return restTemplate.getForEntity("http://spring-user/home", String.class).getBody();
-        return parameter;
+        return restTemplate.getForEntity("http://spring-user/home", String.class).getBody();
+//        return parameter;
 
     }
 }

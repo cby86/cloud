@@ -17,9 +17,9 @@ public class UserController {
     UserService userService;
     @RequestMapping("/home")
     public String home() {
-        SecurityUser user = RequestUserUtils.currentUser();
-        System.err.println(user.getUsername());
-        return "Hello world:"+user.getId();
+//        SecurityUser user = RequestUserUtils.currentUser();
+//        System.err.println(user.getUsername());
+        return "dsafdf";
     }
 
     @RequestMapping("/index")

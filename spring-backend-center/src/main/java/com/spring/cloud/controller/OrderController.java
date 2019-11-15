@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.security.SecurityUser;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -23,6 +25,7 @@ public class OrderController {
     private DiscoveryClient discoveryClient;
 
     @Autowired
+    @LoadBalanced
     private RestTemplate restTemplate;
 
 
@@ -34,6 +37,12 @@ public class OrderController {
     @ApiVersion(1)
     @ResourceDesc(model = "订单管理", name = "订单添加", desc = "订单添加处理")
     public String home() {
+        return "1";
+    }
+
+    @RequestMapping(value = "/home/{test}/{test1}")
+    @ResourceDesc(model = "订单管理", name = "订单添加", desc = "订单添加处理")
+    public String test(@PathVariable(value = "test") String test,@PathVariable(value = "test1") String test1) {
         return "1";
     }
 

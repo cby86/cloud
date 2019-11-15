@@ -24,4 +24,9 @@ public class ResourceFailBack implements ResourceService {
     public Map<String, Object> findMenus() {
         return null;
     }
+
+    @Override
+    public void register(String resource) {
+
+    }
 }

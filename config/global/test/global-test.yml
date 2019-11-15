@@ -4,8 +4,8 @@ spring:
   resources:
     add-mappings: false
   sleuth:
-        web:
-          client:
+     web:
+        client:
             enabled: true
         sampler:
           probability: 1.0 # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
@@ -42,14 +42,14 @@ hystrix:
               timeoutInMilliseconds: 500
               interruptOnTimeout: true
               interruptOnCancel: true
-              semaphore:
-                maxConcurrentRequests: 1000
+            semaphore:
+              maxConcurrentRequests: 1000
           fallback:
             isolation:
               semaphore:
                 maxConcurrentRequests: 1000
-          circuitBreaker:
-            sleepWindowInMilliseconds: 5000
+        circuitBreaker:
+          sleepWindowInMilliseconds: 5000
    threadpool:
       default:
           coreSize: 10
@@ -70,7 +70,6 @@ ribbon:
     ConnectTimeout: 3000
     MaxAutoRetries: 0
     MaxAutoRetriesNextServer: 0
-    //ribbon 多少时间冲注册中心更新服务
     ServerListRefreshInterval: 1000
 
 logging.level.org.springframework.security: DEBUG

@@ -7,7 +7,7 @@ spring:
       platform: mysql
       url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&autoReconnect=true&failOverReadOnly=false&serverTimezone=UTC
       username: root
-      password: {cipher}4d4f73c89b5da08930b08c85ff856dc7a3384f67b47851341d471232df7dba96
+      password: '{cipher}4d4f73c89b5da08930b08c85ff856dc7a3384f67b47851341d471232df7dba96'
       driverClassName: com.mysql.cj.jdbc.Driver
       max-active: 5
       max-idle: 2

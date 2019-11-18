@@ -16,6 +16,7 @@ spring:
             username:
             password:
             search-paths: config/{application}
+            default-label: optimize
   security:
     basic:
       enabled: true               # 开启基于HTTP basic的认证

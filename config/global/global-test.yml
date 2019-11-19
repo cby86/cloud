@@ -33,13 +33,17 @@ server:
     min-spare-threads: 10
     #最大接受的请求队列
     accept-count: 10000
+
+#使用httpclient 替代默认的URL连接方式，并配置线程池
 feign:
    httpclient:
      enable: true
      max-connections: 200
      max-connections-per-route: 50
+   #开启熔断
    hystrix:
       enabled: true
+   #开启压缩
    compression:
       request:
          enabled: true # 开启请求压缩
@@ -68,6 +72,7 @@ hystrix:
         #断路器配置策略
         circuitBreaker:
           sleepWindowInMilliseconds: 5000
+   #线程池配置
    threadpool:
       default:
           coreSize: 10
@@ -76,7 +81,7 @@ hystrix:
           allowMaximumSizeToDivergeFromCoreSize: true
           maxQueueSize: 1500
           queueSizeRejectionThreshold: 1000
-
+#监控断点配置
 management:
   endpoints:
     web:

@@ -22,8 +22,22 @@ eureka:
       instance-id: ${spring.cloud.client.ip-address}:${server.port}:${spring.application.name}
       lease-renewal-interval-in-seconds: 1
       lease-expiration-duration-in-seconds: 2
-
+#tomcat 配置
+server:
+  tomcat:
+    #最大连接数
+    max-connections: 1000
+    #最大线程数
+    max-threads: 200
+    #最小空闲线程数
+    min-spare-threads: 10
+    #最大接受的请求队列
+    accept-count: 10000
 feign:
+   httpclient:
+     enable: true
+     max-connections: 200
+     max-connections-per-route: 50
    hystrix:
       enabled: true
    compression:

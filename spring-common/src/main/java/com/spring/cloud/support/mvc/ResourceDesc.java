@@ -12,15 +12,17 @@ public @interface ResourceDesc {
      * 模块描述
      * @return
      */
-    String model() default "";
+    String model();
     /**
      * 功能名称
      * @return
      */
-    String name() default "";
+    String name();
     /**
      * 功能描述
      * @return
      */
-    String desc() default "";
+    String desc();
+
+    int version() default 0;
 }

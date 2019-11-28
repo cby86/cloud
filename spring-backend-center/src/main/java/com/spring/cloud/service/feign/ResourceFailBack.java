@@ -2,6 +2,7 @@ package com.spring.cloud.service.feign;
 
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,6 +11,7 @@ import java.util.Map;
  **/
 @Component
 public class ResourceFailBack implements ResourceService {
+
     @Override
     public Map<String, Object> findRoles() {
         return null;
@@ -26,7 +28,7 @@ public class ResourceFailBack implements ResourceService {
     }
 
     @Override
-    public void register(String resource) {
-
+    public void register(List<String> resource) {
+        System.out.println("资源注册失败");
     }
 }

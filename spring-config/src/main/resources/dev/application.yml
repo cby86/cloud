@@ -1,4 +1,9 @@
 spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
   profiles:
     active: dev
   application:
@@ -17,6 +22,11 @@ spring:
             password:
             search-paths: config/{application}
             default-label: optimize
+      bus:
+        trace:
+          enabled: true
+        refresh:
+          enabled: false  # 不采用系统默认的，因为所有的更新消息分发点都在config,如果要刷新其他服务,本地事件也会监听，导致重启config
   security:
     basic:
       enabled: true               # 开启基于HTTP basic的认证
@@ -37,5 +47,10 @@ eureka:
     lease-renewal-interval-in-seconds: 1
     lease-expiration-duration-in-seconds: 2
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
 
 

@@ -19,6 +19,7 @@ spring:
       time-between-eviction-runs-millis: 18800
   jpa:
     database : MYSQL
+    open-in-view: true
     hibernate:
         ddl-auto: update
     show-sql: false

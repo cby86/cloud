@@ -2,8 +2,8 @@ package com.spring.cloud.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spring.cloud.base.BaseEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "mb_hunter_user")
@@ -14,14 +14,19 @@ public class User extends BaseEntity{
     private String password;
 
 
-    private String roleId;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "mb_hunter_user_role",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
+    private List<Role> authorities;
 
-    public String getRoleId() {
-        return roleId;
+
+    public List<Role> getAuthorities() {
+        return authorities;
     }
 
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
+    public void setAuthorities(List<Role> authorities) {
+        this.authorities = authorities;
     }
 
     public String getUsername() {

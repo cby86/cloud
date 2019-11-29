@@ -12,11 +12,8 @@ public interface RoleService {
 
     void saveOrUpdate(Role role);
 
-    void deletedRole(String id);
-
     Role findRoleById(String id);
 
     List<Role> findRoleList();
 
-    void saveOrUpdate(String id, String name, String code, String menuIds);
 }

@@ -1,26 +1,15 @@
 package org.springframework.security;
 
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 public class SecurityUser implements UserDetails {
     private String id;
     private String username;
     private String password;
-    private String roleId;
 
-    public String getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
-    }
-
-    private Collection<SimpleGrantedAuthority> authorities;
+    private Collection<Role> authorities;
 
     public String getId() {
         return id;
@@ -54,21 +43,6 @@ public class SecurityUser implements UserDetails {
         this.username = username;
     }
 
-    public void setAuthorities(Collection<SimpleGrantedAuthority> authorities) {
-        this.authorities = authorities;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void addAuthority(String role) {
-        if (authorities == null) {
-            authorities = new ArrayList<>();
-        }
-        authorities.add(new SimpleGrantedAuthority(role));
-    }
-
     @Override
     public String getUsername() {
         return username;
@@ -79,8 +53,16 @@ public class SecurityUser implements UserDetails {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
-    public Collection<SimpleGrantedAuthority> getAuthorities() {
+    public Collection<Role> getAuthorities() {
         return authorities;
+    }
+
+    public void setAuthorities(Collection<Role> authorities) {
+        this.authorities = authorities;
     }
 }

@@ -33,11 +33,7 @@ public class UserController {
 
     @RequestMapping(value = "/findUserByName",method = RequestMethod.POST)
     public User findUserByName(String username) {
-        User user = userService.findUserByName(username);
-        if (user == null) {
-            return null;
-        }
-        return user;
+        return userService.findUserByName(username);
     }
 
 }

@@ -12,11 +12,6 @@ import java.util.Objects;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class App extends BaseEntity {
     private String name;
-
-    private String host;
-
-    private int port;
-
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "app_id")
     private List<Resource> resourceList;
@@ -24,10 +19,8 @@ public class App extends BaseEntity {
     public App() {
     }
 
-    public App(String appName, String host, int port) {
+    public App(String appName) {
         this.name = appName;
-        this.host = host;
-        this.port = port;
     }
 
     public List<Resource> getResourceList() {
@@ -40,26 +33,6 @@ public class App extends BaseEntity {
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getHost() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
     }
 
     @Override

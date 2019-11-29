@@ -26,14 +26,12 @@ public class ResourceServiceImpl implements ResourceService {
         for (String res : resource) {
             JSONObject appInfo = JSON.parseObject(res);
             String appName = appInfo.getString("app");
-            String host = appInfo.getString("host");
-            int port = appInfo.getInteger("port");
             String url = appInfo.getString("url");
             String model = appInfo.getString("model");
             String name = appInfo.getString("name");
             String desc = appInfo.getString("desc");
             String version = appInfo.getString("version");
-            App app = new App(appName, host, port);
+            App app = new App(appName);
             Resource rs = new Resource(url,model,name,desc,version);
             int index= apps.indexOf(app);
             if (index!=-1) {

@@ -82,8 +82,6 @@ public class CustomRequestMappingHandlerMapping extends RequestMappingHandlerMap
             return null;
         }
         endpoint.put("app", environment.getProperty("spring.application.name",""));
-        endpoint.put("host", environment.getProperty("spring.cloud.client.ip-address","localhost"));
-        endpoint.put("port", environment.getProperty("server.port"));
         endpoint.put("url", url);
         endpoint.put("model", resourceDesc.model());
         endpoint.put("name", resourceDesc.name());

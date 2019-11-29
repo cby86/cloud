@@ -13,7 +13,6 @@ public class UserServiceImpl implements UserService {
     UserInterface userInterface;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SecurityUser user = userInterface.findUserByName(username);
-        return user;
+        return userInterface.findUserByName(username);
     }
 }

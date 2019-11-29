@@ -3,16 +3,30 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spring.cloud.base.BaseEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-/**
- * 系统所有资源注册存储表
- * 对所有标记了
- */
 @Entity
-@Table(name = "mb_hunter_resource")
+@Table(name = "mb_hunter_authentication")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Resource extends BaseEntity {
+public class Authentication extends BaseEntity {
+    /**
+     * 菜单ID
+     */
+    private String menuId;
+    /**
+     * 菜单名称
+     */
+    private String menuName;
+
+    /**
+     *  0 ：菜单授权；1资源授权
+     */
+    private int authentionType;
+    /**
+     * 应用名称
+     */
+    private String appName;
     /**
      * 模块
      */
@@ -36,17 +50,29 @@ public class Resource extends BaseEntity {
      */
     private String versionNumber;
 
-    public Resource() {
+    public String getMenuId() {
+        return menuId;
     }
 
-    public Resource(String url, String model, String name, String desc, String version) {
-        this.url = url;
-        this.model = model;
-        this.name = name;
-        this.description = desc;
-        this.versionNumber = version;
+    public void setMenuId(String menuId) {
+        this.menuId = menuId;
     }
 
+    public String getMenuName() {
+        return menuName;
+    }
+
+    public void setMenuName(String menuName) {
+        this.menuName = menuName;
+    }
+
+    public String getAppName() {
+        return appName;
+    }
+
+    public void setAppName(String appName) {
+        this.appName = appName;
+    }
 
     public String getModel() {
         return model;
@@ -86,5 +112,13 @@ public class Resource extends BaseEntity {
 
     public void setVersionNumber(String versionNumber) {
         this.versionNumber = versionNumber;
+    }
+
+    public int getAuthentionType() {
+        return authentionType;
+    }
+
+    public void setAuthentionType(int authentionType) {
+        this.authentionType = authentionType;
     }
 }

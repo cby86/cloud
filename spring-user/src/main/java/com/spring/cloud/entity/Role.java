@@ -15,6 +15,18 @@ public class Role extends BaseEntity {
 
     private String code;
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    private List<Authentication> authentications;
+
+    public List<Authentication> getAuthentications() {
+        return authentications;
+    }
+
+    public void setAuthentications(List<Authentication> authentications) {
+        this.authentications = authentications;
+    }
+
     public String getCode() {
         return code;
     }

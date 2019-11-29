@@ -1,5 +1,6 @@
 package com.spring.cloud.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spring.cloud.base.BaseEntity;
 
@@ -26,6 +27,7 @@ public class Menu extends BaseEntity {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id", referencedColumnName = "id")
+    @JsonIgnore
     private Menu parent;
 
     /**
@@ -33,6 +35,7 @@ public class Menu extends BaseEntity {
      */
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
+    @JsonIgnore
     private List<Menu> children;
 
     /**
@@ -47,6 +50,7 @@ public class Menu extends BaseEntity {
             joinColumns={@JoinColumn(name="menu_id")},
             inverseJoinColumns={@JoinColumn(name="resource_id")}
     )
+    @JsonIgnore
     private List<Resource> resources;
 
 

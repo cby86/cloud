@@ -1,14 +1,17 @@
 package com.spring.cloud.controller;
 
 import com.spring.cloud.base.BaseController;
+import com.spring.cloud.entity.App;
 import com.spring.cloud.entity.Menu;
 import com.spring.cloud.service.MenuService;
+import com.spring.cloud.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +27,9 @@ public class MenuController extends BaseController {
     @Autowired
     MenuService menuService;
 
+    @Autowired
+    ResourceService resourceService;
+
     @RequestMapping("/saveMenu")
     public Map<String, Object> saveMenu(String id, String name, int menuType, String url, String parentId) {
 
@@ -34,8 +40,16 @@ public class MenuController extends BaseController {
 
     @RequestMapping("/findMenus")
     public Map<String, Object> findMenus() {
+//        init();
         List<Menu> menuList = menuService.findMenuList(0);
         return this.resultMap("0", "success", menuList);
+    }
+
+    public void  init() {
+        Menu menu = menuService.findMenuById("1");
+        App app=resourceService.getAppByName("spring-backend-center");
+        menu.addAllResource(app.getResourceList());
+        menuService.saveOrUpdate(menu);
     }
 
 }

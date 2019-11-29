@@ -53,4 +53,9 @@ public class ResourceServiceImpl implements ResourceService {
             appRepository.save(app);
         }
     }
+
+    @Override
+    public App getAppByName(String appName) {
+        return appRepository.findByName(appName);
+    }
 }

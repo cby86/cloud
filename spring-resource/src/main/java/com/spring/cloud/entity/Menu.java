@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spring.cloud.base.BaseEntity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +31,8 @@ public class Menu extends BaseEntity {
     /**
      * 子集
      */
-    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
     private List<Menu> children;
 
     /**
@@ -39,6 +41,22 @@ public class Menu extends BaseEntity {
     private int menuType;
 
     private String url;
+
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    @JoinTable(name="mb_hunter_menu_resource",
+            joinColumns={@JoinColumn(name="menu_id")},
+            inverseJoinColumns={@JoinColumn(name="resource_id")}
+    )
+    private List<Resource> resources;
+
+
+    public List<Resource> getResources() {
+        return resources;
+    }
+
+    public void setResources(List<Resource> resources) {
+        this.resources = resources;
+    }
 
     public String getUrl() {
         return url;
@@ -79,5 +97,12 @@ public class Menu extends BaseEntity {
 
     public void setMenuType(int menuType) {
         this.menuType = menuType;
+    }
+
+    public void addAllResource(List<Resource> resourceList) {
+        if (resources == null) {
+            resources = new ArrayList<>();
+        }
+        resources.addAll(resourceList);
     }
 }

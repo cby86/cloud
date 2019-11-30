@@ -41,19 +41,13 @@ public class JwtReactorContextWebFilter implements WebFilter {
     }
 
     private Context withJwtSecurityContext(Context mainContext, ServerWebExchange exchange) {
-        String token = exchange.getRequest().getHeaders().getFirst("Authorization");
         Mono<Authentication> convert = serverBearerTokenAuthenticationConverter.convert(exchange);
-        SecurityContext securityContext = null;
-        if (!StringUtils.isEmpty(token)) {
-            if (token.indexOf("Bearer ") > -1) {
-                token = token.replace("Bearer ", "");
-            }
+        return mainContext.putAll(convert.map(authentication -> {
             Map<String, Claim> stringClaimMap = null;
             try {
-                stringClaimMap = JwtHelper.verifyToken(token);
+                stringClaimMap = JwtHelper.verifyToken(authentication.getPrincipal().toString());
             } catch (Exception jwtSecurityContext) {
-                return mainContext.putAll(Mono.justOrEmpty(securityContext)
-                        .as(ReactiveSecurityContextHolder::withSecurityContext));
+                return null;
             }
             Claim userName = stringClaimMap.get("user_name");
             Claim authorities = stringClaimMap.get("authorities");
@@ -68,13 +62,10 @@ public class JwtReactorContextWebFilter implements WebFilter {
                     grantedAuthorities.add(new SimpleGrantedAuthority(role));
                 }
             }
-            securityContext = new SecurityContextImpl();
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userInfo, identify.asString(), grantedAuthorities);
-            securityContext.setAuthentication(authentication);
-            return mainContext.putAll(Mono.just(securityContext)
-                    .as(ReactiveSecurityContextHolder::withSecurityContext));
-        }
-        return mainContext.putAll(Mono.justOrEmpty(securityContext)
-                .as(ReactiveSecurityContextHolder::withSecurityContext));
+            SecurityContextImpl securityContext = new SecurityContextImpl();
+            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userInfo, identify.asString(), grantedAuthorities);
+            securityContext.setAuthentication(usernamePasswordAuthenticationToken);
+            return securityContext;
+        }).as(ReactiveSecurityContextHolder::withSecurityContext));
     }
 }

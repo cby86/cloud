@@ -56,8 +56,8 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
         Map<String, Object> error = getErrorAttributes(request, includeStackTrace);
         Map<String, Object> data = new HashMap<>();
         data.put("status", 0);
-        data.put("message", "系统错误");
-        data.put("data", error);
+        data.put("message", error.containsKey("message")?error.get("message"):"系统错误");
+//        data.put("data", error);
         return ServerResponse.status(getHttpStatus(error)).contentType(MediaType.APPLICATION_JSON_UTF8)
                 .body(BodyInserters.fromObject(data));
     }

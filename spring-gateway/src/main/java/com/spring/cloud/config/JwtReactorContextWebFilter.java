@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.interfaces.Claim;
 import com.spring.cloud.JwtHelper;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
@@ -42,12 +44,12 @@ public class JwtReactorContextWebFilter implements WebFilter {
 
     private Context withJwtSecurityContext(Context mainContext, ServerWebExchange exchange) {
         Mono<Authentication> convert = serverBearerTokenAuthenticationConverter.convert(exchange);
-        return mainContext.putAll(convert.map(authentication -> {
+        return mainContext.putAll(convert.map((Authentication authentication) -> {
             Map<String, Claim> stringClaimMap = null;
             try {
                 stringClaimMap = JwtHelper.verifyToken(authentication.getPrincipal().toString());
             } catch (Exception jwtSecurityContext) {
-                return null;
+                throw new InsufficientAuthenticationException("JWT签名不合法,请重新授权");
             }
             Claim userName = stringClaimMap.get("user_name");
             Claim authorities = stringClaimMap.get("authorities");

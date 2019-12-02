@@ -49,7 +49,7 @@ public class JwtReactorContextWebFilter implements WebFilter {
             try {
                 stringClaimMap = JwtHelper.verifyToken(authentication.getPrincipal().toString());
             } catch (Exception jwtSecurityContext) {
-                throw new InsufficientAuthenticationException("JWT签名不合法,请重新授权");
+                throw new InsufficientAuthenticationException("Token过期或不合法,请重新授权");
             }
             Claim userName = stringClaimMap.get("user_name");
             Claim authorities = stringClaimMap.get("authorities");

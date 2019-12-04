@@ -26,10 +26,13 @@ public class GroupConcatFunction implements SQLFunction {
 
     @Override
     public String render(Type firstArgumentType, List arguments, SessionFactoryImplementor factory) throws QueryException {
-        if (arguments.size() != 1) {
+        if (arguments.size() <=0) {
             throw new QueryException(new IllegalArgumentException(
                     "group_concat shoudl have one arg"));
         }
-        return "group_concat(" + arguments.get(0) + ")";
+        if (arguments.size() == 1) {
+            return "group_concat(" + arguments.get(0) + ")";
+        }
+        return "group_concat(distinct(" + arguments.get(0) + "))";
     }
 }

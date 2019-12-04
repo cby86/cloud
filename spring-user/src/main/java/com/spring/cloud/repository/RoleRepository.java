@@ -16,7 +16,7 @@ public interface RoleRepository extends BaseRepository<Role, String> {
     @Query("select obj from Role obj where obj.deleted=false and obj.id=?1")
     Role findRoleById(String roleId);
 
-    @Query(value = "select new com.spring.cloud.repository.component.ResourcePermit(a.url,a.versionNumber,avg obj.code) from Role obj left join obj.authentications a  where obj.deleted=0 and a.deleted=0 and a.authentionType=1 group by a.url,a.versionNumber")
+    @Query(value = "select new com.spring.cloud.repository.component.ResourcePermit(a.url,a.versionNumber,group_concat(obj.code)) from Role obj left join obj.authentications a  where obj.deleted=0 and a.deleted=0 and a.authentionType=1 group by a.url,a.versionNumber")
     List<ResourcePermit> loadAuthentications();
 
 }

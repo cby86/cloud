@@ -6,6 +6,6 @@ public class CustomerMysql5Dialect extends MySQL57Dialect{
 
     public CustomerMysql5Dialect() {
         super();
-        registerFunction("group_contact",new GroupConcatFunction());
+        registerFunction("group_concat",new GroupConcatFunction());
     }
 }

@@ -28,4 +28,4 @@ spring:
             format_sql: false
             use_sql_comments: true
             naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
-            dialect: org.hibernate.dialect.MySQL5Dialect
+            dialect: com.spring.cloud.base.dialect.CustomerMysql5Dialect

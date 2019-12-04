@@ -4,13 +4,16 @@ import com.spring.cloud.base.BaseEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  * 系统所有资源注册存储表
  * 对所有标记了
  */
 @Entity
-@Table(name = "mb_hunter_resource")
+@Table(name = "mb_hunter_resource",uniqueConstraints={
+        @UniqueConstraint(name ="user_version_number_unique_key", columnNames = {"url","versionNumber"})
+})
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Resource extends BaseEntity {
     /**

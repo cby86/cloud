@@ -1,6 +1,8 @@
 package com.spring.cloud.service;
 
+import com.spring.cloud.entity.Authentication;
 import com.spring.cloud.entity.Role;
+import com.spring.cloud.repository.component.ResourcePermit;
 
 import java.util.List;
 
@@ -16,4 +18,5 @@ public interface RoleService {
 
     List<Role> findRoleList();
 
+    List<ResourcePermit> loadAuthentications();
 }

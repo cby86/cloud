@@ -1,7 +1,9 @@
 package com.spring.cloud.service.impl;
 
+import com.spring.cloud.entity.Authentication;
 import com.spring.cloud.entity.Role;
 import com.spring.cloud.repository.RoleRepository;
+import com.spring.cloud.repository.component.ResourcePermit;
 import com.spring.cloud.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,11 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> findRoleList() {
         return roleRepository.findRoles();
+    }
+
+    @Override
+    public List<ResourcePermit> loadAuthentications() {
+        return roleRepository.loadAuthentications();
     }
 
 }

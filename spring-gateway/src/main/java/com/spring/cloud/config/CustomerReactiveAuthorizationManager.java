@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 /**
  * 定时获取资源权限，并更新
@@ -98,10 +99,10 @@ public class CustomerReactiveAuthorizationManager implements ReactiveAuthorizati
         if (matcher != null) {
             matcher.getReactiveAuthorizationManager().updateAuthorities(authorities);
         } else {
+            key = key.replaceAll("\\{[^}]*\\}", "*");
             matcher = new ResourceMatcher(urlPrefixMarcher+key, authorities);
         }
         return matcher;
     }
-
 
 }

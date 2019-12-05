@@ -44,7 +44,7 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http,@Autowired(required = false) CustomerReactiveAuthorizationManager customerReactiveAuthorizationManager) {
+    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http, @Autowired(required = false) CustomerReactiveAuthorizationManager customerReactiveAuthorizationManager) {
         http.csrf().disable();
         http.httpBasic().disable();
         ServerHttpSecurity.AuthorizeExchangeSpec authorizeExchangeSpec = http.authorizeExchange();

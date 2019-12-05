@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 public class CustomerAuthorizationManager implements ReactiveAuthorizationManager<AuthorizationContext> {
-    private final List<String> authorities;
+    private List<String> authorities;
 
     public CustomerAuthorizationManager(List<String> authorities) {
         this.authorities = authorities;
@@ -24,5 +24,9 @@ public class CustomerAuthorizationManager implements ReactiveAuthorizationManage
                 .hasElements()
                 .map(hasAuthority -> new AuthorizationDecision(hasAuthority))
                 .defaultIfEmpty(new AuthorizationDecision(false));
+    }
+
+    public void updateAuthorities(List<String> authorities) {
+        this.authorities = authorities;
     }
 }

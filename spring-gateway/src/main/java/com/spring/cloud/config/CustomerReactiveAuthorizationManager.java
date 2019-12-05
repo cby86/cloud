@@ -99,6 +99,9 @@ public class CustomerReactiveAuthorizationManager implements ReactiveAuthorizati
         if (matcher != null) {
             matcher.getReactiveAuthorizationManager().updateAuthorities(authorities);
         } else {
+            /**
+             * 将path中的｛｝，替换为通配符
+             */
             key = key.replaceAll("\\{[^}]*\\}", "*");
             matcher = new ResourceMatcher(urlPrefixMarcher+key, authorities);
         }

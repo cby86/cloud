@@ -103,7 +103,5 @@ public class CustomerReactiveAuthorizationManager implements ReactiveAuthorizati
         return matcher;
     }
 
-    public static void main(String[] args) {
-        Flux.just(1, 2, 3).concatMap(integer ->Mono.just(2).filter(t -> t.equals(integer))).next().subscribe(System.out::println);
-    }
+
 }

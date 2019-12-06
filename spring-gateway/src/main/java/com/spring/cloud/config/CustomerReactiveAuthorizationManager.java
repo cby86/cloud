@@ -33,9 +33,9 @@ public class CustomerReactiveAuthorizationManager implements ReactiveAuthorizati
     @Value("${resource.refresh.period:10}")
     private int resourceRefreshPeriod = 10;
     /**
-     * 匹配网关配置的前缀
+     * 匹配网关配置的前缀,可能是多级目录
      */
-    private final static String urlPrefixMarcher = "**";
+    private final static String urlPrefixMarcher = "/**";
 
     public CustomerReactiveAuthorizationManager(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
@@ -59,6 +59,9 @@ public class CustomerReactiveAuthorizationManager implements ReactiveAuthorizati
                 ).next().switchIfEmpty(Mono.just(new AuthorizationDecision(allowAnyOtherResource)));
     }
 
+    /**
+     * 启动定时器，根据设定的周期向资源中心加载最新资源权限
+     */
     @PostConstruct
     public void init() {
         scheduler.scheduleAtFixedRate(new Runnable() {

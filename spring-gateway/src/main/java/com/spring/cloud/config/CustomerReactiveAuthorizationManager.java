@@ -32,7 +32,10 @@ public class CustomerReactiveAuthorizationManager implements ReactiveAuthorizati
     private int resourceLoaderDelay = 5;
     @Value("${resource.refresh.period:10}")
     private int resourceRefreshPeriod = 10;
-    private final static String urlPrefixMarcher = "/*";
+    /**
+     * 匹配网关配置的前缀
+     */
+    private final static String urlPrefixMarcher = "**";
 
     public CustomerReactiveAuthorizationManager(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
@@ -89,23 +92,11 @@ public class CustomerReactiveAuthorizationManager implements ReactiveAuthorizati
         if (authorities.isEmpty()) {
             return null;
         }
-        ResourceMatcher matcher = null;
-        for (ResourceMatcher resourceMatcher : mappings) {
-            if (resourceMatcher.getMatcher().isSelf(key)) {
-                matcher = resourceMatcher;
-                break;
-            }
-        }
-        if (matcher != null) {
-            matcher.getReactiveAuthorizationManager().updateAuthorities(authorities);
-        } else {
-            /**
-             * 将path中的｛｝，替换为通配符
-             */
-            key = key.replaceAll("\\{[^}]*\\}", "*");
-            matcher = new ResourceMatcher(urlPrefixMarcher+key, authorities);
-        }
-        return matcher;
+        /**
+         * 将path中的｛｝，替换为通配符
+         */
+        key = key.replaceAll("\\{[^}]*\\}", "*");
+        return new ResourceMatcher(urlPrefixMarcher+key, authorities);
     }
 
 }

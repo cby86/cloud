@@ -1,12 +1,14 @@
 package com.spring.cloud.controller;
 
 import com.spring.cloud.support.mvc.ResourceDesc;
+import com.spring.cloud.utils.RequestUserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.security.SecurityUser;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,9 +47,9 @@ public class OrderController {
     @RequestMapping(value = "/home")
     @ResourceDesc(model = "订单管理", name = "订单添加", desc = "订单添加处理")
     public String home1() {
-//        SecurityUser securityUser = RequestUserUtils.currentUser();
-//        System.out.println(securityUser.getId());
-//        System.out.println(securityUser.getUsername());
+        SecurityUser securityUser = RequestUserUtils.currentUser();
+        System.out.println(securityUser.getId());
+        System.out.println(securityUser.getUsername());
         System.out.println(parameter);
         List<ServiceInstance> instances = discoveryClient.getInstances("spring-user");
         System.out.println(instances.size());

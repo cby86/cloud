@@ -29,4 +29,8 @@ public class CustomerAuthorizationManager implements ReactiveAuthorizationManage
     public void updateAuthorities(List<String> authorities) {
         this.authorities = authorities;
     }
+
+    public List<String> getAuthorities() {
+        return authorities;
+    }
 }

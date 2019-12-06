@@ -48,6 +48,10 @@ public class CustomerPathPatternServerWebExchangeMatcher implements ServerWebExc
         return this.pattern != null && pattern.equals(this.pattern.getPatternString());
     }
 
+    public PathPattern getPattern() {
+        return pattern;
+    }
+
     @Override
     public String toString() {
         return "CustomerPathPatternServerWebExchangeMatcher{" +

@@ -20,9 +20,9 @@
 
     <repositories>
         <!--<repository>-->
-            <!--<id>nexusPublic</id>-->
-            <!--<name>Public Repositories</name>-->
-            <!--<url>http://192.168.3.9:8081/repository/maven-public/</url>-->
+        <!--<id>nexusPublic</id>-->
+        <!--<name>Public Repositories</name>-->
+        <!--<url>http://192.168.3.9:8081/repository/maven-public/</url>-->
         <!--</repository>-->
         <repository>
             <snapshots>
@@ -34,15 +34,15 @@
         </repository>
     </repositories>
     <!--<dependencyManagement>-->
-        <!--<dependencies>-->
-            <!--<dependency>-->
-                <!--<groupId>org.springframework.cloud</groupId>-->
-                <!--<artifactId>spring-cloud-dependencies</artifactId>-->
-                <!--<version>${spring-cloud.version}</version>-->
-                <!--<type>pom</type>-->
-                <!--<scope>import</scope>-->
-            <!--</dependency>-->
-        <!--</dependencies>-->
+    <!--<dependencies>-->
+    <!--<dependency>-->
+    <!--<groupId>org.springframework.cloud</groupId>-->
+    <!--<artifactId>spring-cloud-dependencies</artifactId>-->
+    <!--<version>${spring-cloud.version}</version>-->
+    <!--<type>pom</type>-->
+    <!--<scope>import</scope>-->
+    <!--</dependency>-->
+    <!--</dependencies>-->
     <!--</dependencyManagement>-->
 
     <profiles>
@@ -150,6 +150,7 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
+                    <parameters>true</parameters>
                 </configuration>
             </plugin>
         </plugins>

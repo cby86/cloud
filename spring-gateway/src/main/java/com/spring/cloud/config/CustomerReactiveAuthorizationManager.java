@@ -69,25 +69,15 @@ public class CustomerReactiveAuthorizationManager implements ReactiveAuthorizati
                     if (resourceLoader == null) {
                         return;
                     }
-                    Map<String, List<String>> resource = resourceLoader.loadResource();
-                    List<ResourceMatcher> newResourceMatcherList = new ArrayList<>();
-                    for (Map.Entry<String, List<String>> entry : resource.entrySet()) {
-                        ResourceMatcher matcher = mergeResourceMatcher(entry.getKey(), entry.getValue());
-                        /**
-                         * 新增或修改过的matcher
-                         */
-                        if (matcher != null) {
-                            newResourceMatcherList.add(matcher);
-                        }
-                    }
-
-                    mappings = newResourceMatcherList;
+                   refresh();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
         }, resourceLoaderDelay, resourceRefreshPeriod, TimeUnit.SECONDS);
     }
+
+
 
     private ResourceMatcher mergeResourceMatcher(String key, List<String> authorities) {
         if (authorities.isEmpty()) {
@@ -108,5 +98,20 @@ public class CustomerReactiveAuthorizationManager implements ReactiveAuthorizati
             result.put(matcher.getMatcher().getPattern().getPatternString(), matcher.getReactiveAuthorizationManager().getAuthorities());
         }
         return JSON.toJSONString(result);
+    }
+
+    public void refresh() {
+        Map<String, List<String>> resource = resourceLoader.loadResource();
+        List<ResourceMatcher> newResourceMatcherList = new ArrayList<>();
+        for (Map.Entry<String, List<String>> entry : resource.entrySet()) {
+            ResourceMatcher matcher = mergeResourceMatcher(entry.getKey(), entry.getValue());
+            /**
+             * 新增或修改过的matcher
+             */
+            if (matcher != null) {
+                newResourceMatcherList.add(matcher);
+            }
+        }
+        mappings = newResourceMatcherList;
     }
 }

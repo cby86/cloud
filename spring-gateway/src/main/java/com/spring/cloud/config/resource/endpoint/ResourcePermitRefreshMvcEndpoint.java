@@ -8,6 +8,13 @@ import org.springframework.boot.actuate.endpoint.annotation.Selector;
 import org.springframework.boot.actuate.endpoint.annotation.WriteOperation;
 import org.springframework.context.ApplicationEventPublisher;
 
+/**
+ *  默认开始端点
+ *  management:
+ *    endpoint:
+ *    resource-permit:
+ *    enabled: false    禁用断点
+ */
 @Endpoint(id="resource-permit")
 public class ResourcePermitRefreshMvcEndpoint {
 

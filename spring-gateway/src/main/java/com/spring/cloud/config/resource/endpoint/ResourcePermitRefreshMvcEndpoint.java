@@ -1,7 +1,6 @@
-package com.spring.cloud.endpoint;
-import com.spring.cloud.bus.ResourceRemoteApplicationEvent;
+package com.spring.cloud.config.resource.endpoint;
+import com.spring.cloud.config.resource.ResourceRemoteApplicationEvent;
 import com.spring.cloud.config.CustomerReactiveAuthorizationManager;
-import javafx.beans.NamedArg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
@@ -34,7 +33,8 @@ public class ResourcePermitRefreshMvcEndpoint {
     }
 
     @WriteOperation
-    public void refresh(@Selector String destination) {
+    public String refresh(@Selector String destination) {
         context.publishEvent(new ResourceRemoteApplicationEvent(this,appId,destination));
+        return "success";
     }
 }

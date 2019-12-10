@@ -1,6 +1,8 @@
 package com.spring.cloud.config.resource.endpoint;
 import com.spring.cloud.config.resource.ResourceRemoteApplicationEvent;
 import com.spring.cloud.config.CustomerReactiveAuthorizationManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
@@ -17,7 +19,7 @@ import org.springframework.context.ApplicationEventPublisher;
  */
 @Endpoint(id="resource-permit")
 public class ResourcePermitRefreshMvcEndpoint {
-
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     private ApplicationEventPublisher context;
 
     private String appId;
@@ -33,6 +35,9 @@ public class ResourcePermitRefreshMvcEndpoint {
 
     @ReadOperation
     public String resourcePermitInfo() {
+        if (logger.isDebugEnabled()) {
+            logger.debug("获取权限配置信息错误");
+        }
         if (customerReactiveAuthorizationManager != null) {
             return customerReactiveAuthorizationManager.toString();
         }

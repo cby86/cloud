@@ -1,35 +1,41 @@
 package com.spring.cloud.config;
 import com.alibaba.fastjson.JSON;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.ReactiveAuthorizationManager;
 import org.springframework.security.web.server.authorization.AuthorizationContext;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
-import org.springframework.util.CollectionUtils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 
 /**
  * 定时获取资源权限，并更新
  */
 public class CustomerReactiveAuthorizationManager implements ReactiveAuthorizationManager<AuthorizationContext> {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     private ResourceLoader resourceLoader;
     private List<ResourceMatcher> mappings = new ArrayList<>();
     private boolean allowAnyOtherResource = true;
     private ScheduledExecutorService scheduler;
     @Value("${resource.loader.delay:5}")
     private int resourceLoaderDelay = 5;
-    @Value("${resource.refresh.period:10}")
-    private int resourceRefreshPeriod = 10;
+    /**
+     * 设置定时器执行周期,定时刷新权限配置，默认为秒
+     */
+    @Value("${resource.refresh.period:90}")
+    private int resourceRefreshPeriod = 90;
     /**
      * 匹配网关配置的前缀,可能是多级目录
      */
@@ -71,7 +77,9 @@ public class CustomerReactiveAuthorizationManager implements ReactiveAuthorizati
                     }
                    refresh();
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("获取权限配置信息错误",ex.getMessage());
+                    }
                 }
             }
         }, resourceLoaderDelay, resourceRefreshPeriod, TimeUnit.SECONDS);

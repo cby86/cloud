@@ -98,3 +98,4 @@ ribbon:
 logging.level.org.springframework.security: DEBUG
 logging:
   path: E://cloudlogs/${spring.application.name}
+  level: DEBUG

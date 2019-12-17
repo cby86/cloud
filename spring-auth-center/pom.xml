@@ -24,7 +24,7 @@
         <dependency>
             <groupId>com.spring.cloud</groupId>
             <artifactId>spring-common</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version} </version>
         </dependency>
         <dependency>
         <groupId>org.springframework.cloud</groupId>

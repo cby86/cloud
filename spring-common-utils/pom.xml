@@ -10,6 +10,4 @@
     </parent>
     <artifactId>spring-common-utils</artifactId>
     <packaging>jar</packaging>
-    <description>公共类</description>
-    <name>公共类</name>
 </project>

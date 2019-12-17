@@ -10,12 +10,11 @@
     </parent>
     <artifactId>spring-common-dao</artifactId>
     <packaging>jar</packaging>
-    <description>公共组件</description>
-    <name>公共组件</name>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>2.1.7.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.jackson</groupId>

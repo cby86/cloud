@@ -105,13 +105,12 @@
         </dependency>
     </dependencies>
     <modules>
+        <module>spring-common-utils</module>
+        <module>spring-common-dao</module>
+        <module>spring-common</module>
         <module>spring-eureka-server</module>
         <module>spring-user</module>
         <module>spring-backend-center</module>
-        <module>spring-zuul</module>
-        <module>spring-common-dao</module>
-        <module>spring-common</module>
-        <module>spring-common-utils</module>
         <module>spring-resource</module>
         <module>spring-auth-center</module>
         <module>spring-turbine</module>
@@ -135,6 +134,7 @@
                 <configuration>
                     <fork>true</fork>
                     <mainClass>Application</mainClass>
+                    <classifier>exec</classifier>
                 </configuration>
                 <executions>
                     <execution>
@@ -151,8 +151,6 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
-                    <parameters>true</parameters>
-                    <compilerArgs>-parameters</compilerArgs>
                 </configuration>
             </plugin>
         </plugins>

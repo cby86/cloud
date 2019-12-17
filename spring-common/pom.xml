@@ -10,14 +10,7 @@
     </parent>
     <artifactId>spring-common</artifactId>
     <packaging>jar</packaging>
-    <description>公共组件</description>
-    <name>公共组件</name>
     <dependencies>
-        <dependency>
-            <groupId>com.spring.cloud</groupId>
-            <artifactId>spring-common-utils</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -27,6 +20,11 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
             <version>5.2.1.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.spring.cloud</groupId>
+            <artifactId>spring-common-utils</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
 </project>

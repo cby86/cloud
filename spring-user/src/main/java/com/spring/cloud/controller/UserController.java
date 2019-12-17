@@ -1,9 +1,7 @@
 package com.spring.cloud.controller;
 import com.spring.cloud.entity.User;
 import com.spring.cloud.service.UserService;
-import com.spring.cloud.utils.RequestUserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.SecurityUser;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;

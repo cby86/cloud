@@ -1,9 +1,0 @@
-spring:
-  profiles:
-    active: dev
-  application:
-    name: spring-zuul
-server:
-  port: 8085
-
-

@@ -95,7 +95,5 @@ ribbon:
     MaxAutoRetriesNextServer: 0
     ServerListRefreshInterval: 1000
 
-logging.level.org.springframework.security: DEBUG
 logging:
-  path: E://cloudlogs/${spring.application.name}
-  level: INFO
+  config: classpath:logback.xml

@@ -95,4 +95,5 @@ ribbon:
     MaxAutoRetriesNextServer: 0
     ServerListRefreshInterval: 1000
 
-logging.level.org.springframework.security: DEBUG
+logging:
+  config: classpath:logback.xml

@@ -1,14 +1,18 @@
 package com.spring.cloud.log;
 import ch.qos.logback.classic.pattern.ClassicConverter;
 import ch.qos.logback.classic.spi.ILoggingEvent;
+import org.apache.http.conn.util.InetAddressUtils;
 
 import javax.management.MBeanServer;
+import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import javax.management.Query;
+import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;

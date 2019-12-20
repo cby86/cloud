@@ -1,5 +1,8 @@
 package com.spring.cloud.controller;
 
+import com.spring.cloud.FilterConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
@@ -18,6 +21,7 @@ import java.util.Map;
 @RequestMapping("")
 @RefreshScope
 public class FallbackController {
+    Logger logger = LoggerFactory.getLogger(FallbackController.class);
     @Value("${route.returnFailRoutePath}")
     private boolean returnFailRoutePath = false;
 

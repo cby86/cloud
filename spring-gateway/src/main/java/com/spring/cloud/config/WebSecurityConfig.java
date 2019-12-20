@@ -54,7 +54,7 @@ public class WebSecurityConfig {
         http.httpBasic().disable();
         ServerHttpSecurity.AuthorizeExchangeSpec authorizeExchangeSpec = http.authorizeExchange();
         //配置URL静态权限
-        authorizeExchangeSpec.pathMatchers("/backend/order/home").hasAuthority("ROLE_ADMIN"); //无需进行权限过滤的请求路径
+        authorizeExchangeSpec.pathMatchers("/backend/order/home").permitAll(); //无需进行权限过滤的请求路径
         //配置URL动态权限
         if (customerReactiveAuthorizationManager != null) {
             authorizeExchangeSpec.anyExchange().access(customerReactiveAuthorizationManager);

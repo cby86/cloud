@@ -29,16 +29,7 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>0.4.13</version>
                 <configuration>
-                    <dockerHost>http://192.168.3.15:2375</dockerHost>
-                    <imageName>spring-boot/${project.artifactId}</imageName>
-                    <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
-                    <resources>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                    </resources>
+                    <skipDockerBuild>false</skipDockerBuild>
                 </configuration>
             </plugin>
         </plugins>

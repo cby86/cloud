@@ -134,7 +134,7 @@
                 <configuration>
                     <fork>true</fork>
                     <mainClass>Application</mainClass>
-                    <!--<classifier>exec</classifier>-->
+                    <classifier>exec</classifier>
                 </configuration>
                 <executions>
                     <execution>
@@ -166,7 +166,7 @@
                         <resource>
                             <targetPath>/</targetPath>
                             <directory>${project.build.directory}</directory>
-                            <include>${project.build.finalName}.jar</include>
+                            <include>${project.build.finalName}-exec.jar</include>
                         </resource>
                     </resources>
                 </configuration>

@@ -39,7 +39,7 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://192.168.3.15:8761/eureka/
   instance:
     appname: ${spring.application.name}
     preferIpAddress: true

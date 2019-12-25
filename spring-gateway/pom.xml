@@ -116,6 +116,7 @@
                     <target>${java.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <parameters>true</parameters>
+                    <!--为了开发自动刷新端点,需要获取参数完整名字-->
                     <compilerArgs>
                         <compilerArg>-parameters</compilerArg>
                     </compilerArgs>

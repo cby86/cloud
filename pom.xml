@@ -162,6 +162,7 @@
                     <dockerHost>http://192.168.3.15:2375</dockerHost>
                     <imageName>spring-cloud/${project.artifactId}</imageName>
                     <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+                    <imageTags></imageTags>
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>

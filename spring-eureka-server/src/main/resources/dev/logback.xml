@@ -31,8 +31,8 @@
     </appender>
 
 
-    <logger name="org.springframework" level="ERROR"/>
-    <logger name="org.hibernate" level="ERROR"/>
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.hibernate" level="INFO"/>
 
     <!-- 异步输出 -->
     <appender name="FILE_ASYNC" class="ch.qos.logback.classic.AsyncAppender">

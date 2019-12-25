@@ -1,0 +1,7 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: spring-resource
+server:
+  port: 8089

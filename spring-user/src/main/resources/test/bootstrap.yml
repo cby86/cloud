@@ -1,0 +1,17 @@
+spring:
+  cloud:
+    config:
+#      uri: http://localhost:8088/
+      discovery:
+        enabled: true
+        service-id: spring-config
+      profile: dev
+      name: global,user
+      username: user
+      password: password123
+      fail-fast: true
+      retry:
+           initial-interval: 1000
+           max-attempts: 6
+           max-interval: 4000
+           multiplier: 1.1

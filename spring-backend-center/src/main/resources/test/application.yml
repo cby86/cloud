@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: dev
+  application:
+      name: spring-backend-center
+  main:
+    allow-bean-definition-overriding: true
+server:
+  port: 8083
+
+

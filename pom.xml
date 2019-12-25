@@ -120,6 +120,7 @@
     </modules>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources/${package.environment}/</directory>
@@ -160,9 +161,9 @@
                 <configuration>
                     <skipDockerBuild>true</skipDockerBuild>
                     <dockerHost>http://192.168.3.15:2375</dockerHost>
-                    <imageName>spring-cloud/${project.artifactId}</imageName>
+                    <imageName>${project.artifactId}</imageName>
                     <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
-                    <imageTags></imageTags>
+                    <imageTags>${project.version}</imageTags>
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>

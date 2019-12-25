@@ -26,7 +26,6 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>eureka-server</finalName>
         <plugins>
             <plugin>
                 <groupId>com.spotify</groupId>

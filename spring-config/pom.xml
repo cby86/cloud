@@ -36,7 +36,6 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>config-server</finalName>
         <plugins>
             <plugin>
                 <groupId>com.spotify</groupId>

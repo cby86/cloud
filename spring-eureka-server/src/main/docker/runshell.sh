@@ -11,6 +11,14 @@ done
 
 for line in `docker images | grep "<none>" | awk '{print $3}'`
 do
+  for container in `docker ps| grep "$line" | awk '{print $1}'`
+  do
+   docker stop $container
+   echo "停止容器"+$container
+   docker rm $container
+   echo "删除容器"+$container
+  done
+
   docker rmi $line
   echo "删除镜像"+$line
 done

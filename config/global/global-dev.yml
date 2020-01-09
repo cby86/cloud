@@ -14,7 +14,7 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://192.168.3.15:8761/eureka/
     registry-fetch-interval-seconds: 5
   instance:
       appname: ${spring.application.name}

@@ -17,10 +17,11 @@ public class CustomerAuthenticationEntryPoint implements AuthenticationEntryPoin
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         response.setHeader("Content-type", "application/json;charset=UTF-8");
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("status", 0);
-        data.put("msg", "用户名或密码错误");
+        data.put("message", "用户名或密码错误");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().print(JSONObject.toJSONString(data));
         response.getWriter().flush();

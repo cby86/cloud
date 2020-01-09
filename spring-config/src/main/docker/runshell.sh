@@ -25,4 +25,4 @@ do
   echo "删除镜像"+$line
 done
 
-docker run  --restart=always -e JAVA_OPTS='-Deureka.client.serviceUrl.defaultZone=http://192.168.3.15:8761/eureka' -p 8762:8761 -d -v /var/datalog:/var/datalogs --name spring-config1  $SERVER_NAME:latest
+docker run  --restart=always -e JAVA_OPTS='-Deureka.client.serviceUrl.defaultZone=http://192.168.3.15:8761/eureka' -p 8088:8088 -d -v /var/datalog:/var/datalogs --name spring-config1  $SERVER_NAME:latest

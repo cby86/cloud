@@ -1,6 +1,6 @@
 SERVER_NAME=spring-eureka-server
 #删除正在运行容器
-for line in `docker ps| grep "$SERVER_NAME" | awk '{print $1}'`
+for line in `docker ps -a | grep "$SERVER_NAME" | awk '{print $1}'`
 do
  docker stop $line
  echo "停止容器"+$line
@@ -11,7 +11,7 @@ done
 
 for line in `docker images | grep "<none>" | awk '{print $3}'`
 do
-  for container in `docker ps| grep "$line" | awk '{print $1}'`
+  for container in `docker ps -a | grep "$line" | awk '{print $1}'`
   do
    docker stop $container
    echo "停止容器"+$container

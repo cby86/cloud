@@ -28,6 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    CustomerAuthenticationEntryPoint customerAuthenticationEntryPoint;
+
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -50,12 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/actuator/**").permitAll()
                 .anyRequest()
                 .authenticated().and()
-                .exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPoint() {
-            @Override
-            public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-                System.out.println(request.getRequestURL());
-            }
-        }).and()
+                .exceptionHandling().authenticationEntryPoint(customerAuthenticationEntryPoint).and()
                 .logout().and()
                 .httpBasic();
     }

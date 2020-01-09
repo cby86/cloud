@@ -23,5 +23,5 @@ do
   echo "删除镜像"+$line
 done
 
-docker run  --restart=always -e JAVA_OPTS='-Deureka.client.serviceUrl.defaultZone=http://192.168.3.15:8761/eureka' -p 8762:8761 -d -v /var/datalog:/var/datalogs --name register-server2  $SERVER_NAME:latest
-docker run  --restart=always -e JAVA_OPTS='-Deureka.client.serviceUrl.defaultZone=http://192.168.3.15:8762/eureka' -p 8761:8761 -d -v /var/datalog:/var/datalogs --name register-server1  $SERVER_NAME:latest
+docker run  --restart=always -e JAVA_OPTS='-Deureka.client.serviceUrl.defaultZone=http://192.168.3.15:8761/eureka/' -p 8762:8761 -d -v /var/datalog:/var/datalogs --name register-server2  $SERVER_NAME:latest
+docker run  --restart=always -e JAVA_OPTS='-Deureka.client.serviceUrl.defaultZone=http://192.168.3.15:8762/eureka/' -p 8761:8761 -d -v /var/datalog:/var/datalogs --name register-server1  $SERVER_NAME:latest

@@ -1,15 +1,18 @@
 package com.spring.cloud.controller;
 
 import com.spring.cloud.base.BaseController;
-import com.spring.cloud.entity.App;
+import com.spring.cloud.base.PageUtils;
 import com.spring.cloud.entity.Menu;
 import com.spring.cloud.service.MenuService;
 import com.spring.cloud.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,21 +34,15 @@ public class MenuController extends BaseController {
 
         menuService.saveMenu(id, name, menuType, url, parentId);
 
-        return this.resultMap("0", "success", null);
+        return this.resultMap(null);
     }
 
     @RequestMapping("/findMenus")
-    public Map<String, Object> findMenus() {
-//        init();
-        List<Menu> menuList = menuService.findMenuList(0);
-        return this.resultMap("0", "success", menuList);
+    public Map<String, Object> findMenus(String menuName, int menuType,Integer page, Integer pageSize) {
+        Pageable pageable = PageUtils.pageable(page, pageSize);
+        Page<Menu> menuPageList = menuService.findMenuPageList(menuName, menuType, pageable);
+        return this.resultMap(PageUtils.responsePage(menuPageList));
     }
 
-    public void  init() {
-        Menu menu = menuService.findMenuById("1");
-        App app=resourceService.getAppByName("spring-backend-center");
-        menu.addAllResource(app.getResourceList());
-        menuService.saveOrUpdate(menu);
-    }
 
 }

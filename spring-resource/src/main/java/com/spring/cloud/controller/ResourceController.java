@@ -26,7 +26,7 @@ public class ResourceController extends BaseController {
     @RequestMapping("/register")
     public Map<String, Object> register(@RequestBody  List<String> resource) {
         resourceService.register(resource);
-        return this.resultMap("0", "success", null);
+        return this.resultMap( null);
     }
 
 }

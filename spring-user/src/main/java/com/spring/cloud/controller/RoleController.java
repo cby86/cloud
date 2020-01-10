@@ -25,7 +25,7 @@ public class RoleController extends BaseController {
     @RequestMapping("/findRoles")
     public Map<String, Object> findRoles() {
         List<Role> roleList = roleService.findRoleList();
-        return this.resultMap("0", "success", roleList);
+        return this.resultMap(roleList);
     }
 
     @RequestMapping("/findRoleById")

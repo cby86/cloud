@@ -63,7 +63,7 @@ public class GlobalExceptionHandler {
 
     public boolean isAjax(HttpServletRequest request) {
         String requestType = request.getHeader("X-Requested-With");
-        return StringUtils.hasText(requestType) && requestType.equals("XMLHttpRequest");
+        return StringUtils.hasText(requestType) && requestType.equals("X-Requested-With");
     }
 
 }

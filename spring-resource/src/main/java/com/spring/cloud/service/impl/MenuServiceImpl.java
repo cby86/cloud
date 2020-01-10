@@ -57,7 +57,9 @@ public class MenuServiceImpl implements MenuService {
             if (StringUtils.isNotEmpty(name)) {
                 predicates.add(criteriaBuilder.equal(root.get("name"), name));
             }
-            predicates.add(criteriaBuilder.equal(root.get("menuType"), menuType));
+            if (menuType != -1) {
+                predicates.add(criteriaBuilder.equal(root.get("menuType"), menuType));
+            }
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
         }, pageable);
     }

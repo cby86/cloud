@@ -51,11 +51,14 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Page<Menu> findMenuPageList(String name, int menuType, Pageable pageable) {
+    public Page<Menu> findMenuPageList(String name,String url, int menuType, Pageable pageable) {
         return menuRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (StringUtils.isNotEmpty(name)) {
                 predicates.add(criteriaBuilder.equal(root.get("name"), name));
+            }
+            if (StringUtils.isNotEmpty(url)) {
+                predicates.add(criteriaBuilder.equal(root.get("url"), name));
             }
             if (menuType != -1) {
                 predicates.add(criteriaBuilder.equal(root.get("menuType"), menuType));

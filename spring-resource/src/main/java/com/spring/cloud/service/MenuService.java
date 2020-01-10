@@ -21,7 +21,7 @@ public interface MenuService {
 
     List<Menu> findMenuList(int menuTyp);
 
-    Page<Menu> findMenuPageList(String name, int menuType, Pageable pageable);
+    Page<Menu> findMenuPageList(String name,String url, int menuType, Pageable pageable);
 
     List<Menu> findMenuByIds(String menuIds);
 

@@ -38,9 +38,9 @@ public class MenuController extends BaseController {
     }
 
     @RequestMapping("/findMenus")
-    public Map<String, Object> findMenus(String menuName, int menuType,Integer page, Integer pageSize) {
+    public Map<String, Object> findMenus(String name,String url, int menuType,Integer page, Integer pageSize) {
         Pageable pageable = PageUtils.pageable(page, pageSize);
-        Page<Menu> menuPageList = menuService.findMenuPageList(menuName, menuType, pageable);
+        Page<Menu> menuPageList = menuService.findMenuPageList(name,url, menuType, pageable);
         return this.resultMap(PageUtils.responsePage(menuPageList));
     }
 

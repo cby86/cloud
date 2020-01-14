@@ -85,21 +85,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public void saveMenu(String id, String name, int menuType, String url, String parentId) {
-        Menu menu = null;
-        if (StringUtils.isNotEmpty(id)) {
-            menu = this.findMenuById(id);
-        } else {
-            menu = new Menu();
-        }
-        menu.setName(name);
-        menu.setMenuType(menuType);
-        menu.setUrl(url);
-
-        if (StringUtils.isNotEmpty(parentId)) {
-            Menu parent = findMenuById(parentId);
-            menu.setParent(parent);
-        }
+    public void saveMenu(Menu menu) {
         this.saveOrUpdate(menu);
     }
 }

@@ -25,5 +25,5 @@ public interface MenuService {
 
     List<Menu> findMenuByIds(String menuIds);
 
-    void saveMenu(String id, String name, int menuType, String url, String parentId);
+    void saveMenu(Menu menu);
 }

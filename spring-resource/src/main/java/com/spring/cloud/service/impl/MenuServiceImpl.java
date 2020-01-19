@@ -88,4 +88,20 @@ public class MenuServiceImpl implements MenuService {
     public void saveMenu(Menu menu) {
         this.saveOrUpdate(menu);
     }
+
+    @Override
+    public List<Menu> findMenuByParentId(String parentId) {
+        return menuRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(criteriaBuilder.equal(root.get("deleted"), false));
+            predicates.add(criteriaBuilder.equal(root.get("menuType"), 0));
+            Join<Object, Object> parent = root.join("parent", JoinType.LEFT);
+            if (StringUtils.isNotEmpty(parentId)){
+                predicates.add(criteriaBuilder.equal(parent.get("id"), parentId));
+            }else {
+                predicates.add(criteriaBuilder.isNull(parent));
+            }
+            return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+        });
+    }
 }

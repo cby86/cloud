@@ -56,9 +56,15 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
         Map<String, Object> error = getErrorAttributes(request, includeStackTrace);
         Map<String, Object> data = new HashMap<>();
         data.put("status", 0);
-        data.put("message", error.containsKey("message")?error.get("message"):"系统错误");
-//        data.put("data", error);
-        return ServerResponse.status(getHttpStatus(error)).contentType(MediaType.APPLICATION_JSON_UTF8)
+        String message;
+        HttpStatus httpStatus = getHttpStatus(error);
+        if (httpStatus.equals(HttpStatus.NOT_FOUND)) {
+            message = "系统资源不存在";
+        }else {
+            message = error.containsKey("message") ? error.get("message").toString() : "系统错误";
+        }
+        data.put("message",message);
+        return ServerResponse.status(httpStatus).contentType(MediaType.APPLICATION_JSON_UTF8)
                 .body(BodyInserters.fromObject(data));
     }
 }

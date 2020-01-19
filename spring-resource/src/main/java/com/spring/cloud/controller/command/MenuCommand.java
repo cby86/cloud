@@ -16,6 +16,12 @@ public class MenuCommand implements Command<Menu> {
     private String url;
     private int menuType;
 
+    private String parentId;
+
+    private String parentName;
+
+    private boolean hasChildren;
+
     @Autowired
     MenuService menuService;
 
@@ -39,6 +45,11 @@ public class MenuCommand implements Command<Menu> {
         this.menuName = domain.getName();
         this.url = domain.getUrl();
         this.menuType = domain.getMenuType();
+        if (domain.getParent() != null) {
+            this.parentId = domain.getId();
+            this.parentName = domain.getName();
+        }
+        this.hasChildren = domain.getChildren().isEmpty();
         return this;
     }
 

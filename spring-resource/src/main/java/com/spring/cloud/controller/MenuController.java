@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,6 +41,12 @@ public class MenuController extends BaseController {
     public Map<String, Object> findMenuById(String menuId) {
         Menu menu = menuService.findMenuById(menuId);
         return this.resultMap(new MenuCommand().fromDomain(menu));
+    }
+
+    @RequestMapping("/findMenuByParentId")
+    public Map<String, Object> findMenuByParentId(String parentId) {
+        List<Menu> menuList = menuService.findMenuByParentId(parentId);
+        return this.resultMap(CommandUtils.toCommands(menuList,MenuCommand.class));
     }
 
     @RequestMapping("/findMenus")

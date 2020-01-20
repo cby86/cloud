@@ -1,5 +1,6 @@
 package com.spring.cloud.support.exception;
 
+import com.spring.cloud.exception.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -55,6 +56,9 @@ public class GlobalExceptionHandler {
             message = ex.getMessage();
         }
         if (ex instanceof AuthenticationException) {
+            message = ex.getMessage();
+        }
+        if (ex instanceof BusinessException) {
             message = ex.getMessage();
         }
         hashMap.put("message", message);

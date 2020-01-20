@@ -41,7 +41,8 @@ public class Menu extends BaseEntity {
     /**
      * 类型 0：菜单 1：功能
      */
-    private int menuType;
+    @Enumerated(value = EnumType.STRING)
+    private MenuType menuType;
 
     private String url;
 
@@ -95,11 +96,11 @@ public class Menu extends BaseEntity {
     }
 
 
-    public int getMenuType() {
+    public MenuType getMenuType() {
         return menuType;
     }
 
-    public void setMenuType(int menuType) {
+    public void setMenuType(MenuType menuType) {
         this.menuType = menuType;
     }
 
@@ -108,5 +109,9 @@ public class Menu extends BaseEntity {
             resources = new ArrayList<>();
         }
         resources.addAll(resourceList);
+    }
+
+    public boolean isMenu() {
+        return menuType.equals(MenuType.Menu);
     }
 }

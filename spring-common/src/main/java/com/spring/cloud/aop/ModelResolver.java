@@ -30,7 +30,7 @@ public class ModelResolver implements ApplicationContextAware {
     /**
      * 对所有Controller类，方法含有@RequestMapping
      */
-    @Around("execution(* com.*.cloud.controller..*.*(..)) && @annotation(annotation)")
+    @Around("execution(* com.spring.cloud.controller..*.*(..)) && @annotation(annotation)")
     public Object advice(ProceedingJoinPoint joinPoint, RequestMapping annotation) throws Throwable {
         Object[] args = joinPoint.getArgs();
         advice(args);
@@ -49,7 +49,7 @@ public class ModelResolver implements ApplicationContextAware {
     }
 
     public void dependenceInject(Command model, Class target) {
-        if (!target.equals(Command.class)) {
+        if (target!=null &&(!target.equals(Command.class) && !target.equals(Object.class))) {
             dependenceInject(model, target.getSuperclass());
             declaredFields(model, target.getDeclaredFields());
         } else {

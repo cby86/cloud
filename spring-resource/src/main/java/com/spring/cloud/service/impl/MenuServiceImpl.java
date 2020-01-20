@@ -1,12 +1,15 @@
 package com.spring.cloud.service.impl;
 
 import com.spring.cloud.entity.Menu;
+import com.spring.cloud.exception.BusinessException;
 import com.spring.cloud.repository.MenuRepository;
 import com.spring.cloud.service.MenuService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +36,10 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public void deletedMenu(String id) {
+        Menu menu = findMenuById(id);
+        if (!menu.getChildren().isEmpty()) {
+            throw new BusinessException("菜单下还存在子菜单,请先删除子菜单");
+        }
         menuRepository.deleteById(id);
     }
 
@@ -51,7 +58,8 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Page<Menu> findMenuPageList(String name,String url, int menuType, Pageable pageable) {
+    public Page<Menu> findMenuPageList(String name, String url, int menuType, Pageable pageable) {
+        pageable.getSort().and(Sort.by(Sort.Order.desc("createDate")));
         return menuRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (StringUtils.isNotEmpty(name)) {
@@ -96,9 +104,9 @@ public class MenuServiceImpl implements MenuService {
             predicates.add(criteriaBuilder.equal(root.get("deleted"), false));
             predicates.add(criteriaBuilder.equal(root.get("menuType"), 0));
             Join<Object, Object> parent = root.join("parent", JoinType.LEFT);
-            if (StringUtils.isNotEmpty(parentId)){
+            if (StringUtils.isNotEmpty(parentId)) {
                 predicates.add(criteriaBuilder.equal(parent.get("id"), parentId));
-            }else {
+            } else {
                 predicates.add(criteriaBuilder.isNull(parent));
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));

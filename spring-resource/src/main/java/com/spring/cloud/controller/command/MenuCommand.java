@@ -2,6 +2,8 @@ package com.spring.cloud.controller.command;
 
 import com.spring.cloud.base.Command;
 import com.spring.cloud.entity.Menu;
+import com.spring.cloud.entity.MenuType;
+import com.spring.cloud.exception.BusinessException;
 import com.spring.cloud.service.MenuService;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +16,7 @@ public class MenuCommand implements Command<Menu> {
     private String id;
     private String menuName;
     private String url;
-    private int menuType;
+    private MenuType menuType;
 
     private String parentId;
 
@@ -23,19 +25,27 @@ public class MenuCommand implements Command<Menu> {
     private boolean hasChildren;
 
     @Autowired
-    MenuService menuService;
+    private MenuService menuService;
 
     @Override
     public Menu toDomain() {
         Menu menu = null;
         if (StringUtils.isNotEmpty(id)) {
             menu = menuService.findMenuById(id);
+            if (MenuType.Function.equals(menuType) && menu.isMenu()) {
+                throw new BusinessException("菜单不能修改为功能");
+            }
         } else {
             menu = new Menu();
         }
         menu.setName(menuName);
         menu.setMenuType(menuType);
         menu.setUrl(url);
+        if (StringUtils.isNotEmpty(this.parentId)) {
+            menu.setParent(menuService.findMenuById(this.parentId));
+        }else {
+            menu.setParent(null);
+        }
         return menu;
     }
 
@@ -46,11 +56,13 @@ public class MenuCommand implements Command<Menu> {
         this.url = domain.getUrl();
         this.menuType = domain.getMenuType();
         if (domain.getParent() != null) {
-            this.parentId = domain.getId();
-            this.parentName = domain.getName();
+            this.parentId = domain.getParent().getId();
+            this.parentName = domain.getParent().getName();
         }
         this.hasChildren = domain.getChildren().isEmpty();
         return this;
     }
+
+
 
 }

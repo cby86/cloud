@@ -30,7 +30,7 @@
             </el-dropdown>
           </template>
           <template slot-scope="scope">
-            <el-button v-for="action in column.actions" type="text" size="small" @click="action.handler(scope.row)">
+            <el-button v-for="(action, index) in column.actions" :key="index" type="text" size="small" @click="action.handler(scope.row)">
               {{action.name}}
             </el-button>
           </template>

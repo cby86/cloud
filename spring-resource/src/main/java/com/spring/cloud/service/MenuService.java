@@ -27,5 +27,5 @@ public interface MenuService {
 
     void saveMenu(Menu menu);
 
-    List<Menu> findMenuByParentId(String parentId);
+    List<Menu> findMenuByParentId(String parentId,String excludeMenuId);
 }

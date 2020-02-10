@@ -51,8 +51,8 @@ public class MenuController extends BaseController {
     }
 
     @RequestMapping("/findMenuByParentId")
-    public Map<String, Object> findMenuByParentId(String parentId) {
-        List<Menu> menuList = menuService.findMenuByParentId(parentId);
+    public Map<String, Object> findMenuByParentId(String parentId,String excludeMenuId) {
+        List<Menu> menuList = menuService.findMenuByParentId(parentId,excludeMenuId);
         return this.resultMap(CommandUtils.toCommands(menuList,MenuCommand.class));
     }
 

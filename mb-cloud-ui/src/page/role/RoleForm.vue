@@ -5,7 +5,7 @@
       <el-col :span="6">
         <el-form :model="form" :rules="rules" ref="form" label-width="80px" size="small">
           <el-form-item label="角色名称" prop="menuName">
-            <el-input v-model="form.name" placeholder="菜单名称"></el-input>
+            <el-input v-model="form.name" placeholder="角色名称"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" icon="el-icon-search" @click="onSubmit">保存</el-button>

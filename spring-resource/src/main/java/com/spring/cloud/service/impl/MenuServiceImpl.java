@@ -98,7 +98,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<Menu> findMenuByParentId(String parentId) {
+    public List<Menu> findMenuByParentId(String parentId,String excludeMenuId) {
         return menuRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(criteriaBuilder.equal(root.get("deleted"), false));
@@ -108,6 +108,9 @@ public class MenuServiceImpl implements MenuService {
                 predicates.add(criteriaBuilder.equal(parent.get("id"), parentId));
             } else {
                 predicates.add(criteriaBuilder.isNull(parent));
+            }
+            if (StringUtils.isNotEmpty(excludeMenuId)) {
+                predicates.add(criteriaBuilder.notEqual(root.get("id"), excludeMenuId));
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
         });

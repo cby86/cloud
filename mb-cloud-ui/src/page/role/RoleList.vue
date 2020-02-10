@@ -19,21 +19,26 @@
         <el-table size="small"
                   :data="tableData"
                   style="width: 100%">
-          <el-table-column sortable :formatter="reset"
-                           prop="menuName"
+          <el-table-column sortable
+                           prop="name"
                            label="角色名称">
+          </el-table-column>
+          <el-table-column sortable
+                           prop="code"
+                           label="角色编码">
           </el-table-column>
           <el-table-column
             fixed="right"
             label="操作">
             <template slot-scope="scope">
               <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
+              <el-button type="text" size="small" @click="edit(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-col>
     </el-row>
-    <page-nation :totalCount="totalCount" :pageCount="pageCount" v-on:pageChange="loadMenus"></page-nation>
+    <page-nation :totalCount="totalCount" :pageCount="pageCount" v-on:pageChange="loadRole"></page-nation>
   </div>
 </template>
 
@@ -56,7 +61,7 @@
       };
     },
     mounted() {
-      this.loadMenus(1,this.pageSize)
+      this.loadRole(1,this.pageSize)
     },
     methods: {
       edit(row) {
@@ -69,12 +74,12 @@
         this.queryForm.menuType = v;
       },
       onSubmit() {
-        this.loadMenus(1,this.pageSize)
+        this.loadRole(1,this.pageSize)
       },
       add() {
         this.$router.push({name:"RoleForm"})
       },
-      loadMenus(page,pageSize) {
+      loadRole(page,pageSize) {
         this.$request.post({
           url: '/spring-user/role/findRoles',
           data: {
@@ -84,6 +89,7 @@
           },
           success: result => {
             this.tableData = result.data.items;
+            console.log(this.tableData);
             this.totalCount = result.data.totalCount;
             this.pageCount = result.data.totalPage;
           },

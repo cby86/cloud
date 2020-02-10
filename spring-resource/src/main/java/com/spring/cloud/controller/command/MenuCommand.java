@@ -5,6 +5,7 @@ import com.spring.cloud.entity.Menu;
 import com.spring.cloud.entity.MenuType;
 import com.spring.cloud.exception.BusinessException;
 import com.spring.cloud.service.MenuService;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang.StringUtils;
@@ -24,6 +25,9 @@ public class MenuCommand implements Command<Menu> {
 
     private boolean hasChildren;
 
+
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     @Autowired
     private MenuService menuService;
 

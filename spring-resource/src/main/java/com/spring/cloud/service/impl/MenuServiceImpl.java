@@ -62,6 +62,7 @@ public class MenuServiceImpl implements MenuService {
         pageable.getSort().and(Sort.by(Sort.Order.desc("createDate")));
         return menuRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
+            predicates.add(criteriaBuilder.equal(root.get("deleted"), false));
             if (StringUtils.isNotEmpty(name)) {
                 predicates.add(criteriaBuilder.equal(root.get("name"), name));
             }

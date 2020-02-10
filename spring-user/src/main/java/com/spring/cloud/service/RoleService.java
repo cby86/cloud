@@ -3,6 +3,8 @@ package com.spring.cloud.service;
 import com.spring.cloud.entity.Authentication;
 import com.spring.cloud.entity.Role;
 import com.spring.cloud.repository.component.ResourcePermit;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -16,7 +18,9 @@ public interface RoleService {
 
     Role findRoleById(String id);
 
-    List<Role> findRoleList();
+    Page<Role> findRoleList(String name, Pageable pageable);
 
     List<ResourcePermit> loadAuthentications();
+
+    boolean hasSameName(String id, String name);
 }

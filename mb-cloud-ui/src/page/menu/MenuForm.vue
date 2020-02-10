@@ -133,7 +133,8 @@
           url: '/spring-resource/menu/findMenuByParentId',
           config: {
             params:{
-              parentId:parentId
+              parentId:parentId,
+              excludeMenuId:this.$route.params.id
             }
           },
           success: result => {

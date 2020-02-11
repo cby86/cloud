@@ -15,7 +15,7 @@ public class Role extends BaseEntity {
 
     private String code;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id")
     private List<Authentication> authentications;
 

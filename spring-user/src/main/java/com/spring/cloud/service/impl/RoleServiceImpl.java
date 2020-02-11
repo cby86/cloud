@@ -41,13 +41,16 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Page<Role> findRoleList(String name, Pageable pageable) {
+    public Page<Role> findRoleList(String name,String code, Pageable pageable) {
         pageable.getSort().and(Sort.by(Sort.Order.desc("createDate")));
         return roleRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(criteriaBuilder.equal(root.get("deleted"), false));
             if (StringUtils.isNotEmpty(name)) {
                 predicates.add(criteriaBuilder.equal(root.get("name"), name));
+            }
+            if (StringUtils.isNotEmpty(code)) {
+                predicates.add(criteriaBuilder.equal(root.get("code"), code));
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
         }, pageable);
@@ -66,9 +69,14 @@ public class RoleServiceImpl implements RoleService {
             if (StringUtils.isNotEmpty(id)) {
                 predicates.add(criteriaBuilder.notEqual(root.get("id"), id));
             }
-            predicates.add(criteriaBuilder.notEqual(root.get("code"), code));
+            predicates.add(criteriaBuilder.equal(root.get("code"), code));
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
         }) > 0;
+    }
+
+    @Override
+    public void deletedRole(String roleId) {
+        roleRepository.deleteById(roleId);
     }
 
 }

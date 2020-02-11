@@ -88,7 +88,7 @@
           url: '/spring-user/role/findRoleById',
           config: {
             params:{
-              menuId:id
+              roleId:id
             }
           },
           success: result => {

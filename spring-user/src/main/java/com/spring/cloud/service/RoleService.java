@@ -18,9 +18,11 @@ public interface RoleService {
 
     Role findRoleById(String id);
 
-    Page<Role> findRoleList(String name, Pageable pageable);
+    Page<Role> findRoleList(String name,String code, Pageable pageable);
 
     List<ResourcePermit> loadAuthentications();
 
     boolean hasSameName(String id, String name);
+
+    void deletedRole(String roleId);
 }

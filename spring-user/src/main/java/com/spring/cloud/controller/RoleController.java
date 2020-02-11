@@ -28,16 +28,17 @@ public class RoleController extends BaseController {
     RoleService roleService;
 
     @RequestMapping("/findRoles")
-    public Map<String, Object> findRoles(String name, Integer page, Integer pageSize) {
+    public Map<String, Object> findRoles(String name,String code, Integer page, Integer pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
-        Page<Role> roleList = roleService.findRoleList(name,pageable);
+        Page<Role> roleList = roleService.findRoleList(name,code,pageable);
         return this.resultMap(CommandUtils.responsePage(roleList.getTotalElements(), roleList.getTotalPages(),
                 CommandUtils.toCommands(roleList.getContent(), RoleCommand.class)));
     }
 
     @RequestMapping("/findRoleById")
-    public Role findRoleById(String roleId) {
-        return roleService.findRoleById(roleId);
+    public Map<String, Object> findRoleById(String roleId) {
+        Role role = roleService.findRoleById(roleId);
+        return this.resultMap(new RoleCommand().fromDomain(role));
     }
 
     @RequestMapping("/updateRole")
@@ -46,6 +47,13 @@ public class RoleController extends BaseController {
         roleService.saveOrUpdate(role);
         return this.resultMap(null);
     }
+
+    @RequestMapping("/deleteRole")
+    public Map<String, Object> deletedRole(String roleId) {
+        roleService.deletedRole(roleId);
+        return this.resultMap(true);
+    }
+
 
 }
 

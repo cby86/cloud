@@ -2,6 +2,7 @@ package com.spring.cloud.service.impl;
 
 import com.spring.cloud.entity.Authentication;
 import com.spring.cloud.entity.Role;
+import com.spring.cloud.exception.BusinessException;
 import com.spring.cloud.repository.RoleRepository;
 import com.spring.cloud.repository.component.ResourcePermit;
 import com.spring.cloud.service.RoleService;
@@ -76,6 +77,10 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void deletedRole(String roleId) {
+        Role role = this.findRoleById(roleId);
+        if (role.isInner()) {
+            throw new BusinessException("内置用户支持删除");
+        }
         roleRepository.deleteById(roleId);
     }
 

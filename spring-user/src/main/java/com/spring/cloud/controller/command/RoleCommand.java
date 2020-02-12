@@ -22,6 +22,7 @@ public class RoleCommand implements Command<Role> {
     private String id;
     private String name;
     private String code;
+    private boolean inner;
     private List<AuthenticationCommand> authentications;
 
     @Getter(AccessLevel.NONE)
@@ -58,6 +59,7 @@ public class RoleCommand implements Command<Role> {
         this.id = domain.getId();
         this.name = domain.getName();
         this.code = domain.getCode();
+        this.inner = domain.isInner();
         if (!CollectionUtils.isEmpty(domain.getAuthentications())) {
             authentications = CommandUtils.toCommands(domain.getAuthentications(), AuthenticationCommand.class);
         }

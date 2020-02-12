@@ -2,6 +2,8 @@ package com.spring.cloud.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spring.cloud.base.BaseEntity;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
@@ -11,6 +13,8 @@ import java.util.List;
 @Entity
 @Table(name = "mb_hunter_role")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler","fieldHandler"})
+@Getter
+@Setter
 public class Role extends BaseEntity {
 
     private String name;
@@ -21,29 +25,10 @@ public class Role extends BaseEntity {
     @JoinColumn(name = "role_id")
     private List<Authentication> authentications;
 
-    public List<Authentication> getAuthentications() {
-        return authentications;
-    }
-
-    public void setAuthentications(List<Authentication> authentications) {
-        this.authentications = authentications;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    /**
+     * 内置用户
+     */
+    private boolean inner;
 
     public void addAuthentication(Authentication authentication) {
         if (CollectionUtils.isEmpty(authentications)) {

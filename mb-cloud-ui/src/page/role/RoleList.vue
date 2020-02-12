@@ -35,7 +35,7 @@
             label="操作">
             <template slot-scope="scope">
               <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
-              <el-button type="text" size="small" @click="deleteRole(scope.row)">删除</el-button>
+              <el-button type="text" size="small" v-if="scope.row.inner==0" @click="deleteRole(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>

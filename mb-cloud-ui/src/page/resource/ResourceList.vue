@@ -25,7 +25,7 @@
         >
           <el-table-column sortable
                            prop="name"
-                           label="应用名称">
+                           label="资源名称">
           </el-table-column>
           <el-table-column
                            prop="model"

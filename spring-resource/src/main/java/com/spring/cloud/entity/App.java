@@ -1,6 +1,8 @@
 package com.spring.cloud.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spring.cloud.base.BaseEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,31 +12,21 @@ import java.util.Objects;
 @Entity
 @Table(name = "mb_hunter_app")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Getter
+@Setter
 public class App extends BaseEntity {
     private String name;
+    private String description;
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "app_id")
     private List<Resource> resourceList;
 
     public App() {
     }
-
-    public App(String appName) {
+    public App(String appName,String description) {
         this.name = appName;
+        this.description = description;
     }
-
-    public List<Resource> getResourceList() {
-        return resourceList;
-    }
-
-    public void setResourceList(List<Resource> resourceList) {
-        this.resourceList = resourceList;
-    }
-
-    public String getName() {
-        return name;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -45,7 +37,6 @@ public class App extends BaseEntity {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(name);
     }
 

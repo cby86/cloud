@@ -3,5 +3,6 @@ spring:
     active: dev
   application:
     name: spring-resource
+    desc: 资源服务
 server:
   port: 8089

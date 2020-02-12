@@ -10,6 +10,7 @@ import lombok.Setter;
 public class AppCommand implements Command<App> {
     private String id;
     private String name;
+    private String description;
     private boolean hasChildren = true;
     @Override
     public App toDomain() {
@@ -20,6 +21,7 @@ public class AppCommand implements Command<App> {
     public Command<App> fromDomain(App domain) {
         this.id = domain.getId();
         this.name = domain.getName();
+        this.description = domain.getDescription();
         return this;
     }
 }

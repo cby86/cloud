@@ -39,7 +39,8 @@ public class ResourceServiceImpl implements ResourceService {
             String name = appInfo.getString("name");
             String desc = appInfo.getString("desc");
             String version = appInfo.getString("version");
-            App app = new App(appName);
+            String description = appInfo.getString("description");
+            App app = new App(appName,description);
             Resource rs = new Resource(url,model,name,desc,version);
             int index= apps.indexOf(app);
             if (index!=-1) {

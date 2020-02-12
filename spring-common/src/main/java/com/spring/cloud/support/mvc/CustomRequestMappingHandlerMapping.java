@@ -82,6 +82,7 @@ public class CustomRequestMappingHandlerMapping extends RequestMappingHandlerMap
             return null;
         }
         endpoint.put("app", environment.getProperty("spring.application.name",""));
+        endpoint.put("description", environment.getProperty("spring.application.desc",""));
         endpoint.put("url", url);
         endpoint.put("model", resourceDesc.model());
         endpoint.put("name", resourceDesc.name());

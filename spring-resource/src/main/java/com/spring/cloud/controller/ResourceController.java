@@ -1,10 +1,20 @@
 package com.spring.cloud.controller;
 
 import com.spring.cloud.base.BaseController;
+import com.spring.cloud.controller.command.AppCommand;
+import com.spring.cloud.controller.command.MenuCommand;
+import com.spring.cloud.controller.command.ResourceCommand;
+import com.spring.cloud.entity.App;
 import com.spring.cloud.entity.Menu;
+import com.spring.cloud.entity.Resource;
+import com.spring.cloud.service.AppService;
 import com.spring.cloud.service.MenuService;
 import com.spring.cloud.service.ResourceService;
+import com.spring.cloud.utils.CommandUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +33,27 @@ import java.util.Map;
 public class ResourceController extends BaseController {
     @Autowired
     ResourceService resourceService;
+    @Autowired
+    AppService appService;
+
     @RequestMapping("/register")
-    public Map<String, Object> register(@RequestBody  List<String> resource) {
+    public Map<String, Object> register(@RequestBody List<String> resource) {
         resourceService.register(resource);
-        return this.resultMap( null);
+        return this.resultMap(null);
+    }
+
+    @RequestMapping("/findResource")
+    public Map<String, Object> findResource(String name, Integer page, Integer pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<App> appPageList = appService.findAppPageList(name,pageable);
+        return this.resultMap(CommandUtils.responsePage(appPageList.getTotalElements(), appPageList.getTotalPages(),
+                CommandUtils.toCommands(appPageList.getContent(), AppCommand.class)));
+    }
+
+    @RequestMapping("/findResourceDetails")
+    public Map<String, Object> findResource(String appId) {
+        List<Resource> resourceList = resourceService.findResourceByAppId(appId);
+        return this.resultMap(CommandUtils.toCommands(resourceList, ResourceCommand.class));
     }
 
 }

@@ -1,9 +1,10 @@
 package com.spring.cloud.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spring.cloud.base.BaseEntity;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * 系统所有资源注册存储表
@@ -12,6 +13,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "mb_hunter_resource")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Getter
+@Setter
 public class Resource extends BaseEntity {
     /**
      * 模块
@@ -36,6 +39,11 @@ public class Resource extends BaseEntity {
      */
     private String versionNumber;
 
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "app_id")
+    private App app;
+
     public Resource() {
     }
 
@@ -47,44 +55,4 @@ public class Resource extends BaseEntity {
         this.versionNumber = version;
     }
 
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getVersionNumber() {
-        return versionNumber;
-    }
-
-    public void setVersionNumber(String versionNumber) {
-        this.versionNumber = versionNumber;
-    }
 }

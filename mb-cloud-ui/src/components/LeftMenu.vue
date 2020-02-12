@@ -72,6 +72,11 @@
                 // icon: "el-icon-location",
                 path: "RoleList",
                 name: "角色管理"
+              },
+              {
+                // icon: "el-icon-location",
+                path: "ResourceList",
+                name: "资源管理"
               }
             ]
           }

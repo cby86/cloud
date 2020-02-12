@@ -63,6 +63,23 @@ var router = new Router({
             primary: false,
             parent:Role.name
           }
+        },
+        {
+          path: '/resource',
+          name: "ResourceList",
+          component: () => import('@/page/resource/ResourceList'),
+          meta: {
+            primary: true
+          }
+        },
+        {
+          path: '/resource/update',
+          name: "ResourceForm",
+          component: () => import('@/page/resource/ResourceForm'),
+          meta: {
+            primary: false,
+            parent:"ResourceList"
+          }
         }
       ]
     }

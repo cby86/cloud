@@ -4,11 +4,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.spring.cloud.entity.App;
 import com.spring.cloud.entity.Resource;
 import com.spring.cloud.repository.AppRepository;
+import com.spring.cloud.repository.ResourceRepository;
 import com.spring.cloud.service.ResourceService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +22,9 @@ import java.util.List;
 public class ResourceServiceImpl implements ResourceService {
     @Autowired
     AppRepository appRepository;
+
+    @Autowired
+    ResourceRepository resourceRepository;
     @Override
     public void register(List<String> resource) {
         if (resource == null && resource.isEmpty()) {
@@ -57,5 +65,16 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     public App getAppByName(String appName) {
         return appRepository.findByName(appName);
+    }
+
+    @Override
+    public List<Resource> findResourceByAppId(String appId) {
+        return resourceRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            Join<Object, Object> app = root.join("app", JoinType.LEFT);
+            predicates.add(criteriaBuilder.equal(root.get("deleted"), false));
+            predicates.add(criteriaBuilder.equal(app.get("id"), appId));
+            return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+        });
     }
 }

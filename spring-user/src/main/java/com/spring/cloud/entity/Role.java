@@ -2,8 +2,10 @@ package com.spring.cloud.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spring.cloud.base.BaseEntity;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -41,5 +43,12 @@ public class Role extends BaseEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void addAuthentication(Authentication authentication) {
+        if (CollectionUtils.isEmpty(authentications)) {
+            authentications = new ArrayList<>();
+        }
+        authentications.add(authentication);
     }
 }

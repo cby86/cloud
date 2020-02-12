@@ -13,7 +13,7 @@ request.get = function ({url, config = {}, success, error}) {
 };
 
 request.post = function ({url, data, config = {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}, success, error}) {
-  axios.post(url, data ? Qs.stringify(data) : null, config).then(
+  axios.post(url, data ? Qs.stringify(data,{allowDots: true}) : null, config).then(
     (res) => {
       successHand(res, success)
     }).catch((e) => {

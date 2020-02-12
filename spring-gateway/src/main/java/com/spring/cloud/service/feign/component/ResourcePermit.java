@@ -1,7 +1,6 @@
 package com.spring.cloud.service.feign.component;
 public class ResourcePermit {
     private String url;
-    private String version;
     private String roles;
 
     public String getUrl() {
@@ -10,14 +9,6 @@ public class ResourcePermit {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
     }
 
     public String getRoles() {

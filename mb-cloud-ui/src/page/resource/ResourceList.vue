@@ -67,6 +67,7 @@
     },
     data() {
       return {
+        maps:new Map(),
         queryForm: {
           name: null
         },
@@ -90,18 +91,21 @@
         this.loadResource(1,this.pageSize)
       },
       deleteResource(row) {
+        let pid=row.id
+        let context = this.maps.get(pid)
         this.$confirm('此操作将永久删除数据, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
+          let maps = this.maps;
           this.$request.post({
             url: '/spring-resource/resource/deleteResource',
             data: {
-              roleId:row["id"]
+              resourceId:row["id"]
             },
             success: result => {
-              this.loadResource(1, this.pageSize)
+              this.load(context[0],context[1],context[2]);
             },
             error: e => {
               this.$message.error(e)
@@ -116,6 +120,7 @@
       },
       load(tree,node, resolve) {
         let parentId=tree.id
+        this.maps.set(parentId,[tree,node,resolve])
         this.$request.get({
           url: '/spring-resource/resource/findResourceDetails',
           config: {

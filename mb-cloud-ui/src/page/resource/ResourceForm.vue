@@ -3,20 +3,20 @@
     <position :locations="locations"></position>
 
         <el-form :model="form" :rules="rules" ref="form" label-width="80px" size="small">
-          <el-form-item label="角色名称" prop="name">
-            <el-input v-model="form.name" placeholder="角色名称"></el-input>
+          <el-form-item label="模块名称" prop="model">
+            <el-input v-model="form.model" :disabled="true" placeholder="模块名称"></el-input>
           </el-form-item>
-          <el-form-item label="编码" prop="code">
-            <el-input v-model="form.code" placeholder=角色编码></el-input>
+          <el-form-item label="名称" prop="name">
+            <el-input v-model="form.name" placeholder=名称></el-input>
           </el-form-item>
-          <el-form-item label="授权">
-            <el-tree ref="authenticationTree"
-              :props="props"
-              :load="loadNode" :node-key="props.value"
-              lazy default-expand-all
-              show-checkbox
-              @check="checkAuth">
-            </el-tree>
+          <el-form-item label="描述" prop="description">
+            <el-input  type="textarea" :rows="3" style="width: 40%" v-model="form.description" placeholder=描述></el-input>
+          </el-form-item>
+          <el-form-item label="url" prop="url">
+            <el-input v-model="form.url" :disabled="true" placeholder=URL></el-input>
+          </el-form-item>
+          <el-form-item label="版本号"  prop="versionNumber">
+            <el-input v-model="form.versionNumber" :disabled="true" placeholder=versionNumber></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" icon="el-icon-search" @click="onSubmit">保存</el-button>
@@ -41,85 +41,47 @@
     },
     data() {
       return {
-        selectKeys:null,
-        props: {
-          value: "id",
-          label: "menuName",
-          isLeaf: "hasChildren"
-        },
         form: {
           id: null,
           name: null,
-          code: null,
-          authentications: null
+          model: null,
+          description: null,
+          url: null,
+          versionNumber: null
         },
         rules: {
           name: [
-            {required: true, message: '请输入角色名称', trigger: 'blur'},
+            {required: true, message: '请输入名称', trigger: 'blur'},
             {min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur'}
           ],
-          code: [
-            {required: true, message: '请输入角色名称', trigger: 'blur'},
+          description: [
+            {required: true, message: '请输入描述', trigger: 'blur'},
             {min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur'}
           ]
         },
         locations: [
           {
-            name: "角色管理",
-            path: "/role"
+            name: "资源管理",
+            path: "/resource"
           },
           {
-            name: "新增角色",
+            name: "修改资源",
           }
         ]
       };
     },
     mounted() {
       if (this.$route.params.id) {
-        this.loadRole(this.$route.params.id)
+        this.loadResource(this.$route.params.id)
       }
     },
     methods: {
-      checkAuth(node,status) {
-        let auth = new Array();
-        status.checkedNodes.forEach((item)=> {
-          auth.push({
-            id:item["id"],
-            name:item["menuName"],
-            url:item["url"],
-            authentionType:item["menuType"]==="Menu"?0:1
-          })
-        })
-        this.form.authentications = auth;
-      },
-      loadNode(node, resolve) {
-        let parentId;
-        if (node.level !== 0) {
-          parentId = node.data["id"];
-        }
-        this.$request.get({
-          url: '/spring-resource/menu/findMenuByParentId',
-          config: {
-            params: {
-              parentId: parentId,
-              excludeMenuId: this.$route.params.id
-            }
-          },
-          success: result => {
-            resolve(result.data);
-          },
-          error: e => {
-            resolve([]);
-            this.$message.error(e)
-          }
-        })
-      },
       onSubmit() {
         this.$refs["form"].validate((valid) => {
           if (valid) {
             // this.fullscreenLoading = true;
             this.$request.post({
-              url: '/spring-user/role/updateRole',
+              url: '/spring-resource/resource/updateResource',
               data: this.form,
               success: result => {
                 this.$message({
@@ -136,24 +98,18 @@
         })
       },
       cancel() {
-        this.$router.push({path: "/role"})
+        this.$router.push({path: "/resource"})
       },
-      loadRole(id) {
+      loadResource(id) {
         this.$request.get({
-          url: '/spring-user/role/findRoleById',
+          url: '/spring-resource/resource/findResourceById',
           config: {
             params: {
-              roleId: id
+              resourceId: id
             }
           },
           success: result => {
             this.$utils.copyFromTo(result.data, this.form);
-            // console.log(this.$refs)
-            let selectKeys = new Array();
-            this.form.authentications.forEach(item=>{
-               selectKeys.push(item["id"])
-            })
-            this.selectKeys = selectKeys;
           },
           error: e => {
             this.$message.error(e)

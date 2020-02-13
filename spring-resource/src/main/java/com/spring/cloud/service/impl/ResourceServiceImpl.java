@@ -3,6 +3,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.spring.cloud.entity.App;
 import com.spring.cloud.entity.Resource;
+import com.spring.cloud.exception.BusinessException;
 import com.spring.cloud.repository.AppRepository;
 import com.spring.cloud.repository.ResourceRepository;
 import com.spring.cloud.service.ResourceService;
@@ -77,5 +78,20 @@ public class ResourceServiceImpl implements ResourceService {
             predicates.add(criteriaBuilder.equal(app.get("id"), appId));
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
         });
+    }
+
+    @Override
+    public void resourceDeleteById(String resourceId) {
+        resourceRepository.deleteById(resourceId);
+    }
+
+    @Override
+    public Resource findResourceById(String resourceId) {
+       return resourceRepository.getOne(resourceId);
+    }
+
+    @Override
+    public void saveResource(Resource resource) {
+        resourceRepository.save(resource);
     }
 }

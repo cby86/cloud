@@ -10,4 +10,10 @@ public interface ResourceService {
     App getAppByName(String appName);
 
     List<Resource> findResourceByAppId(String appId);
+
+    void resourceDeleteById(String resourceId);
+
+    Resource findResourceById(String resourceId);
+
+    void saveResource(Resource resource);
 }

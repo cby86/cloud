@@ -1,14 +1,8 @@
 package com.spring.cloud.controller;
 
 import com.spring.cloud.base.BaseController;
-import com.spring.cloud.controller.command.AppCommand;
-import com.spring.cloud.controller.command.MenuCommand;
 import com.spring.cloud.controller.command.ResourceCommand;
-import com.spring.cloud.entity.App;
-import com.spring.cloud.entity.Menu;
 import com.spring.cloud.entity.Resource;
-import com.spring.cloud.service.AppService;
-import com.spring.cloud.service.MenuService;
 import com.spring.cloud.service.ResourceService;
 import com.spring.cloud.support.mvc.ResourceDesc;
 import com.spring.cloud.utils.CommandUtils;
@@ -16,12 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,8 +26,6 @@ import java.util.Map;
 public class ResourceController extends BaseController {
     @Autowired
     ResourceService resourceService;
-    @Autowired
-    AppService appService;
 
     @RequestMapping("/register")
     public Map<String, Object> register(@RequestBody List<String> resource) {
@@ -47,16 +37,9 @@ public class ResourceController extends BaseController {
     @ResourceDesc(model = "资源管理", name = "资源分页列表", desc = "资源分页列表")
     public Map<String, Object> findResource(String name, Integer page, Integer pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
-        Page<App> appPageList = appService.findAppPageList(name,pageable);
+        Page<Resource> appPageList = resourceService.findResourcePageList(name,pageable);
         return this.resultMap(CommandUtils.responsePage(appPageList.getTotalElements(), appPageList.getTotalPages(),
-                CommandUtils.toCommands(appPageList.getContent(), AppCommand.class)));
-    }
-
-    @RequestMapping("/findResourceDetails")
-    @ResourceDesc(model = "资源管理", name = "资源详细列表", desc = "资源详细列表")
-    public Map<String, Object> findResource(String appId) {
-        List<Resource> resourceList = resourceService.findResourceByAppId(appId);
-        return this.resultMap(CommandUtils.toCommands(resourceList, ResourceCommand.class));
+                CommandUtils.toCommands(appPageList.getContent(), ResourceCommand.class)));
     }
 
     @RequestMapping("/updateResource")
@@ -67,7 +50,7 @@ public class ResourceController extends BaseController {
         return this.resultMap(null);
     }
 
-    @RequestMapping("/resourceDelete")
+    @RequestMapping("/deleteResource")
     @ResourceDesc(model = "资源管理", name = "删除资源", desc = "删除资源")
     public Map<String, Object> resourceDelete(String resourceId) {
         resourceService.resourceDeleteById(resourceId);

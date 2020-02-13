@@ -1,6 +1,8 @@
 package com.spring.cloud.service;
 import com.spring.cloud.entity.App;
 import com.spring.cloud.entity.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -16,4 +18,6 @@ public interface ResourceService {
     Resource findResourceById(String resourceId);
 
     void saveResource(Resource resource);
+
+    Page<Resource> findResourcePageList(String name, Pageable pageable);
 }

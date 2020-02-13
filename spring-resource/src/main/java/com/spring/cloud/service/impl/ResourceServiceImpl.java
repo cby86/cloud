@@ -9,6 +9,9 @@ import com.spring.cloud.repository.ResourceRepository;
 import com.spring.cloud.service.ResourceService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -93,5 +96,18 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     public void saveResource(Resource resource) {
         resourceRepository.save(resource);
+    }
+
+    @Override
+    public Page<Resource> findResourcePageList(String name, Pageable pageable) {
+        pageable.getSort().and(Sort.by(Sort.Order.desc("createDate")));
+        return resourceRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(criteriaBuilder.equal(root.get("deleted"), false));
+            if (StringUtils.isNotEmpty(name)) {
+                predicates.add(criteriaBuilder.equal(root.get("name"), name));
+            }
+            return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+        }, pageable);
     }
 }

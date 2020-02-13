@@ -20,7 +20,8 @@ public class ResourceCommand implements Command<Resource> {
     private String description;
     private String url;
     private String versionNumber;
-    private boolean hasChildren = false;
+    private String appName;
+    private String appDesc;
     @Autowired
     ResourceService resourceService;
     @Override
@@ -45,6 +46,10 @@ public class ResourceCommand implements Command<Resource> {
         this.name = domain.getName();
         this.url = domain.getUrl();
         this.versionNumber = domain.getVersionNumber();
+        if (domain.getApp() != null) {
+            this.appName = domain.getApp().getName();
+            this.appDesc = domain.getApp().getDescription();
+        }
         return this;
     }
 }

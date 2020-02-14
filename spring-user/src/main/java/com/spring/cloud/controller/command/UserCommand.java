@@ -50,7 +50,7 @@ public class UserCommand implements Command<User> {
         if (StringUtils.isNotEmpty(password)) {
             user.setPassword(this.password);
         }
-
+        user.getRoles().clear();
         if (!CollectionUtils.isEmpty(roleIds)) {
             for (String roleId : roleIds) {
                 Role role = roleService.findRoleById(roleId);

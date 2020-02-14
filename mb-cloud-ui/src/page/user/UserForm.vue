@@ -6,7 +6,7 @@
           <el-form-item label="用户名" prop="model">
             <el-input v-model="form.username"  placeholder="用户名"></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="password" >
+          <el-form-item label="密码" prop="password" v-if="form.id==null">
             <el-input v-model="form.password" type="password" placeholder=密码></el-input>
           </el-form-item>
           <el-form-item label="角色" prop="menuType">

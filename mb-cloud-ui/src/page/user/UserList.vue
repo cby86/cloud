@@ -3,7 +3,7 @@
     <el-row>
       <el-col>
         <el-form :inline="true" :model="queryForm" ref="queryForm" class="demo-form-inline">
-          <el-form-item label="用户名"  prop="username">
+          <el-form-item label="用户名"  prop="name">
             <el-input size="small" v-model="queryForm.name" placeholder="用户名"></el-input>
           </el-form-item>
           <el-form-item>

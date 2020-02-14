@@ -1,4 +1,5 @@
 package com.spring.cloud.service.impl;
+import com.spring.cloud.entity.Authentication;
 import com.spring.cloud.entity.Role;
 import com.spring.cloud.entity.User;
 import com.spring.cloud.exception.BusinessException;
@@ -12,6 +13,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,5 +73,10 @@ public class UserServiceImpl implements UserService {
             predicates.add(criteriaBuilder.equal(root.get("username"), username));
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
         }) > 0;
+    }
+
+    @Override
+    public List<Authentication> findAuthentication(String userId) {
+        return userRepository.findAuthentication(userId);
     }
 }

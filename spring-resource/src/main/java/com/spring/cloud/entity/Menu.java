@@ -3,6 +3,8 @@ package com.spring.cloud.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spring.cloud.base.BaseEntity;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,6 +17,8 @@ import java.util.List;
 @Entity
 @Table(name = "mb_hunter_menu")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Getter
+@Setter
 public class Menu extends BaseEntity {
 
     /**
@@ -46,6 +50,8 @@ public class Menu extends BaseEntity {
 
     private String url;
 
+    private String icon;
+
     @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JoinTable(name="mb_hunter_menu_resource",
             joinColumns={@JoinColumn(name="menu_id")},
@@ -53,63 +59,6 @@ public class Menu extends BaseEntity {
     )
     @JsonIgnore
     private List<Resource> resources;
-
-
-    public List<Resource> getResources() {
-        return resources;
-    }
-
-    public void setResources(List<Resource> resources) {
-        this.resources = resources;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public List<Menu> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<Menu> children) {
-        this.children = children;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Menu getParent() {
-        return parent;
-    }
-
-    public void setParent(Menu parent) {
-        this.parent = parent;
-    }
-
-
-    public MenuType getMenuType() {
-        return menuType;
-    }
-
-    public void setMenuType(MenuType menuType) {
-        this.menuType = menuType;
-    }
-
-    public void addAllResource(List<Resource> resourceList) {
-        if (resources == null) {
-            resources = new ArrayList<>();
-        }
-        resources.addAll(resourceList);
-    }
 
     public boolean isMenu() {
         return menuType.equals(MenuType.Menu);

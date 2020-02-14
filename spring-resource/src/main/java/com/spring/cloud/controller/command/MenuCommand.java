@@ -25,6 +25,8 @@ public class MenuCommand implements Command<Menu> {
 
     private boolean leaf;
 
+    private String icon;
+
 
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
@@ -45,6 +47,7 @@ public class MenuCommand implements Command<Menu> {
         menu.setName(menuName);
         menu.setMenuType(menuType);
         menu.setUrl(url);
+        menu.setIcon(icon);
         if (StringUtils.isNotEmpty(this.parentId)) {
             menu.setParent(menuService.findMenuById(this.parentId));
         }else {
@@ -59,6 +62,7 @@ public class MenuCommand implements Command<Menu> {
         this.menuName = domain.getName();
         this.url = domain.getUrl();
         this.menuType = domain.getMenuType();
+        this.icon = domain.getIcon();
         if (domain.getParent() != null) {
             this.parentId = domain.getParent().getId();
             this.parentName = domain.getParent().getName();

@@ -33,4 +33,14 @@ public class Authentication extends BaseEntity {
      */
     private String url;
 
+    /**
+     * 权限内部关系
+     */
+    private String parentId;
+
+
+    private String icon;
+
+
+
 }

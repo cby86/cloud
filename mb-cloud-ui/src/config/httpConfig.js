@@ -14,7 +14,7 @@ instance.interceptors.request.use(config => {
   // 在发送请求之前做某事，比如说 设置token
   let token = sessionStorage.getItem('token');
   if (token) {
-    config.headers['token'] = token;
+    config.headers['Authorization'] = "Bearer "+token;
   }
   return config;
 }, error => {

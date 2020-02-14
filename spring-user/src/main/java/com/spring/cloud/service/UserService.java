@@ -1,5 +1,6 @@
 package com.spring.cloud.service;
 
+import com.spring.cloud.entity.Authentication;
 import com.spring.cloud.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,4 +20,6 @@ public interface UserService {
     void deletedUser(String uerId);
 
     boolean hasSameName(String userId, String username);
+
+    List<Authentication> findAuthentication(String userId);
 }

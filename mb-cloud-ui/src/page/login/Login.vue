@@ -63,6 +63,7 @@
                 // 解析token
                 const decode = jwt_decode(result.access_token)
                 this.$store.dispatch('setUserInfo', {
+                  userId:decode.identify,
                   username:decode.user_name,
                   role:decode.authorities && decode.authorities.length>0 ?decode.authorities[0]:null
                 })

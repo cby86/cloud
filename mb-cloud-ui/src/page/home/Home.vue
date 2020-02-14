@@ -1,5 +1,6 @@
 <template>
-    <div>首页2222
+    <div>
+        欢迎
     </div>
 </template>
 

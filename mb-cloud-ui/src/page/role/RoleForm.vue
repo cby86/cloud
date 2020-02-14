@@ -84,6 +84,7 @@
             id:item["id"],
             name:item["menuName"],
             url:item["url"],
+            parentId:item["parentId"],
             authentionType:item["menuType"]==="Menu"?0:1
           })
         })
@@ -92,6 +93,8 @@
             id:item["id"],
             name:item["menuName"],
             url:item["url"],
+            parentId:item["parentId"],
+            icon:item["icon"],
             authentionType:item["menuType"]==="Menu"?0:1
           })
         })

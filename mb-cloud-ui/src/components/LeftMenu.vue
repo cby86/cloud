@@ -40,15 +40,18 @@
       }
     },
     mounted() {
-      this.loadMenu(()=>{
-        var option = this.findMenu(this.items)
-        if (option) {
-          var menuName = option.name;
-          var menuPath = option.path;
-          this.defaultAction = option.path;
-          this.bus.$emit("newMenu", menuName, menuPath)
+      this.loadAuthentication((items)=>{
+        this.items = items;
+        if(this.items && this.items.length>0) {
+          var option = this.findMenu(this.items)
+          if (option) {
+            var menuName = option.name;
+            var menuPath = option.path;
+            this.defaultAction = option.path;
+            this.bus.$emit("newMenu", menuName, menuPath)
+          }
         }
-      });
+      })
     },
     data() {
       return {
@@ -57,33 +60,37 @@
       };
     },
     methods: {
-      loadMenu(callback) {
+      loadAuthentication(callback) {
         this.$request.get({
-          url: '/spring-resource/menu/findAllMenu',
+          url: '/spring-user/user/findAuthentication',
+          config: {
+            params: {
+              userId: this.$store.getters.user.userId
+            }
+          },
           success: result => {
-            this.items=this.menuTreeConvert(result.data,null);
-            console.log(this.items)
-            callback();
+            this.$store.dispatch('setAuthentication', result.data)
+            callback(this.menuTreeConvert(result.data,null))
           },
           error: e => {
             this.$message.error(e)
           }
-        })
+        });
       },
-      menuTreeConvert(menuList,parentId) {
+      menuTreeConvert(menuList, parentId) {
         let temp = [];
         let treeArr = menuList;
         treeArr.forEach((item, index) => {
           if (item.parentId == parentId) {
             if (this.menuTreeConvert(treeArr, treeArr[index].id).length > 0) {
               // 递归调用此函数
-              treeArr[index].children =this.menuTreeConvert(treeArr, treeArr[index].id);
+              treeArr[index].children = this.menuTreeConvert(treeArr, treeArr[index].id);
             }
             temp.push({
-              name:treeArr[index].menuName,
-              path:treeArr[index].url,
-              icon:"el-icon-location",
-              children:treeArr[index].children
+              name: treeArr[index].name,
+              path: treeArr[index].url,
+              icon: treeArr[index].icon,
+              children: treeArr[index].children
             });
           }
         });

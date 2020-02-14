@@ -80,6 +80,23 @@ var router = new Router({
             primary: false,
             parent:"ResourceList"
           }
+        },
+        {
+          path: '/user',
+          name: "UserList",
+          component: () => import('@/page/user/UserList'),
+          meta: {
+            primary: true
+          }
+        },
+        {
+          path: '/user/update',
+          name: "UserForm",
+          component: () => import('@/page/user/UserForm'),
+          meta: {
+            primary: false,
+            parent:"UserList"
+          }
         }
       ]
     }

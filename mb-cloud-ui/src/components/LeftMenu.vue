@@ -77,6 +77,11 @@
                 // icon: "el-icon-location",
                 path: "ResourceList",
                 name: "资源管理"
+              },
+              {
+                // icon: "el-icon-location",
+                path: "UserList",
+                name: "用户管理"
               }
             ]
           }

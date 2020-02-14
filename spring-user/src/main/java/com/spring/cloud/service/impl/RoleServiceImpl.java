@@ -78,10 +78,19 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void deletedRole(String roleId) {
         Role role = this.findRoleById(roleId);
-        if (role.isInner()) {
+        if (role.isSystem()) {
             throw new BusinessException("内置用户支持删除");
         }
         roleRepository.deleteById(roleId);
+    }
+
+    @Override
+    public List<Role> findAllRoles() {
+        return roleRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(criteriaBuilder.equal(root.get("deleted"), false));
+            return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+        });
     }
 
 }

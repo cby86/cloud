@@ -28,9 +28,9 @@ public class RoleController extends BaseController {
     RoleService roleService;
 
     @RequestMapping("/findRoles")
-    public Map<String, Object> findRoles(String name,String code, Integer page, Integer pageSize) {
+    public Map<String, Object> findRoles(String name, String code, Integer page, Integer pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
-        Page<Role> roleList = roleService.findRoleList(name,code,pageable);
+        Page<Role> roleList = roleService.findRoleList(name, code, pageable);
         return this.resultMap(CommandUtils.responsePage(roleList.getTotalElements(), roleList.getTotalPages(),
                 CommandUtils.toCommands(roleList.getContent(), RoleCommand.class)));
     }
@@ -52,6 +52,12 @@ public class RoleController extends BaseController {
     public Map<String, Object> deletedRole(String roleId) {
         roleService.deletedRole(roleId);
         return this.resultMap(true);
+    }
+
+    @RequestMapping("/findAllRoles")
+    public Map<String, Object> findAllRoles() {
+        List<Role> roleList = roleService.findAllRoles();
+        return this.resultMap(CommandUtils.toCommands(roleList,RoleCommand.class));
     }
 
 

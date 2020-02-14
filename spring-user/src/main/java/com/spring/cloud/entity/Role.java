@@ -28,7 +28,7 @@ public class Role extends BaseEntity {
     /**
      * 内置用户
      */
-    private boolean inner;
+    private boolean system;
 
     public void addAuthentication(Authentication authentication) {
         if (CollectionUtils.isEmpty(authentications)) {

@@ -1,14 +1,21 @@
 package com.spring.cloud.entity;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spring.cloud.base.BaseEntity;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "mb_hunter_user")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class User extends BaseEntity{
+@Getter
+@Setter
+public class User extends BaseEntity {
     private String username;
 
     private String password;
@@ -18,30 +25,14 @@ public class User extends BaseEntity{
     @JoinTable(name = "mb_hunter_user_role",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
-    private List<Role> authorities;
+    private List<Role> roles;
 
+    private boolean system;
 
-    public List<Role> getAuthorities() {
-        return authorities;
-    }
-
-    public void setAuthorities(List<Role> authorities) {
-        this.authorities = authorities;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void addRoles(Role role) {
+        if (CollectionUtils.isEmpty(roles)) {
+            roles = new ArrayList<>();
+        }
+        roles.add(role);
     }
 }

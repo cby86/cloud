@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(value = "spring-user",fallback = UserFallBack.class)
 public interface UserInterface {
-    @RequestMapping(value = "/findUserByName", method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/user/findUserByName", method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public SecurityUser findUserByName(@RequestParam(value = "username") String username);
 }

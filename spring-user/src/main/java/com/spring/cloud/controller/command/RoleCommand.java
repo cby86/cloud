@@ -59,7 +59,7 @@ public class RoleCommand implements Command<Role> {
         this.id = domain.getId();
         this.name = domain.getName();
         this.code = domain.getCode();
-        this.inner = domain.isInner();
+        this.inner = domain.isSystem();
         if (!CollectionUtils.isEmpty(domain.getAuthentications())) {
             authentications = CommandUtils.toCommands(domain.getAuthentications(), AuthenticationCommand.class);
         }

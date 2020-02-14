@@ -25,4 +25,6 @@ public interface RoleService {
     boolean hasSameName(String id, String name);
 
     void deletedRole(String roleId);
+
+    List<Role> findAllRoles();
 }

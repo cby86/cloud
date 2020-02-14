@@ -23,7 +23,7 @@ public class MenuCommand implements Command<Menu> {
 
     private String parentName;
 
-    private boolean hasChildren;
+    private boolean leaf;
 
 
     @Getter(AccessLevel.NONE)
@@ -63,7 +63,7 @@ public class MenuCommand implements Command<Menu> {
             this.parentId = domain.getParent().getId();
             this.parentName = domain.getParent().getName();
         }
-        this.hasChildren = domain.getChildren().isEmpty();
+        this.leaf = domain.getChildren().isEmpty();
         return this;
     }
 

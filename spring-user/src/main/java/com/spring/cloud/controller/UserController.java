@@ -1,32 +1,54 @@
 package com.spring.cloud.controller;
+import com.spring.cloud.base.BaseController;
+import com.spring.cloud.controller.command.RoleCommand;
+import com.spring.cloud.controller.command.UserCommand;
+import com.spring.cloud.entity.Role;
 import com.spring.cloud.entity.User;
+import com.spring.cloud.service.RoleService;
 import com.spring.cloud.service.UserService;
+import com.spring.cloud.utils.CommandUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/")
-public class UserController {
+@RequestMapping("/user")
+public class UserController extends BaseController {
     @Autowired
     UserService userService;
-    @RequestMapping("/home")
-    public String home() {
-//        SecurityUser user = RequestUserUtils.currentUser();
-//        System.err.println(user.getUsername());
-        return "dsafdf";
+
+    @RequestMapping("/findUsers")
+    public Map<String, Object> findUsers(String name, Integer page, Integer pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<User> userList = userService.findUserList(name,pageable);
+        return this.resultMap(CommandUtils.responsePage(userList.getTotalElements(), userList.getTotalPages(),
+                CommandUtils.toCommands(userList.getContent(), UserCommand.class)));
     }
 
-    @RequestMapping("/index")
-    public String index() {
-        List<User> all = userService.findAll();
-        for (User u : all) {
-            System.err.println(u.getId());
-        }
-        return "Hello index";
+    @RequestMapping("/findUserById")
+    public Map<String, Object> findRoleById(String userId) {
+        User user = userService.findUserById(userId);
+        return this.resultMap(new UserCommand().fromDomain(user));
+    }
+
+    @RequestMapping("/updateUser")
+    public Map<String, Object> updateRoles(UserCommand userCommand) {
+        User user = userCommand.toDomain();
+        userService.saveOrUpdate(user);
+        return this.resultMap(null);
+    }
+
+    @RequestMapping("/deleteUser")
+    public Map<String, Object> deletedRole(String userId) {
+        userService.deletedUser(userId);
+        return this.resultMap(true);
     }
 
     @RequestMapping(value = "/findUserByName",method = RequestMethod.POST)

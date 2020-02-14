@@ -2,27 +2,28 @@
   <div>
     <position :locations="locations"></position>
 
-        <el-form :model="form" :rules="rules" ref="form" label-width="80px" size="small">
-          <el-form-item label="角色名称" prop="name">
-            <el-input v-model="form.name" placeholder="角色名称"></el-input>
-          </el-form-item>
-          <el-form-item label="编码" prop="code">
-            <el-input v-model="form.code" placeholder=角色编码></el-input>
-          </el-form-item>
-          <el-form-item label="授权">
-            <el-tree ref="authenticationTree"
-              :props="props"
-              :load="loadNode" :node-key="props.value"
-              lazy default-expand-all
-              show-checkbox
-              @check="checkAuth">
-            </el-tree>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" icon="el-icon-search" @click="onSubmit">保存</el-button>
-            <el-button type="info" icon="el-icon-search" @click="cancel">取消</el-button>
-          </el-form-item>
-        </el-form>
+    <el-form :model="form" :rules="rules" ref="form" label-width="80px" size="small">
+      <el-form-item label="角色名称" prop="name">
+        <el-input v-model="form.name" placeholder="角色名称"></el-input>
+      </el-form-item>
+      <el-form-item label="编码" prop="code">
+        <el-input v-model="form.code" placeholder=角色编码></el-input>
+      </el-form-item>
+      <el-form-item label="授权">
+        <el-tree ref="authenticationTree" :default-checked-keys="selectKeys"
+                 :props="props"
+                 :check-on-click-node="true" :check-strictly="checkStrictly" def
+                 :load="loadNode" :node-key="props.value"
+                 lazy
+                 show-checkbox
+                 @check="checkAuth">
+        </el-tree>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" icon="el-icon-search" @click="onSubmit">保存</el-button>
+        <el-button type="info" icon="el-icon-search" @click="cancel">取消</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -34,18 +35,14 @@
     components: {
       Position
     },
-    watch: {
-      "selectKeys"() {
-        this.$refs.authenticationTree.setCheckedKeys(this.selectKeys)
-      }
-    },
     data() {
       return {
-        selectKeys:null,
+        checkStrictly: true,
+        selectKeys: null,
         props: {
           value: "id",
           label: "menuName",
-          isLeaf: "hasChildren"
+          isLeaf: "leaf"
         },
         form: {
           id: null,
@@ -80,7 +77,7 @@
       }
     },
     methods: {
-      checkAuth(node,status) {
+      checkAuth(node, status) {
         let auth = new Array();
         status.checkedNodes.forEach((item)=> {
           auth.push({
@@ -90,9 +87,19 @@
             authentionType:item["menuType"]==="Menu"?0:1
           })
         })
+        status.halfCheckedNodes.forEach((item)=> {
+          auth.push({
+            id:item["id"],
+            name:item["menuName"],
+            url:item["url"],
+            authentionType:item["menuType"]==="Menu"?0:1
+          })
+        })
         this.form.authentications = auth;
-      },
+      }
+      ,
       loadNode(node, resolve) {
+        this.checkStrictly = true;
         let parentId;
         if (node.level !== 0) {
           parentId = node.data["id"];
@@ -107,13 +114,16 @@
           },
           success: result => {
             resolve(result.data);
+            this.checkStrictly = false;
           },
           error: e => {
+            this.checkStrictly = false;
             resolve([]);
             this.$message.error(e)
           }
         })
-      },
+      }
+      ,
       onSubmit() {
         this.$refs["form"].validate((valid) => {
           if (valid) {
@@ -134,10 +144,12 @@
             })
           }
         })
-      },
+      }
+      ,
       cancel() {
         this.$router.push({path: "/role"})
-      },
+      }
+      ,
       loadRole(id) {
         this.$request.get({
           url: '/spring-user/role/findRoleById',
@@ -148,12 +160,13 @@
           },
           success: result => {
             this.$utils.copyFromTo(result.data, this.form);
-            // console.log(this.$refs)
-            let selectKeys = new Array();
-            this.form.authentications.forEach(item=>{
-               selectKeys.push(item["id"])
-            })
-            this.selectKeys = selectKeys;
+            if (this.form.authentications) {
+              let selectKeys = new Array();
+              this.form.authentications.forEach(item => {
+                selectKeys.push(item["id"])
+              })
+              this.selectKeys = selectKeys;
+            }
           },
           error: e => {
             this.$message.error(e)

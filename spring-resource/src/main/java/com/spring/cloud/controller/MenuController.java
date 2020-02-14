@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -70,8 +69,11 @@ public class MenuController extends BaseController {
                 CommandUtils.toCommands(menuPageList.getContent(), MenuCommand.class)));
     }
 
-
-
-
+    @RequestMapping("/findAllMenu")
+    @ResourceDesc(model = "菜单管理", name = "查询所有菜单", desc = "查询所有菜单")
+    public Map<String, Object> findAllMenu() {
+        List<Menu> menuList = menuService.findAllMenu();
+        return this.resultMap(CommandUtils.toCommands(menuList, MenuCommand.class));
+    }
 
 }

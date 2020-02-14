@@ -7,6 +7,7 @@ import com.spring.cloud.exception.BusinessException;
 import com.spring.cloud.service.RoleService;
 import com.spring.cloud.service.UserService;
 import com.spring.cloud.utils.CommandUtils;
+import com.spring.cloud.utils.SecurityUtils;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,7 +49,7 @@ public class UserCommand implements Command<User> {
         }
         user.setUsername(this.username);
         if (StringUtils.isNotEmpty(password)) {
-            user.setPassword(this.password);
+            user.setPassword(SecurityUtils.encode(password));
         }
         user.getRoles().clear();
         if (!CollectionUtils.isEmpty(roleIds)) {

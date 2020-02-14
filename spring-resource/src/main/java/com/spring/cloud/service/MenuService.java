@@ -28,4 +28,6 @@ public interface MenuService {
     void saveMenu(Menu menu);
 
     List<Menu> findMenuByParentId(String parentId,String excludeMenuId);
+
+    List<Menu> findAllMenu();
 }

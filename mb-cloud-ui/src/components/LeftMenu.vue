@@ -40,55 +40,55 @@
       }
     },
     mounted() {
-      var option = this.findMenu(this.items)
-      if (option) {
-        var menuName = option.name;
-        var menuPath = option.path;
-        this.defaultAction = option.path;
-        this.bus.$emit("newMenu", menuName, menuPath)
-      }
+      this.loadMenu(()=>{
+        var option = this.findMenu(this.items)
+        if (option) {
+          var menuName = option.name;
+          var menuPath = option.path;
+          this.defaultAction = option.path;
+          this.bus.$emit("newMenu", menuName, menuPath)
+        }
+      });
     },
     data() {
       return {
         defaultAction: "",
-        items: [
-          {
-            path: "Home",
-            name: "首页",
-            icon: "el-icon-menu",
-          }
-          ,
-          {
-            path: "System_manager",
-            name: "系统管理",
-            icon: "el-icon-location",
-            children: [
-              {
-                // icon: "el-icon-location",
-                path: "MenuList",
-                name: "菜单管理"
-              },
-              {
-                // icon: "el-icon-location",
-                path: "RoleList",
-                name: "角色管理"
-              },
-              {
-                // icon: "el-icon-location",
-                path: "ResourceList",
-                name: "资源管理"
-              },
-              {
-                // icon: "el-icon-location",
-                path: "UserList",
-                name: "用户管理"
-              }
-            ]
-          }
-        ]
+        items: null
       };
     },
     methods: {
+      loadMenu(callback) {
+        this.$request.get({
+          url: '/spring-resource/menu/findAllMenu',
+          success: result => {
+            this.items=this.menuTreeConvert(result.data,null);
+            console.log(this.items)
+            callback();
+          },
+          error: e => {
+            this.$message.error(e)
+          }
+        })
+      },
+      menuTreeConvert(menuList,parentId) {
+        let temp = [];
+        let treeArr = menuList;
+        treeArr.forEach((item, index) => {
+          if (item.parentId == parentId) {
+            if (this.menuTreeConvert(treeArr, treeArr[index].id).length > 0) {
+              // 递归调用此函数
+              treeArr[index].children =this.menuTreeConvert(treeArr, treeArr[index].id);
+            }
+            temp.push({
+              name:treeArr[index].menuName,
+              path:treeArr[index].url,
+              icon:"el-icon-location",
+              children:treeArr[index].children
+            });
+          }
+        });
+        return temp;
+      },
       findMenu(items) {
         let primary = this.$route.meta && this.$route.meta.primary
         let routerName = this.$route.name;

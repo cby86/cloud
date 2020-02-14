@@ -116,4 +116,14 @@ public class MenuServiceImpl implements MenuService {
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
         });
     }
+
+    @Override
+    public List<Menu> findAllMenu() {
+        return menuRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(criteriaBuilder.equal(root.get("deleted"), false));
+            predicates.add(criteriaBuilder.equal(root.get("menuType"), 0));
+            return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+        });
+    }
 }

@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.util.StringUtils;
 
 import java.util.Collection;
@@ -33,4 +34,10 @@ public class SecurityUtils {
             return null;
         }
     }
+
+    public static String encode(CharSequence rawPassword) {
+        String salt=BCrypt.gensalt();
+        return BCrypt.hashpw(rawPassword.toString(), salt);
+    }
+
 }

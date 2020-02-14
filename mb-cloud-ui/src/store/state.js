@@ -1,6 +1,5 @@
 export default {
   user: {
   },
-  authentications:[],
-  menus:[]
+  authentications:[]
 }

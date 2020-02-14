@@ -9,8 +9,5 @@ export default {
   },
   setAuthentication({commit}, authentications) {
     commit(SET_AUTHENTICATION, {authentications})
-  },
-  setMenu({commit}, menus) {
-    commit(SET_MENU, {menus})
   }
 }

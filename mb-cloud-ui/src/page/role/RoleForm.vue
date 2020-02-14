@@ -12,7 +12,7 @@
       <el-form-item label="授权">
         <el-tree ref="authenticationTree" :default-checked-keys="selectKeys"
                  :props="props"
-                 :check-on-click-node="true" :check-strictly="checkStrictly" def
+                 :check-on-click-node="true" :check-strictly="checkStrictly"
                  :load="loadNode" :node-key="props.value"
                  lazy
                  show-checkbox

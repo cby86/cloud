@@ -40,7 +40,7 @@
         </el-table>
       </el-col>
     </el-row>
-    <page-nation :totalCount="totalCount" :pageCount="pageCount" v-on:pageChange="loadResource"></page-nation>
+    <page-nation :totalCount="totalCount" :pageCount="pageCount" v-on:pageChange="loadUser"></page-nation>
   </div>
 </template>
 

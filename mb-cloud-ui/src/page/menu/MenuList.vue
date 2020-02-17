@@ -17,9 +17,9 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" size="small" icon="el-icon-search" @click="onSubmit">查询</el-button>
-            <el-button type="primary" size="small" icon="el-icon-reset" @click="reset">清空</el-button>
-            <el-button type="primary" size="small" icon="el-icon-reset" @click="addMenu">新增</el-button>
+            <el-button type="primary"  size="small" icon="el-icon-search" @click="onSubmit">查询</el-button>
+            <el-button type="primary"  size="small" icon="el-icon-reset" @click="reset">清空</el-button>
+            <el-button type="primary" v-if="this.$store.getters.hasAuth('addMenu')" size="small" icon="el-icon-reset" @click="addMenu">新增</el-button>
           </el-form-item>
         </el-form>
       </el-col>

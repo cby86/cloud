@@ -81,17 +81,19 @@
         let temp = [];
         let treeArr = menuList;
         treeArr.forEach((item, index) => {
-          if (item.parentId == parentId) {
-            if (this.menuTreeConvert(treeArr, treeArr[index].id).length > 0) {
-              // 递归调用此函数
-              treeArr[index].children = this.menuTreeConvert(treeArr, treeArr[index].id);
+          if(item.authentionType==0) {
+            if (item.parentId == parentId) {
+              if (this.menuTreeConvert(treeArr, treeArr[index].id).length > 0) {
+                // 递归调用此函数
+                treeArr[index].children = this.menuTreeConvert(treeArr, treeArr[index].id);
+              }
+              temp.push({
+                name: treeArr[index].name,
+                path: treeArr[index].url,
+                icon: treeArr[index].icon,
+                children: treeArr[index].children
+              });
             }
-            temp.push({
-              name: treeArr[index].name,
-              path: treeArr[index].url,
-              icon: treeArr[index].icon,
-              children: treeArr[index].children
-            });
           }
         });
         return temp;

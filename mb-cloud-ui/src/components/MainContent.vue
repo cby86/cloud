@@ -137,13 +137,18 @@
         }
       },
       addTab(menuName, menuPath, cacheName) {
+        let index = this.tabIndex;
         for (var i = 0; i < this.tabs.length; i++) {
+          if(index < this.tabs[i].name) {
+            index = this.tabs[i].name;
+          }
           if (this.tabs[i].title === menuName) {
             if (this.activeTab != menuName) {
               this.activeTab = this.tabs[i].name;
             }
           }
         }
+        this.tabIndex = index;
         let newTabName = ++this.tabIndex + "";
         this.tabs.push({
           title: menuName,

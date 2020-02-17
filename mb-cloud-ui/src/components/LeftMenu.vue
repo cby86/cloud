@@ -128,7 +128,6 @@
     line-height: 100px;
     height: 100%;
     background: #303133;
-    margin-top: 1px
   }
 
   .el-menu {

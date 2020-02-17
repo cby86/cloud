@@ -1,6 +1,10 @@
 <template>
-  <div class="nofind">
-    <img src="../../assets/404.gif" alt="">
+  <div class="full">
+    <el-row class="full">
+      <el-col :span="24" class="full">
+        <div class="grid-content bg-purple-dark"><div class="message">我跑了地球一圈,也找不到你想要的...</div></div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -13,13 +17,19 @@
   }
 </script>
 <style>
-  .nofind {
-    width: 100%;
+  .grid-content {
+    text-align: center;
     height: 100%;
-    overflow: hidden;
+    background-color: #303133;
   }
-  .nofind img {
-    width: 100%;
+  .message{
+    height: 100%;
+    vertical-align: middle;
+    font-size: 22px;
+    color: white;
+  }
+
+  .full {
     height: 100%;
   }
 </style>

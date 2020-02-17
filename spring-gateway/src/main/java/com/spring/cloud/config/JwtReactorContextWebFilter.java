@@ -3,6 +3,8 @@ package com.spring.cloud.config;
 import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.interfaces.Claim;
 import com.spring.cloud.JwtHelper;
+import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,13 +17,17 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.oauth2.server.resource.BearerTokenAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.web.server.ServerBearerTokenAuthenticationConverter;
+import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
+import org.springframework.security.web.server.authorization.ServerAccessDeniedHandler;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.context.Context;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +35,13 @@ import java.util.Map;
 
 public class JwtReactorContextWebFilter implements WebFilter {
 
-    ServerBearerTokenAuthenticationConverter serverBearerTokenAuthenticationConverter = new ServerBearerTokenAuthenticationConverter();
+    private ServerBearerTokenAuthenticationConverter serverBearerTokenAuthenticationConverter = new ServerBearerTokenAuthenticationConverter();
+    private ServerAuthenticationEntryPoint authenticationEntryPoint;
+
+    public JwtReactorContextWebFilter(ServerAuthenticationEntryPoint authenticationEntryPoint) {
+        this.authenticationEntryPoint = authenticationEntryPoint;
+    }
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         return ReactiveSecurityContextHolder.getContext().map(securityContext -> {
@@ -39,7 +51,7 @@ public class JwtReactorContextWebFilter implements WebFilter {
             return mutableExchange;
         }).switchIfEmpty(Mono.just(exchange)).flatMap(e -> chain.filter(e)).subscriberContext(c -> c.hasKey(SecurityContext.class) ? c :
                 withJwtSecurityContext(c, exchange)
-        );
+        ).onErrorResume(InsufficientAuthenticationException.class, ex -> authenticationEntryPoint.commence(exchange, ex));
     }
 
     private Context withJwtSecurityContext(Context mainContext, ServerWebExchange exchange) {

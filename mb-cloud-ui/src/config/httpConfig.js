@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from "../router";
 
 const instance = axios.create({
   headers: {
@@ -31,10 +32,10 @@ instance.interceptors.response.use(response => {
     if(error.response.status===503 || error.response.status===504) {
       return Promise.reject("网络错误")
     }
+    if (error.response.status === 401) {
+      router.push({path: "/login"})
+    }
     return Promise.reject(error.response.data); // 返回接口返回的错误信息
-  }
-  if (error.response.status === 401) {
-    return Promise.reject(error.response.status);
   }
   return Promise.reject("网络错误");
 })

@@ -59,12 +59,13 @@ public class WebSecurityConfig {
         if (customerReactiveAuthorizationManager != null) {
             authorizeExchangeSpec.anyExchange().access(customerReactiveAuthorizationManager);
         }
+        ServerAuthenticationEntryPoint serverAuthenticationEntryPoint = getServerAuthenticationEntryPoint();
         http.exceptionHandling()
-                .authenticationEntryPoint(getServerAuthenticationEntryPoint())
+                .authenticationEntryPoint(serverAuthenticationEntryPoint)
                 .accessDeniedHandler(getAccessDeniedHandler())
 //                .and().oauth2ResourceServer().jwt().jwtDecoder(new NimbusJwtDecoderJwkSupport())
 //                .and().bearerTokenConverter(new ServerBearerTokenAuthenticationConverter())
-                .and().addFilterAt(new JwtReactorContextWebFilter(), SecurityWebFiltersOrder.REACTOR_CONTEXT);
+                .and().addFilterAt(new JwtReactorContextWebFilter(serverAuthenticationEntryPoint), SecurityWebFiltersOrder.REACTOR_CONTEXT);
 
         return http.build();
     }

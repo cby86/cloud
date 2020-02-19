@@ -76,6 +76,8 @@
       };
     },
     mounted() {
+      this.menuForm.parentName = this.$route.params.parentName;
+      this.menuForm.parentId = this.$route.params.parentId;
       if(this.$route.params.id) {
         this.loadMenu(this.$route.params.id)
       }

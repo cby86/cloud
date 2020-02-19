@@ -10,7 +10,7 @@
         <el-input v-model="form.code" placeholder=角色编码></el-input>
       </el-form-item>
       <el-form-item label="授权">
-        <el-tree ref="authenticationTree" :default-checked-keys="selectKeys"
+        <el-tree ref="authenticationTree" :default-checked-keys="selectKeys" :default-expanded-keys="expandedKeys"
                  :props="props"
                  :check-on-click-node="true" :check-strictly="checkStrictly"
                  :load="loadNode" :node-key="props.value"
@@ -38,7 +38,9 @@
     data() {
       return {
         checkStrictly: true,
+        expandedKeys:[],
         selectKeys: null,
+        changedKeys:[],
         props: {
           value: "id",
           label: "menuName",
@@ -78,6 +80,9 @@
     },
     methods: {
       checkAuth(node, status) {
+        if(!node.leaf) {
+          this.expandedKeys.push(node.id)
+        }
         let auth = new Array();
         status.checkedNodes.forEach((item)=> {
           auth.push({
@@ -118,6 +123,9 @@
           success: result => {
             resolve(result.data);
             this.checkStrictly = false;
+            if(parentId) {
+              this.$refs.authenticationTree.setCheckedKeys(this.selectKeys);
+            }
           },
           error: e => {
             this.checkStrictly = false;

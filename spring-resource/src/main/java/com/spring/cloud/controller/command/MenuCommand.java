@@ -48,6 +48,10 @@ public class MenuCommand implements Command<Menu> {
         menu.setMenuType(menuType);
         menu.setUrl(url);
         menu.setIcon(icon);
+        if (menuService.hasSameUrl(id,url)) {
+            throw new BusinessException("已经存在相同url记录");
+        }
+
         if (StringUtils.isNotEmpty(this.parentId)) {
             menu.setParent(menuService.findMenuById(this.parentId));
         }else {

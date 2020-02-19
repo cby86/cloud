@@ -19,15 +19,13 @@ public interface MenuService {
 
     Menu findMenuById(String id);
 
-    List<Menu> findMenuList(int menuTyp);
-
     Page<Menu> findMenuPageList(String name,String url, int menuType, Pageable pageable);
-
-    List<Menu> findMenuByIds(String menuIds);
 
     void saveMenu(Menu menu);
 
-    List<Menu> findMenuByParentId(String parentId,String excludeMenuId);
+    List<Menu> findMenuByParentId(String parentId,String name,String url,String excludeMenuId);
 
     List<Menu> findAllMenu();
+
+    boolean hasSameUrl(String id, String url);
 }

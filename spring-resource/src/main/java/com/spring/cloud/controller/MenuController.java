@@ -55,8 +55,8 @@ public class MenuController extends BaseController {
 
     @RequestMapping("/findMenuByParentId")
     @ResourceDesc(model = "菜单管理", name = "查询子菜单", desc = "根据父级菜单ID查询菜单")
-    public Map<String, Object> findMenuByParentId(String parentId,String excludeMenuId) {
-        List<Menu> menuList = menuService.findMenuByParentId(parentId,excludeMenuId);
+    public Map<String, Object> findMenuByParentId(String parentId,String name,String url,String excludeMenuId) {
+        List<Menu> menuList = menuService.findMenuByParentId(parentId,name,url,excludeMenuId);
         return this.resultMap(CommandUtils.toCommands(menuList,MenuCommand.class));
     }
 

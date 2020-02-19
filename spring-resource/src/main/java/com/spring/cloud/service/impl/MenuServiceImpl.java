@@ -49,15 +49,6 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<Menu> findMenuList(int menuType) {
-        return menuRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
-            List<Predicate> predicates = new ArrayList<>();
-            predicates.add(criteriaBuilder.equal(root.get("menuType"), menuType));
-            return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-        });
-    }
-
-    @Override
     public Page<Menu> findMenuPageList(String name, String url, int menuType, Pageable pageable) {
         pageable.getSort().and(Sort.by(Sort.Order.desc("createDate")));
         return menuRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
@@ -76,22 +67,6 @@ public class MenuServiceImpl implements MenuService {
         }, pageable);
     }
 
-    @Override
-    public List<Menu> findMenuByIds(String menuIds) {
-        return menuRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
-            List<Predicate> predicates = new ArrayList<>();
-            if (StringUtils.isNotEmpty(menuIds)) {
-                Expression<String> ids = root.get("id");
-                CriteriaBuilder.In<Object> in = criteriaBuilder.in(ids);
-                String[] split = menuIds.split(",");
-                for (int i = 0; i < split.length; i++) {
-                    in.value(split[i]);
-                }
-                predicates.add(in);
-            }
-            return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-        });
-    }
 
     @Override
     public void saveMenu(Menu menu) {
@@ -99,12 +74,18 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<Menu> findMenuByParentId(String parentId,String excludeMenuId) {
+    public List<Menu> findMenuByParentId(String parentId,String name,String url,String excludeMenuId) {
         return menuRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(criteriaBuilder.equal(root.get("deleted"), false));
             predicates.add(criteriaBuilder.equal(root.get("menuType"), 0));
             Join<Object, Object> parent = root.join("parent", JoinType.LEFT);
+            if (StringUtils.isNotEmpty(name)) {
+                predicates.add(criteriaBuilder.equal(root.get("name"),name));
+            }
+            if (StringUtils.isNotEmpty(url)) {
+                predicates.add(criteriaBuilder.equal(root.get("url"),url));
+            }
             if (StringUtils.isNotEmpty(parentId)) {
                 predicates.add(criteriaBuilder.equal(parent.get("id"), parentId));
             } else {
@@ -125,5 +106,18 @@ public class MenuServiceImpl implements MenuService {
             predicates.add(criteriaBuilder.equal(root.get("menuType"), 0));
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
         });
+    }
+
+    @Override
+    public boolean hasSameUrl(String id, String url) {
+        return menuRepository.count((root, criteriaQuery, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(criteriaBuilder.equal(root.get("deleted"), false));
+            if (StringUtils.isNotEmpty(id)) {
+                predicates.add(criteriaBuilder.notEqual(root.get("id"), id));
+            }
+            predicates.add(criteriaBuilder.equal(root.get("url"), url));
+            return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+        }) > 0;
     }
 }

@@ -29,6 +29,7 @@
             menuPath = option.path;
             this.defaultAction = option.path;
           } else {
+            this.defaultAction = null;
             return
           }
         } else {

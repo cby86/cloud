@@ -44,6 +44,16 @@
             sortable>
           </el-table-column>
           <el-table-column
+            prop="code"
+            label="code"
+            sortable>
+          </el-table-column>
+          <el-table-column
+            prop="icon"
+            label="icon"
+            sortable>
+          </el-table-column>
+          <el-table-column
             prop="menuType"
             label="菜单类型" :formatter="(row, column, cellValue)=>{return cellValue === 'Menu' ? '菜单' : '功能';}"
             sortable>

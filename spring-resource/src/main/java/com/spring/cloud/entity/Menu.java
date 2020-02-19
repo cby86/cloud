@@ -59,8 +59,10 @@ public class Menu extends BaseEntity {
     )
     @JsonIgnore
     private List<Resource> resources;
+    private String code;
 
     public boolean isMenu() {
         return menuType.equals(MenuType.Menu);
     }
+    
 }

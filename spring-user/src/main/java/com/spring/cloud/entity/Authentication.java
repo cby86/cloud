@@ -41,6 +41,8 @@ public class Authentication extends BaseEntity {
 
     private String icon;
 
+    private String code;
+
 
 
 }

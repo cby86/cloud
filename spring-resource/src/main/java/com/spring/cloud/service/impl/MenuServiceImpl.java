@@ -74,17 +74,17 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<Menu> findMenuByParentId(String parentId,String name,String url,String excludeMenuId) {
+    public List<Menu> findMenuByParentId(String parentId, String name, String url, String excludeMenuId) {
         return menuRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(criteriaBuilder.equal(root.get("deleted"), false));
             predicates.add(criteriaBuilder.equal(root.get("menuType"), 0));
             Join<Object, Object> parent = root.join("parent", JoinType.LEFT);
             if (StringUtils.isNotEmpty(name)) {
-                predicates.add(criteriaBuilder.equal(root.get("name"),name));
+                predicates.add(criteriaBuilder.equal(root.get("name"), name));
             }
             if (StringUtils.isNotEmpty(url)) {
-                predicates.add(criteriaBuilder.equal(root.get("url"),url));
+                predicates.add(criteriaBuilder.equal(root.get("url"), url));
             }
             if (StringUtils.isNotEmpty(parentId)) {
                 predicates.add(criteriaBuilder.equal(parent.get("id"), parentId));
@@ -109,14 +109,14 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public boolean hasSameUrl(String id, String url) {
+    public boolean hasSame(String id, String name,String value) {
         return menuRepository.count((root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(criteriaBuilder.equal(root.get("deleted"), false));
             if (StringUtils.isNotEmpty(id)) {
                 predicates.add(criteriaBuilder.notEqual(root.get("id"), id));
             }
-            predicates.add(criteriaBuilder.equal(root.get("url"), url));
+            predicates.add(criteriaBuilder.equal(root.get(name), value));
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
         }) > 0;
     }

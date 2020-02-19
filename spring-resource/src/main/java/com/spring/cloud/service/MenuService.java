@@ -27,5 +27,5 @@ public interface MenuService {
 
     List<Menu> findAllMenu();
 
-    boolean hasSameUrl(String id, String url);
+    boolean hasSame(String id, String name, String value);
 }

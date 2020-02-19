@@ -13,6 +13,12 @@
       <el-form-item label="菜单名称" prop="menuName">
           <el-input v-model="menuForm.menuName" placeholder="菜单名称"></el-input>
       </el-form-item>
+      <el-form-item label="编码" prop="code">
+        <el-input v-model="menuForm.code" placeholder="唯一标识"></el-input>
+      </el-form-item>
+      <el-form-item label="图标" prop="icon">
+        <el-input v-model="menuForm.icon" placeholder="图标"></el-input>
+      </el-form-item>
       <el-form-item label="菜单URL" prop="url">
         <el-input v-model="menuForm.url" placeholder="菜单URL"></el-input>
       </el-form-item>
@@ -53,15 +59,17 @@
           id:null,
           menuName: null,
           url: null,
-          menuType: "Menu"
+          menuType: "Menu",
+          code:null,
+          icon:null
         },
         rules: {
           menuName: [
             {required: true, message: '请输入菜单名称', trigger: 'blur'},
             {min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur'}
           ],
-          url:[
-            {required: true, message: '请输入菜单Url', trigger: 'blur'},
+          code:[
+            {required: true, message: '请输入编码', trigger: 'blur'},
           ]
         },
         locations: [

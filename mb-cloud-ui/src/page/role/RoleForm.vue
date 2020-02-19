@@ -90,6 +90,8 @@
             name:item["menuName"],
             url:item["url"],
             parentId:item["parentId"],
+            icon:item["icon"],
+            code:item["code"],
             authentionType:item["menuType"]==="Menu"?0:1
           })
         })
@@ -100,6 +102,7 @@
             url:item["url"],
             parentId:item["parentId"],
             icon:item["icon"],
+            code:item["code"],
             authentionType:item["menuType"]==="Menu"?0:1
           })
         })
@@ -123,7 +126,7 @@
           success: result => {
             resolve(result.data);
             this.checkStrictly = false;
-            if(parentId) {
+            if(parentId && this.selectKeys) {
               this.$refs.authenticationTree.setCheckedKeys(this.selectKeys);
             }
           },

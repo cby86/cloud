@@ -27,6 +27,8 @@ public class MenuCommand implements Command<Menu> {
 
     private String icon;
 
+    private String code;
+
 
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
@@ -48,7 +50,11 @@ public class MenuCommand implements Command<Menu> {
         menu.setMenuType(menuType);
         menu.setUrl(url);
         menu.setIcon(icon);
-        if (menuService.hasSameUrl(id,url)) {
+        menu.setCode(code);
+        if (menuService.hasSame(id,"code",code)) {
+            throw new BusinessException("编码必须唯一");
+        }
+        if (menuService.hasSame(id,"url",code)) {
             throw new BusinessException("已经存在相同url记录");
         }
 
@@ -72,6 +78,7 @@ public class MenuCommand implements Command<Menu> {
             this.parentName = domain.getParent().getName();
         }
         this.leaf = domain.getChildren().isEmpty();
+        this.code = domain.getCode();
         return this;
     }
 

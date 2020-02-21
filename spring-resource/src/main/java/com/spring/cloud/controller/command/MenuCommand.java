@@ -54,10 +54,6 @@ public class MenuCommand implements Command<Menu> {
         if (menuService.hasSame(id,"code",code)) {
             throw new BusinessException("编码必须唯一");
         }
-        if (menuService.hasSame(id,"url",code)) {
-            throw new BusinessException("已经存在相同url记录");
-        }
-
         if (StringUtils.isNotEmpty(this.parentId)) {
             menu.setParent(menuService.findMenuById(this.parentId));
         }else {

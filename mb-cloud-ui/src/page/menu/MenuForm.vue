@@ -1,7 +1,7 @@
 <template>
   <div>
     <position :locations="locations"></position>
-    <el-form :model="menuForm" :rules="rules" ref="menuForm" label-width="80px" size="small">
+    <el-form :model="menuForm" :rules="rules" ref="menuForm" label-width="120px" size="small">
       <el-form-item label="父级菜单" prop="parentId">
         <select-tree
           :props="fieldsDefine"
@@ -11,7 +11,7 @@
           @getValue="getValue($event)"/>
       </el-form-item>
       <el-form-item label="菜单/功能名称" prop="menuName">
-          <el-input v-model="menuForm.menuName" placeholder="菜单名称"></el-input>
+          <el-input v-model="menuForm.menuName" placeholder="菜单/功能名称"></el-input>
       </el-form-item>
       <el-form-item label="编码" prop="code">
         <el-input v-model="menuForm.code" placeholder="唯一标识"></el-input>

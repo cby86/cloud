@@ -10,7 +10,7 @@
           :load="loadChildrenMenu"
           @getValue="getValue($event)"/>
       </el-form-item>
-      <el-form-item label="菜单名称" prop="menuName">
+      <el-form-item label="菜单/功能名称" prop="menuName">
           <el-input v-model="menuForm.menuName" placeholder="菜单名称"></el-input>
       </el-form-item>
       <el-form-item label="编码" prop="code">
@@ -19,10 +19,10 @@
       <el-form-item label="图标" prop="icon">
         <el-input v-model="menuForm.icon" placeholder="图标"></el-input>
       </el-form-item>
-      <el-form-item label="菜单URL" prop="url">
+      <el-form-item label="URL" prop="url">
         <el-input v-model="menuForm.url" placeholder="菜单URL"></el-input>
       </el-form-item>
-      <el-form-item label="菜单类型" prop="menuType">
+      <el-form-item label="类型" prop="menuType">
         <el-select v-model="menuForm.menuType" @change="obtainValue">
           <el-option label="菜单" :value="'Menu'"></el-option>
           <el-option label="功能" :value="'Function'"></el-option>

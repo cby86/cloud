@@ -42,9 +42,10 @@
               return item.authentionType == 0
             });
             this.menus=listToTree
-            console.log(this.menus)
+            this.bus.$emit("initTab")
           },
           error: e => {
+            this.bus.$emit("initTab")
             this.$message.error(e)
           }
         });

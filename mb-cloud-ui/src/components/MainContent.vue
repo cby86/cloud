@@ -30,7 +30,7 @@
       };
     },
     created() {
-      this.init();
+      // this.init();
       this.bus.$on('newMenu', (menuName, menuPath) => {
         if (menuName && menuPath) {
           this.$route.params.menuName = menuName;
@@ -59,6 +59,9 @@
           })
         }
       });
+      this.bus.$on('initTab', () => {
+        this.init();
+      });
     },
     watch: {
       '$route'(to) {
@@ -78,7 +81,8 @@
         if(window.localStorage) {
           let cacheTabs = window.localStorage.getItem("cacheTabs");
           if(cacheTabs){
-            this.tabs= JSON.parse(cacheTabs);
+             let cache=JSON.parse(cacheTabs);
+             this.tabs=cache.filter(item=>!item.closable || this.$store.getters.hasAuth(item.cacheName))
           }
         }
         if(this.tabs.length==0) {

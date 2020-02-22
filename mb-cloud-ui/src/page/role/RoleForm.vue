@@ -13,10 +13,9 @@
         <el-tree ref="authenticationTree" :default-checked-keys="selectKeys" :default-expanded-keys="expandedKeys"
                  :data="authentications"
                  :props="props"
-                 :check-on-click-node="true"
+                 :check-on-click-node="true" :check-strictly="checkStrictly"
                  :node-key="props.value"
-                 show-checkbox
-                 @check="checkAuth">
+                 show-checkbox>
         </el-tree>
       </el-form-item>
       <el-form-item>
@@ -37,15 +36,16 @@
     },
     data() {
       return {
-        expandedKeys:[],
+        checkStrictly: true,
+        expandedKeys: [],
         selectKeys: null,
-        changedKeys:[],
+        changedKeys: [],
         props: {
           value: "id",
           label: "menuName",
           isLeaf: "leaf"
         },
-        authentications:null,
+        authentications: null,
         form: {
           id: null,
           name: null,
@@ -80,38 +80,11 @@
       }
     },
     methods: {
-      checkAuth(node, status) {
-        let auth = new Array();
-        status.checkedNodes.forEach((item)=> {
-          auth.push({
-            id:item["id"],
-            name:item["menuName"],
-            url:item["url"],
-            parentId:item["parentId"],
-            icon:item["icon"],
-            code:item["code"],
-            authentionType:item["menuType"]==="Menu"?0:1
-          })
-        })
-        status.halfCheckedNodes.forEach((item)=> {
-          auth.push({
-            id:item["id"],
-            name:item["menuName"],
-            url:item["url"],
-            parentId:item["parentId"],
-            icon:item["icon"],
-            code:item["code"],
-            authentionType:item["menuType"]==="Menu"?0:1
-          })
-        })
-        this.form.authentications = auth;
-      }
-      ,
       loadNode() {
         this.$request.get({
           url: '/spring-resource/menu/findAllMenu',
           success: result => {
-            this.authentications =this.$utils.listToTree(result.data, null)
+            this.authentications = this.$utils.listToTree(result.data, null)
           },
           error: e => {
             this.$message.error(e)
@@ -120,6 +93,20 @@
       }
       ,
       onSubmit() {
+        let checkedNodes = this.$refs.authenticationTree.getCheckedNodes(false, true);
+        let auth = new Array();
+        checkedNodes.forEach((item) => {
+          auth.push({
+            id: item["id"],
+            name: item["menuName"],
+            url: item["url"],
+            parentId: item["parentId"],
+            icon: item["icon"],
+            code: item["code"],
+            authentionType: item["menuType"] === "Menu" ? 0 : 1
+          })
+        })
+        this.form.authentications = auth;
         this.$refs["form"].validate((valid) => {
           if (valid) {
             // this.fullscreenLoading = true;
@@ -162,6 +149,9 @@
               })
               this.selectKeys = selectKeys;
             }
+            setTimeout(()=>{
+              this.checkStrictly = false;
+            },1000)
           },
           error: e => {
             this.$message.error(e)

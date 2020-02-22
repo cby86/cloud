@@ -2,7 +2,7 @@
   <el-container class="is-vertical">
     <Header></Header>
     <el-container>
-      <LeftMenu></LeftMenu>
+      <LeftMenu :items="menus"></LeftMenu>
       <MainContent></MainContent>
     </el-container>
   </el-container>
@@ -16,6 +16,7 @@
     name: 'Layout',
     data() {
       return {
+        menus:null
       }
     },
     components: {
@@ -23,7 +24,32 @@
       LeftMenu,
       Header
     },
-    methods: {}
+    mounted() {
+      this.loadAuthentication()
+    },
+    methods: {
+      loadAuthentication() {
+        this.$request.get({
+          url: '/spring-user/user/findAuthentication',
+          config: {
+            params: {
+              userId: this.$store.getters.user.userId
+            }
+          },
+          success: result => {
+            this.$store.dispatch('setAuthentication', result.data)
+            let listToTree = this.$utils.listToTree(result.data, null, (item) => {
+              return item.authentionType == 0
+            });
+            this.menus=listToTree
+            console.log(this.menus)
+          },
+          error: e => {
+            this.$message.error(e)
+          }
+        });
+      }
+    }
   }
 </script>
 <style>

@@ -38,11 +38,8 @@
         if (to.meta && to.meta.primary) {
           this.bus.$emit("newMenu", menuName, menuPath)
         }
-      }
-    },
-    mounted() {
-      this.loadAuthentication((items) => {
-        this.items = items;
+      },
+      "items"() {
         if (this.items && this.items.length > 0) {
           var option = this.findMenu(this.items)
           if (option) {
@@ -52,35 +49,17 @@
             this.bus.$emit("newMenu", menuName, menuPath)
           }
         }
-      })
+      }
+    },
+    props: {
+      items: Array
     },
     data() {
       return {
-        defaultAction: "",
-        items: null
+        defaultAction: ""
       };
     },
     methods: {
-      loadAuthentication(callback) {
-        this.$request.get({
-          url: '/spring-user/user/findAuthentication',
-          config: {
-            params: {
-              userId: this.$store.getters.user.userId
-            }
-          },
-          success: result => {
-            this.$store.dispatch('setAuthentication', result.data)
-            let listToTree = this.$utils.listToTree(result.data, null, (item) => {
-              return item.authentionType == 0
-            });
-            callback(listToTree)
-          },
-          error: e => {
-            this.$message.error(e)
-          }
-        });
-      },
       findMenu(items) {
         let primary = this.$route.meta && this.$route.meta.primary
         let routerName = this.$route.name;

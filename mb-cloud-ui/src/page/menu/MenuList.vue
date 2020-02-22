@@ -19,7 +19,7 @@
           <el-form-item>
             <el-button type="primary" size="small" icon="el-icon-search" @click="onSubmit">查询</el-button>
             <el-button type="primary" size="small" icon="el-icon-reset" @click="reset">清空</el-button>
-            <el-button type="primary" v-if="this.$store.getters.hasAuth('addMenu')" size="small" icon="el-icon-reset" @click="addMenu">新增</el-button>
+            <el-button type="primary" v-if="$store.getters.hasAuth('addMenu')" size="small" icon="el-icon-reset" @click="addMenu">新增</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -62,9 +62,9 @@
             fixed="right"
             label="操作">
             <template slot-scope="scope">
-              <el-button type="text" size="small" v-if="auth('addMenu') && scope.row.menuType=='Menu'"  @click="addMenu(scope.row)">新增</el-button>
-              <el-button type="text" size="small" v-if="auth('editMenu')"  @click="edit(scope.row)">编辑</el-button>
-              <el-button type="text" size="small" v-if="auth('deleteMenu')" @click="deleteMenu(scope.row)">删除</el-button>
+              <el-button type="text" size="small" v-if="$store.getters.hasAuth('addMenu') && scope.row.menuType=='Menu'"  @click="addMenu(scope.row)">新增</el-button>
+              <el-button type="text" size="small" v-if="$store.getters.hasAuth('editMenu')"  @click="edit(scope.row)">编辑</el-button>
+              <el-button type="text" size="small" v-if="$store.getters.hasAuth('deleteMenu')" @click="deleteMenu(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -85,9 +85,6 @@
     },
     data() {
       return {
-        auth(key){
-          return this.$store.getters.hasAuth(key)
-        },
         queryForm: {
           menuName: null,
           url: null

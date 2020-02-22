@@ -27,7 +27,28 @@
     mounted() {
       this.loadAuthentication()
     },
+    beforeRouteUpdate (to, from, next) {
+      if (to.path !== '/' && !this.$store.getters.hasAuth(to.name)) {
+        this.$message.error("无权限访问")
+        next({
+          path: from.path
+        })
+      } else {
+        next()
+      }
+    },
     methods: {
+      checkAuth() {
+        if (this.$route.path !== '/' && !this.$store.getters.hasAuth(this.$route.name)) {
+          this.$message.error("无权限访问")
+          console.log(this.$route)
+          this.$router.push({
+            path: "/"
+          })
+          return false;
+        }
+        return true;
+      },
       loadAuthentication() {
         this.$request.get({
           url: '/spring-user/user/findAuthentication',
@@ -43,6 +64,7 @@
             });
             this.menus=listToTree
             this.bus.$emit("initTab")
+            this.checkAuth();
           },
           error: e => {
             this.bus.$emit("initTab")

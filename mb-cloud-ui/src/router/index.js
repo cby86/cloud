@@ -19,11 +19,10 @@ var router = new Router({
     },
     {
       path: '/',
-      name: "index",
       component: Index,
       children: [
         {
-          path: "",
+          path: "/",
           name: Home.name,
           component: Home,
           meta: {

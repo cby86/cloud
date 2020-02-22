@@ -29,7 +29,7 @@
             menuPath = option.url;
             this.defaultAction = option.code;
           } else {
-            this.defaultAction = null;
+            // this.defaultAction = null;
             return
           }
         } else {

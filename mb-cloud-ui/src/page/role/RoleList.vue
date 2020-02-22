@@ -12,7 +12,7 @@
           <el-form-item>
             <el-button type="primary" size ="small" icon="el-icon-search" @click="onSubmit">查询</el-button>
             <el-button type="primary" size ="small" icon="el-icon-reset" @click="reset">清空</el-button>
-            <el-button type="primary" size ="small" icon="el-icon-reset" @click="add">新增</el-button>
+            <el-button type="primary" size ="small" icon="el-icon-reset" v-if="$store.getters.hasAuth('addRole')" @click="add">新增</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -34,8 +34,8 @@
             fixed="right"
             label="操作">
             <template slot-scope="scope">
-              <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
-              <el-button type="text" size="small" v-if="scope.row.inner==0" @click="deleteRole(scope.row)">删除</el-button>
+              <el-button type="text" size="small"  v-if="$store.getters.hasAuth('editRole')" @click="edit(scope.row)">编辑</el-button>
+              <el-button type="text" size="small" v-if="$store.getters.hasAuth('deleteRole') && scope.row.inner==0" @click="deleteRole(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>

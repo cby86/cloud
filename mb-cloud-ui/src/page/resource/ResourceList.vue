@@ -53,8 +53,8 @@
             fixed="right"
             label="操作">
             <template slot-scope="scope" >
-              <el-button type="text" size="small"  @click="edit(scope.row)">编辑</el-button>
-              <el-button type="text" size="small" @click="deleteResource(scope.row)">删除</el-button>
+              <el-button type="text" size="small" v-if="$store.getters.hasAuth('editResource')"  @click="edit(scope.row)">编辑</el-button>
+              <el-button type="text" size="small" v-if="$store.getters.hasAuth('deleteResource')"  @click="deleteResource(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>

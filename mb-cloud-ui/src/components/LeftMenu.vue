@@ -26,8 +26,8 @@
           var option = this.findMenu(this.items)
           if (option) {
             menuName = option.name;
-            menuPath = option.path;
-            this.defaultAction = option.path;
+            menuPath = option.url;
+            this.defaultAction = option.code;
           } else {
             this.defaultAction = null;
             return
@@ -41,14 +41,14 @@
       }
     },
     mounted() {
-      this.loadAuthentication((items)=>{
+      this.loadAuthentication((items) => {
         this.items = items;
-        if(this.items && this.items.length>0) {
+        if (this.items && this.items.length > 0) {
           var option = this.findMenu(this.items)
           if (option) {
             var menuName = option.name;
-            var menuPath = option.path;
-            this.defaultAction = option.path;
+            var menuPath = option.url;
+            this.defaultAction = option.code;
             this.bus.$emit("newMenu", menuName, menuPath)
           }
         }
@@ -71,33 +71,15 @@
           },
           success: result => {
             this.$store.dispatch('setAuthentication', result.data)
-            callback(this.menuTreeConvert(result.data,null))
+            let listToTree = this.$utils.listToTree(result.data, null, (item) => {
+              return item.authentionType == 0
+            });
+            callback(listToTree)
           },
           error: e => {
             this.$message.error(e)
           }
         });
-      },
-      menuTreeConvert(menuList, parentId) {
-        let temp = [];
-        let treeArr = menuList;
-        treeArr.forEach((item, index) => {
-          if(item.authentionType==0) {
-            if (item.parentId == parentId) {
-              if (this.menuTreeConvert(treeArr, treeArr[index].id).length > 0) {
-                // 递归调用此函数
-                treeArr[index].children = this.menuTreeConvert(treeArr, treeArr[index].id);
-              }
-              temp.push({
-                name: treeArr[index].name,
-                path: treeArr[index].url,
-                icon: treeArr[index].icon,
-                children: treeArr[index].children
-              });
-            }
-          }
-        });
-        return temp;
       },
       findMenu(items) {
         let primary = this.$route.meta && this.$route.meta.primary
@@ -106,7 +88,7 @@
           routerName = this.$route.meta.parent || "Home"
         }
         for (let option of items) {
-          if (routerName === option.path) {
+          if (routerName === option.url) {
             return option;
           }
           if (option.children) {

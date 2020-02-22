@@ -11,10 +11,10 @@
       </el-form-item>
       <el-form-item label="授权">
         <el-tree ref="authenticationTree" :default-checked-keys="selectKeys" :default-expanded-keys="expandedKeys"
+                 :data="authentications"
                  :props="props"
-                 :check-on-click-node="true" :check-strictly="checkStrictly"
-                 :load="loadNode" :node-key="props.value"
-                 lazy
+                 :check-on-click-node="true"
+                 :node-key="props.value"
                  show-checkbox
                  @check="checkAuth">
         </el-tree>
@@ -37,7 +37,6 @@
     },
     data() {
       return {
-        checkStrictly: true,
         expandedKeys:[],
         selectKeys: null,
         changedKeys:[],
@@ -46,6 +45,7 @@
           label: "menuName",
           isLeaf: "leaf"
         },
+        authentications:null,
         form: {
           id: null,
           name: null,
@@ -74,15 +74,13 @@
       };
     },
     mounted() {
+      this.loadNode()
       if (this.$route.params.id) {
         this.loadRole(this.$route.params.id)
       }
     },
     methods: {
       checkAuth(node, status) {
-        if(!node.leaf) {
-          this.expandedKeys.push(node.id)
-        }
         let auth = new Array();
         status.checkedNodes.forEach((item)=> {
           auth.push({
@@ -109,30 +107,13 @@
         this.form.authentications = auth;
       }
       ,
-      loadNode(node, resolve) {
-        this.checkStrictly = true;
-        let parentId;
-        if (node.level !== 0) {
-          parentId = node.data["id"];
-        }
+      loadNode() {
         this.$request.get({
-          url: '/spring-resource/menu/findMenuByParentId',
-          config: {
-            params: {
-              parentId: parentId,
-              excludeMenuId: this.$route.params.id
-            }
-          },
+          url: '/spring-resource/menu/findAllMenu',
           success: result => {
-            resolve(result.data);
-            this.checkStrictly = false;
-            if(parentId && this.selectKeys) {
-              this.$refs.authenticationTree.setCheckedKeys(this.selectKeys);
-            }
+            this.authentications =this.$utils.listToTree(result.data, null)
           },
           error: e => {
-            this.checkStrictly = false;
-            resolve([]);
             this.$message.error(e)
           }
         })

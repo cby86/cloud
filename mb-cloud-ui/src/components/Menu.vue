@@ -1,12 +1,12 @@
 <template>
   <div>
     <template v-for="item in items">
-      <el-menu-item v-if="item.children ==null || item.children.length == 0" :index="item.path" v-on:click="doNavigation(item.name,item.path)">
+      <el-menu-item v-if="item.children ==null || item.children.length == 0" :index="item.code" v-on:click="doNavigation(item.name,item.url)">
         <i :class="item.icon"></i>
         <span>{{item.name}}</span>
       </el-menu-item>
       <!-- 判断是否有二级路由 -->
-      <el-submenu v-if="item.children" :index="item.path">
+      <el-submenu v-if="item.children" :index="item.code">
         <template slot="title">
           <i :class="item.icon"></i>
           <span>{{item.name}}</span>

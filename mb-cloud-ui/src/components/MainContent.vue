@@ -67,10 +67,13 @@
       '$route'(to) {
         this.clearCache(to)
       },
-      "tabs"(){
-        if(window.localStorage) {
-          window.localStorage.setItem("cacheTabs",JSON.stringify(this.tabs))
-        }
+      "tabs":{
+        handler(){
+          if(window.localStorage) {
+            window.localStorage.setItem("cacheTabs",JSON.stringify(this.tabs))
+          }
+        },
+        deep:true
       }
     },
     mounted() {
@@ -82,7 +85,7 @@
           let cacheTabs = window.localStorage.getItem("cacheTabs");
           if(cacheTabs){
              let cache=JSON.parse(cacheTabs);
-             this.tabs=cache.filter(item=>!item.closable || this.$store.getters.hasAuth(item.cacheName))
+             this.tabs=cache.filter(item=>!item.closable || this.$store.getters.hasAuth(item.cacheName[0]))
           }
         }
         if(this.tabs.length==0) {
@@ -91,7 +94,7 @@
               name: "1",
               title: "首页",
               route: "Home",
-              cacheName: "Home",
+              cacheName: ["Home"],
               closable: false
             }
           ];
@@ -101,10 +104,16 @@
       clearCache(to) {
         let tab = this.findCurrentTab()
         if (tab) {
-          let cacheName = tab.cacheName;
-          this.cacheTag = this.cacheTag.filter(index => index !== cacheName)
-          this.cacheTag.push(to.name)
-          tab.cacheName = to.name
+          if(tab.cacheName[tab.cacheName.length-1]==to.name) {
+            return
+          }
+          if(to.meta.cacheParent) {
+            tab.cacheName.push(to.name);
+            this.cacheTag.push(to.name)
+          }else {
+            tab.cacheName = [to.name];
+            this.cacheTag = [to.name];
+          }
         }
       },
       findCurrentTab() {
@@ -121,7 +130,7 @@
         if(!currentTab) {
           return
         }
-        tagPath= currentTab.cacheName
+        tagPath= currentTab.cacheName[currentTab.cacheName.length-1]
         if (this.$route.name === tagPath) {
           return
         }
@@ -158,7 +167,7 @@
           title: menuName,
           name: newTabName,
           route: menuPath,
-          cacheName: cacheName,
+          cacheName: [cacheName],
           closable: true
         });
         this.cacheTag.push(menuPath);
@@ -167,7 +176,7 @@
       removeTab(targetName, tab) {
         let tabs = this.tabs;
         let activeName = this.activeTab;
-        let cacheName = ""
+        let cacheName;
         tabs.forEach((tab, index) => {
           if (tab.name === targetName) {
             let nextTab = tabs[index + 1] || tabs[index - 1];
@@ -179,7 +188,11 @@
         });
         this.activeTab = activeName;
         this.tabs = tabs.filter(tab => tab.name !== targetName);
-        this.cacheTag = this.cacheTag.filter(index => index !== cacheName)
+        if(cacheName) {
+          for(let name in cacheName) {
+            this.cacheTag = this.cacheTag.filter(index => index !== name)
+          }
+        }
         if (this.tabs.length == 0) {
           this.activeTab = "1"
         }

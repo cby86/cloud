@@ -41,7 +41,6 @@
       checkAuth() {
         if (this.$route.path !== '/' && !this.$store.getters.hasAuth(this.$route.name)) {
           this.$message.error("无权限访问")
-          console.log(this.$route)
           this.$router.push({
             path: "/"
           })

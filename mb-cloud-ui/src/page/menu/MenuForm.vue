@@ -106,6 +106,7 @@
               url: '/spring-resource/menu/updateMenus',
               data: this.menuForm,
               success: result => {
+                this.bus.$emit("refreshMenu")
                 this.$message({
                   type: 'success',
                   message: `操作成功`

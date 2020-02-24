@@ -97,6 +97,8 @@
       };
     },
     mounted() {
+      this.bus.$on('refreshMenu', (id) => {
+      });
       this.loadMenus(null,(data)=>{
         this.dataResolver(data);
         this.tableData = data;

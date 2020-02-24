@@ -28,6 +28,9 @@
           <el-option label="功能" :value="'Function'"></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="排序" prop="url">
+        <el-input v-model="menuForm.sort" placeholder="数字越小排在越前"></el-input>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="onSubmit">保存</el-button>
         <el-button type="info" icon="el-icon-search" @click="cancel">取消</el-button>
@@ -61,7 +64,8 @@
           url: null,
           menuType: "Menu",
           code:null,
-          icon:null
+          icon:null,
+          sort:0
         },
         rules: {
           menuName: [

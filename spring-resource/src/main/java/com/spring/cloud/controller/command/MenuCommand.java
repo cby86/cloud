@@ -29,6 +29,8 @@ public class MenuCommand implements Command<Menu> {
 
     private String code;
 
+    private int sort;
+
 
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
@@ -51,6 +53,7 @@ public class MenuCommand implements Command<Menu> {
         menu.setUrl(url);
         menu.setIcon(icon);
         menu.setCode(code);
+        menu.setSort(sort);
         if (menuService.hasSame(id,"code",code)) {
             throw new BusinessException("编码必须唯一");
         }
@@ -75,6 +78,7 @@ public class MenuCommand implements Command<Menu> {
         }
         this.leaf = domain.getChildren().isEmpty();
         this.code = domain.getCode();
+        this.sort = domain.getSort();
         return this;
     }
 

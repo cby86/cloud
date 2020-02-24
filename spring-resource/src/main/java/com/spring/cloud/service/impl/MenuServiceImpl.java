@@ -95,7 +95,7 @@ public class MenuServiceImpl implements MenuService {
                 predicates.add(criteriaBuilder.notEqual(root.get("id"), excludeMenuId));
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-        });
+        },Sort.by(Sort.Order.asc("sort")));
     }
 
     @Override

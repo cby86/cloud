@@ -61,6 +61,8 @@ public class Menu extends BaseEntity {
     private List<Resource> resources;
     private String code;
 
+    private int sort;
+
     public boolean isMenu() {
         return menuType.equals(MenuType.Menu);
     }

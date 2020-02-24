@@ -16,6 +16,7 @@ public class AuthenticationCommand implements Command<Authentication> {
     private String parentId;
     private String icon;
     private String code;
+    private int sort;
     @Override
     public Authentication toDomain() {
         Authentication authentication = new Authentication();
@@ -25,6 +26,7 @@ public class AuthenticationCommand implements Command<Authentication> {
         authentication.setAuthentionType(authentionType);
         authentication.setCode(code);
         authentication.setIcon(icon);
+        authentication.setSort(sort);
         if (StringUtils.isNotEmpty(parentId)) {
             authentication.setParentId(parentId);
         }

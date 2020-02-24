@@ -103,6 +103,7 @@
             parentId: item["parentId"],
             icon: item["icon"],
             code: item["code"],
+            sort: item["sort"],
             authentionType: item["menuType"] === "Menu" ? 0 : 1
           })
         })

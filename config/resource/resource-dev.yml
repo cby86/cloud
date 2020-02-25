@@ -2,8 +2,13 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: guest
-    password: guest
+    username: publisher
+    password: publisher
+  cloud:
+    stream:
+       bindings:
+          output:
+            destination: bussinessMessage
   redis:
     host: localhost
     port: 6379

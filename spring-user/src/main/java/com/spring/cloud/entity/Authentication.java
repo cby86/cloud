@@ -42,11 +42,6 @@ public class Authentication extends BaseEntity {
     private String code;
     private int sort;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id")
-    private Role role;
-
-
 
 
 

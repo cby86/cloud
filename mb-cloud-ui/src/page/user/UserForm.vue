@@ -69,6 +69,7 @@
     mounted() {
       this.loadRoles()
       if (this.$route.params.id) {
+        this.form.id=this.$route.params.id
         this.loadUser(this.$route.params.id)
       }
     },

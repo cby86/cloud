@@ -1,15 +1,31 @@
 spring:
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: publisher
-    password: publisher
   cloud:
     stream:
+       binders:
+         business:
+           type: rabbit
+           environment:
+             spring:
+               rabbitmq:
+                 host: localhost
+                 port: 5672
+                 username: publisher
+                 password: publisher
+                 virtual-host: /
        bindings:
           input:
             destination: bussinessMessage
             group: ${spring.application.name}
+       default:
+          consumer:
+              maxAttempts: 1
+       rabbit:
+         bindings:
+           input:
+              consumer:
+                 autoBindDlq: true
+                 republishToDlq: true
+#                    acknowledge-mode: manual
   redis:
     host: localhost
     port: 6379

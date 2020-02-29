@@ -4,7 +4,6 @@ spring:
     port: 5672
     username: publisher
     password: publisher
-    message.de
   profiles:
     active: native
   application:

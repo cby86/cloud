@@ -33,6 +33,10 @@ public class MessageConfig {
         return new MessageListener(channel);
     }
 
+    /**
+     * 生产者发送消息错误处理，消息没有成功
+     * @param message
+     */
     @StreamListener("errorChannel")
     public void error(Message<?> message) {
         ErrorMessage errorMessage = (ErrorMessage) message;

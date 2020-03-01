@@ -1,12 +1,11 @@
 package com.spring.cloud.config;
 
-import com.spring.cloud.message.IMessage;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class MenuMessage implements IMessage{
+public class MenuMessage{
     private String id;
     private String menuName;
     private String url;

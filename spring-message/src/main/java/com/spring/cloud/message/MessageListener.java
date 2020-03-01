@@ -17,8 +17,12 @@ public class MessageListener implements ApplicationListener<MessageApplicationEv
     @Async
     @Override
     public void onApplicationEvent(MessageApplicationEvent event) {
-        Message<Object> msg = MessageBuilder.withPayload(event.getSource()).setHeader("messageType", event.getMessageType())
-                .build();
-        out.send(msg);
+        try {
+            Message<Object> msg = MessageBuilder.withPayload(event.getSource()).setHeader("messageType", event.getMessageType())
+                    .build();
+            out.send(msg);
+        } catch (Exception ex) {
+
+        }
     }
 }

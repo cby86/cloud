@@ -1,13 +1,14 @@
 package com.spring.cloud.service.impl;
 
+import com.spring.cloud.BaseService;
 import com.spring.cloud.entity.Menu;
 import com.spring.cloud.exception.BusinessException;
+import com.spring.cloud.message.MessageApplicationEvent;
 import com.spring.cloud.repository.MenuRepository;
 import com.spring.cloud.service.MenuService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ import java.util.List;
  **/
 @Service
 @Transactional
-public class MenuServiceImpl implements MenuService {
+public class MenuServiceImpl extends BaseService implements MenuService {
 
     @Autowired
     MenuRepository menuRepository;
@@ -31,6 +32,9 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public void saveOrUpdate(Menu menu) {
+        if (!StringUtils.isEmpty(menu.getId())) {
+            this.publishEvent(new MessageApplicationEvent(menu,"updateMenu"));
+        }
         menuRepository.save(menu);
     }
 
@@ -44,11 +48,13 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Menu findMenuById(String id) {
-        return menuRepository.getOne(id);
+        return menuRepository.findById(id).get();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<Menu> findMenuPageList(String name, String url, int menuType, Pageable pageable) {
         pageable.getSort().and(Sort.by(Sort.Order.desc("createDate")));
         return menuRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
@@ -74,6 +80,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Menu> findMenuByParentId(String parentId, String name, String url, String excludeMenuId) {
         return menuRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -99,6 +106,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Menu> findAllMenu() {
         return menuRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -109,6 +117,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean hasSame(String id, String name,String value) {
         return menuRepository.count((root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();

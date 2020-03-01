@@ -129,6 +129,7 @@
         <module>spring-config</module>
         <module>spring-task</module>
         <module>spring-gateway</module>
+        <module>spring-message</module>
     </modules>
 
     <build>

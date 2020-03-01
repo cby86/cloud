@@ -81,8 +81,8 @@
         </dependency>
         <dependency>
             <groupId>com.spring.cloud</groupId>
-            <artifactId>spring-common-dao</artifactId>
-            <version>${project.parent.version} </version>
+            <artifactId>spring-message</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

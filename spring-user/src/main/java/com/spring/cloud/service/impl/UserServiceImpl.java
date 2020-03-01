@@ -26,11 +26,13 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public User findUserByName(String username) {
         return userRepository.findUserByName(username);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<User> findUserList(String name, Pageable pageable) {
         pageable.getSort().and(Sort.by(Sort.Order.desc("createDate")));
         return userRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
@@ -44,6 +46,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User findUserById(String userId) {
         return userRepository.getOne(userId);
     }
@@ -63,6 +66,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean hasSameName(String userId, String username) {
         return userRepository.count((root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -76,6 +80,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Authentication> findAuthentication(String userId) {
         return userRepository.findAuthentication(userId);
     }

@@ -1,4 +1,4 @@
-package com.spring.cloud;
+package com.spring.cloud.service;
 
 import com.alibaba.fastjson.JSON;
 import com.spring.cloud.entity.Event;
@@ -22,10 +22,7 @@ public abstract class BaseService implements ApplicationContextAware {
         event.setEventStatus(EventStatus.PRODUCER_NEW);
         event.setEventType(messageApplicationEvent.getMessageType());
         repository.save(event);
-        if (true) {
-            throw new NullPointerException("dfsf");
-        }
-        applicationContext.publishEvent(event);
+        applicationContext.publishEvent(messageApplicationEvent.bindEvent(event.getId()));
     }
     public void publishEvent(ApplicationEvent event) {
         applicationContext.publishEvent(event);

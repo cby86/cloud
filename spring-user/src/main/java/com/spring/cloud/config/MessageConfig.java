@@ -1,9 +1,7 @@
 package com.spring.cloud.config;
 
-import com.rabbitmq.client.Channel;
 import com.spring.cloud.entity.Authentication;
 import com.spring.cloud.service.AuthenticationService;
-import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;

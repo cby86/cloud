@@ -21,8 +21,6 @@ public interface MenuService {
 
     Page<Menu> findMenuPageList(String name,String url, int menuType, Pageable pageable);
 
-    void saveMenu(Menu menu);
-
     List<Menu> findMenuByParentId(String parentId,String name,String url,String excludeMenuId);
 
     List<Menu> findAllMenu();

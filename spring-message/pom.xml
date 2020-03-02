@@ -21,5 +21,10 @@
             <artifactId>spring-cloud-stream</artifactId>
             <version>2.1.3.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-amqp</artifactId>
+            <version>5.1.7.RELEASE</version>
+        </dependency>
     </dependencies>
 </project>

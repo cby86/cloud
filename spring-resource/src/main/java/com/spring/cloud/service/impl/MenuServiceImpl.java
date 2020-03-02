@@ -1,6 +1,6 @@
 package com.spring.cloud.service.impl;
 
-import com.spring.cloud.BaseService;
+import com.spring.cloud.service.BaseService;
 import com.spring.cloud.entity.Menu;
 import com.spring.cloud.exception.BusinessException;
 import com.spring.cloud.message.MessageApplicationEvent;
@@ -71,12 +71,6 @@ public class MenuServiceImpl extends BaseService implements MenuService {
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
         }, pageable);
-    }
-
-
-    @Override
-    public void saveMenu(Menu menu) {
-        this.saveOrUpdate(menu);
     }
 
     @Override

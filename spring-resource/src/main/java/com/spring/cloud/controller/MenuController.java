@@ -37,10 +37,10 @@ public class MenuController extends BaseController {
     @ResourceDesc(model = "菜单管理", name = "菜单编辑", desc = "菜单编辑")
     public Map<String, Object> updateMenus(MenuCommand menuCommand) {
         Menu menu = menuCommand.toDomain();
-        menuService.saveMenu(menu);
-        if (StringUtils.isNotEmpty(menuCommand.getId())) {
-            applicationContext.publishEvent(new MessageApplicationEvent(menuCommand,"updateMenu"));
-        }
+        menuService.saveOrUpdate(menu);
+//        if (StringUtils.isNotEmpty(menuCommand.getId())) {
+//            applicationContext.publishEvent(new MessageApplicationEvent(menuCommand,"updateMenu"));
+//        }
         return this.resultMap(null);
     }
 

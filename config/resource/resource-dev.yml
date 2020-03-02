@@ -1,7 +1,8 @@
 spring:
   mq:
     producer:
-       enabled: true
+       reliability:
+         enabled: true
   cloud:
     stream:
       binders:

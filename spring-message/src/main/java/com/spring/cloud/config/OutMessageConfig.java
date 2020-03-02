@@ -33,7 +33,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 
 
 @Configuration
-@ConditionalOnProperty("spring.mq.producer.enabled")
+@ConditionalOnProperty("spring.mq.producer.reliability.enable")
 @EnableBinding(Source.class)
 @EnableScheduling
 public class OutMessageConfig {

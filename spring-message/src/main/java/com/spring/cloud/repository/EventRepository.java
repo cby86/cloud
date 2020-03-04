@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.persistence.LockModeType;
+import java.util.Date;
 
 public interface EventRepository extends BaseRepository<Event, String> {
 
@@ -17,4 +18,8 @@ public interface EventRepository extends BaseRepository<Event, String> {
     @Modifying
     @Query("update Event obj set obj.eventStatus=?2 where obj.id=?1 and obj.markerError=false")
     void updateEvent(Object eventId, EventStatus producerError);
+
+    @Modifying
+    @Query("delete from Event obj  where obj.eventStatus=?1 and obj.overdue<?2")
+    void clearSuccessEvent( EventStatus producerError,Date now);
 }

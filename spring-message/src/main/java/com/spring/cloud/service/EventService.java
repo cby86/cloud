@@ -13,4 +13,6 @@ public interface EventService {
     void save(Event event);
 
     void successToSendEvent(Object eventId);
+
+    void clearSendMessage();
 }

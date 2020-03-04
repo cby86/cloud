@@ -4,6 +4,7 @@ import com.spring.cloud.entity.Event;
 import com.spring.cloud.entity.EventStatus;
 import com.spring.cloud.message.MessageApplicationEvent;
 import com.spring.cloud.service.EventService;
+import com.spring.cloud.utils.RedisLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.MessageProperties;
@@ -30,6 +31,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
+import java.util.Date;
+import java.util.UUID;
 
 
 @Configuration
@@ -46,6 +49,9 @@ public class OutMessageConfig {
     private MessageChannel out;
     @Autowired
     private EventService eventService;
+
+    @Autowired
+    private RedisLock redisLock;
 
     /**
      * 生产者发送消息错误处理，消息没有成功
@@ -99,7 +105,23 @@ public class OutMessageConfig {
 
     @Scheduled(cron = "0/30 * * * * *")
     public void work() {
-        doRetrySendMessage(0, errorEventFetchSize);
+        String requestId = UUID.randomUUID().toString();
+        boolean alarmNotify = redisLock.lock("eventSendLock", requestId, 10000);
+        if (alarmNotify) {
+            try {
+                doRetrySendMessage(0, errorEventFetchSize);
+                doClearSendMessage();
+            } finally {
+                redisLock.unlock("eventSendLock", requestId);
+            }
+        }
+    }
+
+    /**
+     * 清除处理成功消息
+     */
+    private void doClearSendMessage() {
+        eventService.clearSendMessage();
     }
 
     private void doRetrySendMessage(int page, int size) {

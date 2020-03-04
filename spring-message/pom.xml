@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>com.spring.cloud</groupId>
-            <artifactId>spring-common-utils</artifactId>
+            <artifactId>spring-common</artifactId>
             <version>${project.parent.version} </version>
         </dependency>
         <dependency>

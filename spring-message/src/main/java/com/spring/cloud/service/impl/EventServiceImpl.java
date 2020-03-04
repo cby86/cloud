@@ -57,4 +57,9 @@ public class EventServiceImpl implements EventService {
     public void successToSendEvent(Object eventId) {
         eventRepository.updateEvent(eventId, EventStatus.PROCESSORED);
     }
+
+    @Override
+    public void clearSendMessage() {
+        eventRepository.clearSuccessEvent(EventStatus.PROCESSORED,new Date());
+    }
 }

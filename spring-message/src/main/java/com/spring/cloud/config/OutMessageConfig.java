@@ -132,8 +132,10 @@ public class OutMessageConfig {
                 event.increaseRetry();
                 eventService.save(event);
                 this.sendMessage(new MessageApplicationEvent(event.getPayload(), event.getEventType()).bindEvent(event.getId()));
-            }finally {
-
+            }catch (Exception ex){
+                if (logger.isErrorEnabled()) {
+                    logger.error("发送消息错误{}:{}", event.getId(), ex.getMessage());
+                }
             }
         }
         if (events.getTotalPages() > 0 && events.getTotalPages() - 1 > page) {

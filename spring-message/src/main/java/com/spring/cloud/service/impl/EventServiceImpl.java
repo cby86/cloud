@@ -28,7 +28,10 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void errorToSendEventMessage(Object eventId,String reason) {
-        eventRepository.updateEvent(eventId, EventStatus.PRODUCER_ERROR,reason);
+        Event event = eventRepository.findEventForUpdate(eventId);
+        event.setEventStatus(EventStatus.PRODUCER_ERROR);
+        event.setMarkerError(true);
+        this.save(event);
     }
 
     @Override
@@ -55,7 +58,12 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void successToSendEvent(Object eventId) {
-        eventRepository.updateEvent(eventId, EventStatus.PROCESSORED);
+        Event event = eventRepository.findEventForUpdate(eventId);
+        if (event.isMarkerError()) {
+            return;
+        }
+        event.setEventStatus(EventStatus.PROCESSORED);
+        this.save(event);
     }
 
     @Override

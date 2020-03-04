@@ -22,4 +22,8 @@ public interface EventRepository extends BaseRepository<Event, String> {
     @Modifying
     @Query("delete from Event obj  where obj.eventStatus=?1 and obj.overdue<?2")
     void clearSuccessEvent( EventStatus producerError,Date now);
+
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    @Query("select obj from Event obj  where obj.id=?1 and obj.deleted=false")
+    Event findEventForUpdate(Object eventId);
 }

@@ -67,6 +67,7 @@ public class OutMessageConfig {
             MessageProperties messageProperties = amqpMessage.getMessageProperties();
             Object event = messageProperties.getHeaders().get(MessageApplicationEvent.eventHeader);
             if (event != null) {
+                logger.info("tttt");
                 eventService.errorToSendEventMessage(event,payload.getReplyText());
             }
         }
@@ -79,6 +80,7 @@ public class OutMessageConfig {
      */
     @ServiceActivator(inputChannel = "bussinessMessageConfirm")
     public void confirm(Message<?> message, @Header(MessageApplicationEvent.eventHeader) Object event) {
+        logger.info("22222");
         eventService.successToSendEvent(event);
     }
 

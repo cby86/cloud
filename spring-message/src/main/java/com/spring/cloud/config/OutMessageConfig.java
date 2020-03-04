@@ -66,6 +66,11 @@ public class OutMessageConfig {
         }
     }
 
+    /**
+     * 消息接收确认
+     * @param message
+     * @param event
+     */
     @ServiceActivator(inputChannel = "bussinessMessageConfirm")
     public void confirm(Message<?> message, @Header(MessageApplicationEvent.eventHeader) Object event) {
         eventService.successToSendEvent(event);
@@ -79,7 +84,7 @@ public class OutMessageConfig {
             sendMessage(event);
         } catch (Exception ex) {
             if (logger.isErrorEnabled()) {
-                logger.error("发送消息错误{}", event.getEvent(), ex);
+                logger.error("发送消息错误{}:{}", event.getEvent(), ex.getMessage());
             }
             eventService.errorToSendEventMessage(event.getEvent(),ex.getMessage());
         }
@@ -102,8 +107,13 @@ public class OutMessageConfig {
         for (Event event : events.getContent()) {
             try {
                 this.sendMessage(new MessageApplicationEvent(event.getPayload(), event.getEventType()).bindEvent(event.getId()));
-            }catch (Exception ex){
+            }catch (Exception ex) {
+                if (logger.isErrorEnabled()) {
+                    logger.error("发送消息错误{}:{}", event.getId(), ex.getMessage());
+                }
                 event.setReason(ex.getMessage());
+            }finally {
+                event.setMarkerError(false);
                 event.increaseRetry();
                 eventService.save(event);
             }

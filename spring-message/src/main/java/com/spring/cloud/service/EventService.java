@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 public interface EventService {
     void errorToSendEventMessage(Object eventId,String reason);
 
-    Page<Event> loadEventByStatus(EventStatus eventStatus,int page, int size);
+    Page<Event> loadEventByStatus(int page, int size);
 
     void save(Event event);
 

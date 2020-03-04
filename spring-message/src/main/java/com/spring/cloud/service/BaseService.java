@@ -5,11 +5,14 @@ import com.spring.cloud.entity.Event;
 import com.spring.cloud.entity.EventStatus;
 import com.spring.cloud.message.MessageApplicationEvent;
 import com.spring.cloud.repository.EventRepository;
+import com.spring.cloud.utils.JodaTimeUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
+
+import java.util.Date;
 
 public abstract class BaseService implements ApplicationContextAware {
     private ApplicationContext applicationContext;
@@ -21,6 +24,7 @@ public abstract class BaseService implements ApplicationContextAware {
         event.setPayload(JSON.toJSONString(messageApplicationEvent.getSource()));
         event.setEventStatus(EventStatus.PRODUCER_NEW);
         event.setEventType(messageApplicationEvent.getMessageType());
+        event.setOverdue(JodaTimeUtils.plusMinutes(new Date(),Event.timeout));
         repository.save(event);
         applicationContext.publishEvent(messageApplicationEvent.bindEvent(event.getId()));
     }

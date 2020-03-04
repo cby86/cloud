@@ -1,5 +1,6 @@
 package com.spring.cloud.service.impl;
 
+import ch.qos.logback.core.status.ErrorStatus;
 import com.spring.cloud.entity.Event;
 import com.spring.cloud.entity.EventStatus;
 import com.spring.cloud.repository.EventRepository;
@@ -12,8 +13,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -30,14 +33,16 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<Event> loadEventByStatus(EventStatus eventStatus, int page,int size) {
+    public Page<Event> loadEventByStatus(int page,int size) {
         Pageable pageable = PageRequest.of(page, size);
         pageable.getSort().and(Sort.by(Sort.Order.asc("id")));
         return eventRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(criteriaBuilder.equal(root.get("deleted"), false));
-            predicates.add(criteriaBuilder.equal(root.get("eventStatus"), eventStatus));
-            predicates.add(criteriaBuilder.equal(root.get("markerError"), true));
+            predicates.add(criteriaBuilder.or(criteriaBuilder.and(criteriaBuilder.equal(root.get("eventStatus"),
+                    EventStatus.PRODUCER_ERROR),criteriaBuilder.equal(root.get("markerError"), true)),
+                    criteriaBuilder.and(criteriaBuilder.equal(root.get("eventStatus"), EventStatus.PRODUCER_NEW),
+                            criteriaBuilder.lessThan(root.get("overdue"), new Date()))));
             predicates.add(criteriaBuilder.lt(root.get("retryCount"), Event.maxTimes));
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
         }, pageable);

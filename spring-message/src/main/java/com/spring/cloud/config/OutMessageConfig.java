@@ -33,7 +33,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 
 
 @Configuration
-@ConditionalOnProperty("spring.mq.producer.reliability.enable")
+@ConditionalOnProperty("spring.mq.producer.reliability.enabled")
 @EnableBinding(Source.class)
 @EnableScheduling
 public class OutMessageConfig {
@@ -98,7 +98,7 @@ public class OutMessageConfig {
     }
 
     private void doRetrySendMessage(int page, int size) {
-        Page<Event> events = eventService.loadEventByStatus(EventStatus.PRODUCER_ERROR, page, size);
+        Page<Event> events = eventService.loadEventByStatus(page, size);
         for (Event event : events.getContent()) {
             try {
                 this.sendMessage(new MessageApplicationEvent(event.getPayload(), event.getEventType()).bindEvent(event.getId()));

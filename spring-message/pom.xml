@@ -13,6 +13,11 @@
     <dependencies>
         <dependency>
             <groupId>com.spring.cloud</groupId>
+            <artifactId>spring-common-utils</artifactId>
+            <version>${project.parent.version} </version>
+        </dependency>
+        <dependency>
+            <groupId>com.spring.cloud</groupId>
             <artifactId>spring-common-dao</artifactId>
             <version>${project.parent.version}</version>
         </dependency>

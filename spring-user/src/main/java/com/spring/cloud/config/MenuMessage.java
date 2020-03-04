@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class MenuMessage{
     private String id;
-    private String menuName;
+    private String name;
     private String url;
     private String menuType;
 

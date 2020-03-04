@@ -48,7 +48,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     authentication.setParentId(menuMessage.getParentId());
                 }
                 authentication.setUrl(menuMessage.getUrl());
-                authentication.setName(menuMessage.getMenuName());
+                authentication.setName(menuMessage.getName());
             });
             this.saveAll(authenticationList);
         }

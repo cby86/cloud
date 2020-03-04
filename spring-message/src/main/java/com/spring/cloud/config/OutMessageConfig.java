@@ -67,7 +67,6 @@ public class OutMessageConfig {
             MessageProperties messageProperties = amqpMessage.getMessageProperties();
             Object event = messageProperties.getHeaders().get(MessageApplicationEvent.eventHeader);
             if (event != null) {
-                logger.info("tttt");
                 eventService.errorToSendEventMessage(event,payload.getReplyText());
             }
         }
@@ -80,7 +79,6 @@ public class OutMessageConfig {
      */
     @ServiceActivator(inputChannel = "bussinessMessageConfirm")
     public void confirm(Message<?> message, @Header(MessageApplicationEvent.eventHeader) Object event) {
-        logger.info("22222");
         eventService.successToSendEvent(event);
     }
 
@@ -130,16 +128,12 @@ public class OutMessageConfig {
         Page<Event> events = eventService.loadEventByStatus(page, size);
         for (Event event : events.getContent()) {
             try {
-                this.sendMessage(new MessageApplicationEvent(event.getPayload(), event.getEventType()).bindEvent(event.getId()));
-            }catch (Exception ex) {
-                if (logger.isErrorEnabled()) {
-                    logger.error("发送消息错误{}:{}", event.getId(), ex.getMessage());
-                }
-                event.setReason(ex.getMessage());
-            }finally {
                 event.setMarkerError(false);
                 event.increaseRetry();
                 eventService.save(event);
+                this.sendMessage(new MessageApplicationEvent(event.getPayload(), event.getEventType()).bindEvent(event.getId()));
+            }finally {
+
             }
         }
         if (events.getTotalPages() > 0 && events.getTotalPages() - 1 > page) {

@@ -31,6 +31,7 @@ public class EventServiceImpl implements EventService {
         Event event = eventRepository.findEventForUpdate(eventId);
         event.setEventStatus(EventStatus.PRODUCER_ERROR);
         event.setMarkerError(true);
+        event.setReason(reason);
         this.save(event);
     }
 

@@ -28,7 +28,7 @@
       <el-col>
         <el-table
           :data="tableData"
-          ref="table"
+          ref="menuTable"
           row-key="id"
           lazy
           :load="load"
@@ -97,14 +97,22 @@
       };
     },
     mounted() {
-      this.bus.$on('refreshMenu', (id) => {
+      this.bus.$on('refreshMenu', (parentId) => {
+       if(parentId) {
+          this.refreshRow(parentId)
+       }else {
+         this.init()
+       }
       });
-      this.loadMenus(null,(data)=>{
-        this.dataResolver(data);
-        this.tableData = data;
-      })
+      this.init()
     },
     methods: {
+      init(){
+        this.loadMenus(null,(data)=>{
+          this.dataResolver(data);
+          this.tableData = data;
+        })
+      },
       dataResolver(data) {
         if(data) {
           data.forEach(item=>{
@@ -114,7 +122,8 @@
       },
       refreshRow(id) {
         this.loadMenus(id, (data) => {
-          this.$set(this.$refs.table.store.states.lazyTreeNodeMap, id, data)
+          this.dataResolver(data);
+          this.$set(this.$refs.menuTable.store.states.lazyTreeNodeMap, id, data)
         });
       },
       deleteMenu(row) {
@@ -129,7 +138,11 @@
               menuId:row["id"]
             },
             success: result => {
-              this.refreshRow(row.parentId)
+              if(row.parentId) {
+                this.refreshRow(row.parentId)
+              }else {
+                this.init();
+              }
             },
             error: e => {
               this.$message.error(e)
@@ -173,7 +186,6 @@
             callback(result.data);
           },
           error: e => {
-            resolve([]);
             this.$message.error(e)
           }
         })

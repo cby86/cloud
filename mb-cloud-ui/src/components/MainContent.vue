@@ -1,6 +1,6 @@
 <template>
-  <el-main >
-    <el-tabs  v-model="activeTab" type="card" @tab-remove="removeTab"  @tab-click="tabClick">
+  <el-main>
+    <el-tabs v-model="activeTab" type="card" @tab-remove="removeTab" @tab-click="tabClick">
       <el-tab-pane :closable="item.closable"
                    v-for="(item, index) in tabs"
                    :key="item.name"
@@ -64,16 +64,16 @@
       });
     },
     watch: {
-      '$route'(to) {
-        this.clearCache(to)
+      '$route'(to,from) {
+        this.clearCache(to,from)
       },
-      "tabs":{
-        handler(){
-          if(window.localStorage) {
-            window.localStorage.setItem("cacheTabs",JSON.stringify(this.tabs))
+      "tabs": {
+        handler() {
+          if (window.localStorage) {
+            window.localStorage.setItem("cacheTabs", JSON.stringify(this.tabs))
           }
         },
-        deep:true
+        deep: true
       }
     },
     mounted() {
@@ -81,14 +81,19 @@
     },
     methods: {
       init() {
-        if(window.localStorage) {
+        if (window.localStorage) {
           let cacheTabs = window.localStorage.getItem("cacheTabs");
-          if(cacheTabs){
-             let cache=JSON.parse(cacheTabs);
-             this.tabs=cache.filter(item=>!item.closable || this.$store.getters.hasAuth(item.cacheName[0]))
+          if (cacheTabs) {
+            let cache = JSON.parse(cacheTabs);
+            this.tabs = cache.filter(item => !item.closable || this.$store.getters.hasAuth(item.cacheName[0]))
+            this.tabs.forEach(item => {
+              item.cacheName.forEach(cache => {
+                this.cacheTag.push(cache)
+              })
+            })
           }
         }
-        if(this.tabs.length==0) {
+        if (this.tabs.length == 0) {
           this.tabs = [
             {
               name: "1",
@@ -101,24 +106,26 @@
           this.cacheTag = ["Home"];
         }
       },
-      clearCache(to) {
+      clearCache(to, from) {
         let tab = this.findCurrentTab()
         if (tab) {
-          if(tab.cacheName[tab.cacheName.length-1]==to.name) {
+          if (tab.cacheName[tab.cacheName.length - 1] == to.name) {
             return
           }
-          if(to.meta.cacheParent) {
-            tab.cacheName.push(to.name);
-            this.cacheTag.push(to.name)
-          }else {
-            tab.cacheName = [to.name];
-            this.cacheTag = [to.name];
+          if (!from.meta.cache && !from.meta.primary) {
+            this.cacheTag = this.cacheTag.filter(name => name !== from.name)
+            tab.cacheName = tab.cacheName.filter(name => name !== from.name)
           }
+          if (tab.cacheName[tab.cacheName.length - 1] == to.name) {
+            return
+          }
+          tab.cacheName.push(to.name);
+          this.cacheTag.push(to.name)
         }
       },
       findCurrentTab() {
         for (let option of this.tabs) {
-          if (option.name ===(this.activeTab+"")) {
+          if (option.name === (this.activeTab + "")) {
             return option;
           }
         }
@@ -127,10 +134,10 @@
       tabClick(tab) {
         var tagPath;
         let currentTab = this.findCurrentTab();
-        if(!currentTab) {
+        if (!currentTab) {
           return
         }
-        tagPath= currentTab.cacheName[currentTab.cacheName.length-1]
+        tagPath = currentTab.cacheName[currentTab.cacheName.length - 1]
         if (this.$route.name === tagPath) {
           return
         }
@@ -139,7 +146,7 @@
       matchTab(to) {
         let flag = false;
         for (let option of this.tabs) {
-          if (option.route ===to.params.menuPath) {
+          if (option.route === to.params.menuPath) {
             this.activeTab = option.name
             flag = true;
             break
@@ -152,7 +159,7 @@
       addTab(menuName, menuPath, cacheName) {
         let index = this.tabIndex;
         for (var i = 0; i < this.tabs.length; i++) {
-          if(index < this.tabs[i].name) {
+          if (index < this.tabs[i].name) {
             index = this.tabs[i].name;
           }
           if (this.tabs[i].title === menuName) {
@@ -188,8 +195,8 @@
         });
         this.activeTab = activeName;
         this.tabs = tabs.filter(tab => tab.name !== targetName);
-        if(cacheName) {
-          for(let name in cacheName) {
+        if (cacheName) {
+          for (let name in cacheName) {
             this.cacheTag = this.cacheTag.filter(index => index !== name)
           }
         }

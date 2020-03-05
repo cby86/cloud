@@ -34,6 +34,7 @@ var router = new Router({
           name: MenuList.name,
           component: MenuList,
           meta: {
+            cache:true,
             primary: true
           }
         },
@@ -42,7 +43,6 @@ var router = new Router({
           name: MenuForm.name,
           component: MenuForm,
           meta: {
-            cacheParent:true,
             primary: false,
             parent:MenuList.name
           }

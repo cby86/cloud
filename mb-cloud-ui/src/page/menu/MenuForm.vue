@@ -11,7 +11,7 @@
           @getValue="getValue($event)"/>
       </el-form-item>
       <el-form-item label="菜单/功能名称" prop="menuName">
-          <el-input v-model="menuForm.menuName" placeholder="菜单/功能名称"></el-input>
+        <el-input v-model="menuForm.menuName" placeholder="菜单/功能名称"></el-input>
       </el-form-item>
       <el-form-item label="编码" prop="code">
         <el-input v-model="menuForm.code" placeholder="唯一标识"></el-input>
@@ -51,28 +51,28 @@
     },
     data() {
       return {
-        fieldsDefine:{
-           value:"id",
-           label:"menuName",
-           isLeaf:"hasChildren",
+        fieldsDefine: {
+          value: "id",
+          label: "menuName",
+          isLeaf: "hasChildren",
         },
         menuForm: {
-          parentId:null,
-          parentName:null,
-          id:null,
+          parentId: null,
+          parentName: null,
+          id: null,
           menuName: null,
           url: null,
           menuType: "Menu",
-          code:null,
-          icon:null,
-          sort:0
+          code: null,
+          icon: null,
+          sort: 0
         },
         rules: {
           menuName: [
             {required: true, message: '请输入菜单名称', trigger: 'blur'},
             {min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur'}
           ],
-          code:[
+          code: [
             {required: true, message: '请输入编码', trigger: 'blur'},
           ]
         },
@@ -90,7 +90,7 @@
     mounted() {
       this.menuForm.parentName = this.$route.params.parentName;
       this.menuForm.parentId = this.$route.params.parentId;
-      if(this.$route.params.id) {
+      if (this.$route.params.id) {
         this.loadMenu(this.$route.params.id)
       }
     },
@@ -106,7 +106,7 @@
               url: '/spring-resource/menu/updateMenus',
               data: this.menuForm,
               success: result => {
-                this.bus.$emit("refreshMenu")
+                this.bus.$emit("refreshMenu",this.menuForm.parentId)
                 this.$message({
                   type: 'success',
                   message: `操作成功`
@@ -123,16 +123,16 @@
       cancel() {
         this.$router.push({path: "/menu"})
       },
-      loadMenu(id){
+      loadMenu(id) {
         this.$request.get({
           url: '/spring-resource/menu/findMenuById',
           config: {
-            params:{
-              menuId:id
+            params: {
+              menuId: id
             }
           },
           success: result => {
-            this.$utils.copyFromTo(result.data,this.menuForm)
+            this.$utils.copyFromTo(result.data, this.menuForm)
           },
           error: e => {
             this.$message.error(e)
@@ -147,13 +147,13 @@
         this.$request.get({
           url: '/spring-resource/menu/findMenuByParentId',
           config: {
-            params:{
-              parentId:parentId,
-              excludeMenuId:this.$route.params.id
+            params: {
+              parentId: parentId,
+              excludeMenuId: this.$route.params.id
             }
           },
           success: result => {
-             resolve(result.data);
+            resolve(result.data);
           },
           error: e => {
             resolve([]);

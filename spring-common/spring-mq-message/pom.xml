@@ -5,15 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.spring.cloud</groupId>
-        <artifactId>spring-cloud</artifactId>
+        <artifactId>spring-common</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>spring-message</artifactId>
+    <artifactId>spring-mq-message</artifactId>
     <packaging>jar</packaging>
+    <description>消息队列封装</description>
     <dependencies>
         <dependency>
             <groupId>com.spring.cloud</groupId>
-            <artifactId>spring-common</artifactId>
+            <artifactId>spring-common-mvc</artifactId>
             <version>${project.parent.version} </version>
         </dependency>
         <dependency>

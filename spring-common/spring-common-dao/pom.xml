@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.spring.cloud</groupId>
-        <artifactId>spring-cloud</artifactId>
+        <artifactId>spring-common</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>spring-common-dao</artifactId>

@@ -57,7 +57,7 @@
         </dependency>
         <dependency>
             <groupId>com.spring.cloud</groupId>
-            <artifactId>spring-common</artifactId>
+            <artifactId>spring-common-mvc</artifactId>
             <version>${project.parent.version} </version>
         </dependency>
 

@@ -120,8 +120,6 @@
         </dependency>
     </dependencies>
     <modules>
-        <module>spring-common-utils</module>
-        <module>spring-common-dao</module>
         <module>spring-common</module>
         <module>spring-eureka-server</module>
         <module>spring-user</module>
@@ -132,7 +130,6 @@
         <module>spring-config</module>
         <module>spring-task</module>
         <module>spring-gateway</module>
-        <module>spring-message</module>
     </modules>
 
     <build>

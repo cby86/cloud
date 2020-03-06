@@ -1,10 +1,12 @@
 package com.spring.cloud.service.impl;
 
 import ch.qos.logback.core.status.ErrorStatus;
+import com.alibaba.fastjson.JSON;
 import com.spring.cloud.entity.Event;
 import com.spring.cloud.entity.EventStatus;
 import com.spring.cloud.repository.EventRepository;
 import com.spring.cloud.service.EventService;
+import com.spring.cloud.utils.JodaTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -70,5 +72,31 @@ public class EventServiceImpl implements EventService {
     @Override
     public void clearSendMessage() {
         eventRepository.clearSuccessEvent(EventStatus.PROCESSORED,new Date());
+    }
+
+    @Override
+    public boolean allow(String eventId, Object message, String messageType) {
+        Event event = this.findEventBySource(eventId);
+        if (event == null) {
+            event = Event.createEvent(EventStatus.CONSUMER_NEW, message, messageType,eventId);
+            eventRepository.save(event);
+            return true;
+        }
+        return event.getEventStatus().equals(EventStatus.CONSUMER_NEW) ||  event.getEventStatus().equals(EventStatus.CONSUMER_ERROR);
+    }
+
+    @Override
+    public void errorToConsumerEventMessage(String eventId, String message) {
+        Event event = this.findEventBySource(eventId);
+        if (event != null) {
+            event.setEventStatus(EventStatus.CONSUMER_ERROR);
+            event.setMarkerError(true);
+            event.setReason(message);
+            this.save(event);
+        }
+    }
+
+    private Event findEventBySource(String eventId) {
+        return eventRepository.findEventBySource(eventId);
     }
 }

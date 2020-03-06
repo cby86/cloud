@@ -1,9 +1,6 @@
 package com.spring.cloud.service;
 
-import com.spring.cloud.config.MenuMessage;
-import com.spring.cloud.entity.Authentication;
-
-import java.util.List;
+import com.spring.cloud.service.dto.MenuMessage;
 
 public interface AuthenticationService {
 

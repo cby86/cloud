@@ -3,6 +3,7 @@ package com.spring.cloud.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spring.cloud.base.BaseEntity;
+import com.spring.cloud.message.IMessage;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,7 +20,7 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Getter
 @Setter
-public class Menu extends BaseEntity {
+public class Menu extends BaseEntity implements IMessage {
 
     /**
      * 名称
@@ -66,5 +67,9 @@ public class Menu extends BaseEntity {
     public boolean isMenu() {
         return menuType.equals(MenuType.Menu);
     }
-    
+
+    @Override
+    public String getSourceId() {
+        return this.getId();
+    }
 }

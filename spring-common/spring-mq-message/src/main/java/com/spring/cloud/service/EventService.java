@@ -15,4 +15,8 @@ public interface EventService {
     void successToSendEvent(Object eventId);
 
     void clearSendMessage();
+
+    boolean allow(String eventId, Object message, String messsageType);
+
+    void errorToConsumerEventMessage(String eventId, String message);
 }

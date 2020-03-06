@@ -1,10 +1,10 @@
 package com.spring.cloud.service.impl;
 
-import com.spring.cloud.config.MenuMessage;
 import com.spring.cloud.entity.Authentication;
 import com.spring.cloud.repository.AuthenticationRepository;
 import com.spring.cloud.repository.RoleRepository;
 import com.spring.cloud.service.AuthenticationService;
+import com.spring.cloud.service.dto.MenuMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

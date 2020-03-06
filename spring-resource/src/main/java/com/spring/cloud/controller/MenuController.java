@@ -56,7 +56,6 @@ public class MenuController extends BaseController {
     @ResourceDesc(model = "菜单管理", name = "删除菜单", desc = "根据ID删除菜单")
     public Map<String, Object> deletedMenu(String menuId) {
         menuService.deletedMenu(menuId);
-        applicationContext.publishEvent(new MessageApplicationEvent(menuId,"deleteMenu"));
         return this.resultMap(true);
     }
 

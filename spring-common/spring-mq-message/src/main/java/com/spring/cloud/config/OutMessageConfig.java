@@ -131,7 +131,7 @@ public class OutMessageConfig {
                 event.setMarkerError(false);
                 event.increaseRetry();
                 eventService.save(event);
-                this.sendMessage(new MessageApplicationEvent(event.getPayload(), event.getEventType()).bindEvent(event.getId()));
+                this.sendMessage(new MessageApplicationEvent(event.getPayload(), event.getEventType()).bindEvent(event.getId()).bindSource(event.getSourceId()));
             }catch (Exception ex){
                 if (logger.isErrorEnabled()) {
                     logger.error("发送消息错误{}:{}", event.getId(), ex.getMessage());

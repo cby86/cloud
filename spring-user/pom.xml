@@ -27,6 +27,11 @@
             <version>${project.parent.version} </version>
         </dependency>
         <dependency>
+            <groupId>com.spring.cloud</groupId>
+            <artifactId>spring-mq-message</artifactId>
+            <version>${project.parent.version} </version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>

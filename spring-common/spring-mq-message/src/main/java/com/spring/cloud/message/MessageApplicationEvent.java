@@ -7,6 +7,7 @@ public class MessageApplicationEvent extends ApplicationEvent {
     public final static String messageTypeHeader = "messageType";
     String messageType;
     Object event;
+    String sourceId;
 
     /**
      * Create a new ApplicationEvent.
@@ -15,12 +16,24 @@ public class MessageApplicationEvent extends ApplicationEvent {
      */
     public MessageApplicationEvent(Object source, String messageType) {
         super(source);
+        if (source instanceof IMessage) {
+            this.sourceId = ((IMessage) source).getSourceId();
+        }
         this.messageType = messageType;
     }
 
     public MessageApplicationEvent bindEvent(Object event) {
         this.event = event;
         return this;
+    }
+
+    public MessageApplicationEvent bindSource(String sourceId) {
+        this.sourceId = sourceId;
+        return this;
+    }
+
+    public String getSourceId() {
+        return sourceId;
     }
 
     public String getMessageType() {

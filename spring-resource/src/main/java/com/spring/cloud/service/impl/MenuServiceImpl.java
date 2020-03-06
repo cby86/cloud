@@ -1,6 +1,7 @@
 package com.spring.cloud.service.impl;
 
-import com.spring.cloud.service.BaseService;
+import com.spring.cloud.message.MessageType;
+import com.spring.cloud.service.EventBaseProcessor;
 import com.spring.cloud.entity.Menu;
 import com.spring.cloud.exception.BusinessException;
 import com.spring.cloud.message.MessageApplicationEvent;
@@ -24,7 +25,7 @@ import java.util.List;
  **/
 @Service
 @Transactional
-public class MenuServiceImpl extends BaseService implements MenuService {
+public class MenuServiceImpl extends EventBaseProcessor implements MenuService {
 
     @Autowired
     MenuRepository menuRepository;
@@ -33,7 +34,7 @@ public class MenuServiceImpl extends BaseService implements MenuService {
     @Override
     public void saveOrUpdate(Menu menu) {
         if (!StringUtils.isEmpty(menu.getId())) {
-            this.publishEvent(new MessageApplicationEvent(menu,"updateMenu"));
+            this.publishMqEvent(new MessageApplicationEvent(menu, MessageType.MenuChange.name()));
         }
         menuRepository.save(menu);
     }
@@ -45,6 +46,7 @@ public class MenuServiceImpl extends BaseService implements MenuService {
             throw new BusinessException("菜单下还存在子菜单,请先删除子菜单");
         }
         menuRepository.deleteById(id);
+        this.publishMqEvent(new MessageApplicationEvent(id,MessageType.MenuDelete.name()));
     }
 
     @Override

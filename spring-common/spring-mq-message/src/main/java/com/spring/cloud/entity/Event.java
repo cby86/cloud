@@ -1,6 +1,9 @@
 package com.spring.cloud.entity;
 
+import com.alibaba.fastjson.JSON;
 import com.spring.cloud.base.IntIdBaseEntity;
+import com.spring.cloud.service.EventService;
+import com.spring.cloud.utils.JodaTimeUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -32,8 +35,21 @@ public class Event extends IntIdBaseEntity {
 
     private Date overdue;
 
+    private String sourceId;
+
 
     public void increaseRetry() {
         this.retryCount++;
+    }
+
+
+    public static Event createEvent(EventStatus status, Object message, String messageType,String sourceId) {
+        Event event = new Event();
+        event.setPayload(JSON.toJSONString(message));
+        event.setEventStatus(status);
+        event.setEventType(messageType);
+        event.setSourceId(sourceId);
+        event.setOverdue(JodaTimeUtils.plusMinutes(new Date(),Event.timeout));
+        return event;
     }
 }

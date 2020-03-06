@@ -1,5 +1,9 @@
 package com.spring.cloud.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.cloud.message.MessageType;
 import com.spring.cloud.service.EventBaseProcessor;
 import com.spring.cloud.entity.Menu;
@@ -7,6 +11,7 @@ import com.spring.cloud.exception.BusinessException;
 import com.spring.cloud.message.MessageApplicationEvent;
 import com.spring.cloud.repository.MenuRepository;
 import com.spring.cloud.service.MenuService;
+import com.spring.cloud.utils.JsonUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,12 +34,13 @@ public class MenuServiceImpl extends EventBaseProcessor implements MenuService {
 
     @Autowired
     MenuRepository menuRepository;
-
+    private static final ObjectMapper objectMapper = new ObjectMapper()
+            .configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
 
     @Override
     public void saveOrUpdate(Menu menu) {
         if (!StringUtils.isEmpty(menu.getId())) {
-            this.publishMqEvent(new MessageApplicationEvent(menu, MessageType.MenuChange.name()));
+            this.publishMqEvent(new MessageApplicationEvent(JsonUtils.toJsonString(menu), MessageType.MenuChange.name()));
         }
         menuRepository.save(menu);
     }

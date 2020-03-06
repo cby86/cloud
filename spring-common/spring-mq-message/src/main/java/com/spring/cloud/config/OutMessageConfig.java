@@ -125,7 +125,7 @@ public class OutMessageConfig {
     }
 
     private void doRetrySendMessage(int page, int size) {
-        Page<Event> events = eventService.loadEventByStatus(page, size);
+        Page<Event> events = eventService.loadProducerEvent(page, size);
         for (Event event : events.getContent()) {
             try {
                 event.setMarkerError(false);

@@ -11,13 +11,6 @@ import java.util.Date;
 
 public interface EventRepository extends BaseRepository<Event, String> {
 
-    @Modifying
-    @Query("update Event obj set obj.eventStatus=?2,obj.reason=?3,obj.markerError=true where obj.id=?1")
-    void updateEvent(Object eventId, EventStatus producerError,String reason);
-
-    @Modifying
-    @Query("update Event obj set obj.eventStatus=?2 where obj.id=?1 and obj.markerError=false")
-    void updateEvent(Object eventId, EventStatus producerError);
 
     @Modifying
     @Query("delete from Event obj  where obj.eventStatus=?1 and obj.overdue<?2")
@@ -28,4 +21,8 @@ public interface EventRepository extends BaseRepository<Event, String> {
     Event findEventForUpdate(Object eventId);
     @Query("select obj from Event obj  where obj.sourceId=?1 and obj.deleted=false")
     Event findEventBySource(String eventId);
+
+    @Modifying
+    @Query("update  Event obj set obj.retryCount=obj.retryCount+1,obj.reason=2 where obj.id=?1")
+    void retryUpdate(int eventId, String reason);
 }

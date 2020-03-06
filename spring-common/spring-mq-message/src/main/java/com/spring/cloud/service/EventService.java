@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 public interface EventService {
     void errorToSendEventMessage(Object eventId,String reason);
 
-    Page<Event> loadEventByStatus(int page, int size);
+    Page<Event> loadProducerEvent(int page, int size);
 
     void save(Event event);
 
@@ -19,4 +19,10 @@ public interface EventService {
     boolean allow(String eventId, Object message, String messsageType);
 
     void errorToConsumerEventMessage(String eventId, String message);
+
+    Page<Event> loadConsumerEvents(int page, int size);
+
+    void clearConsumerMessage();
+
+    void retryUpdate(int eventId, String reason);
 }

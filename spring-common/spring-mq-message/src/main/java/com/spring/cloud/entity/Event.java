@@ -31,6 +31,7 @@ public class Event extends IntIdBaseEntity {
 
     private boolean markerError;
 
+    @Column(length = 1024)
     private String reason;
 
     private Date overdue;

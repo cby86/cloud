@@ -25,7 +25,7 @@ public abstract class EventBaseProcessor implements ApplicationContextAware {
     public void commitMqEvent (String eventId) {
         Event event = repository.findEventBySource(eventId);
         if (event != null) {
-            event.setEventStatus(EventStatus.PROCESSORED);
+            event.setEventStatus(EventStatus.CONSUMER_PROCESSORED);
         }
         repository.save(event);
     }

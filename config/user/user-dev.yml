@@ -1,8 +1,4 @@
 spring:
-  mq:
-    consumer:
-       reliability:
-         enabled: true
   cloud:
     stream:
        binders:

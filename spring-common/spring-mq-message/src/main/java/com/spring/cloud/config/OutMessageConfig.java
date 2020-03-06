@@ -35,10 +35,6 @@ import java.util.Date;
 import java.util.UUID;
 
 
-@Configuration
-@ConditionalOnProperty("spring.mq.producer.reliability.enabled")
-@EnableBinding(Source.class)
-@EnableScheduling
 public class OutMessageConfig {
 
     Logger logger = LoggerFactory.getLogger(OutMessageConfig.class);

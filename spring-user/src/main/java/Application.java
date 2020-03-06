@@ -1,3 +1,4 @@
+import com.spring.cloud.auto.EnableInMessage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = {"com.spring.cloud.repository"})
 @EntityScan(basePackages = {"com.spring.cloud.entity"})
+@EnableInMessage
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

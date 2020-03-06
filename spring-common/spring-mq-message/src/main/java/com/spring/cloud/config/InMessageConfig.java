@@ -24,10 +24,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import java.util.UUID;
 
 
-@ConditionalOnProperty(value = "spring.mq.consumer.reliability.enabled",havingValue = "true",matchIfMissing = false)
-@EnableBinding(Sink.class)
-@Configuration
-@EnableScheduling
 public class InMessageConfig {
     Logger logger = LoggerFactory.getLogger(InMessageConfig.class);
     private final static int errorEventFetchSize = 100;

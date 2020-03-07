@@ -23,6 +23,7 @@ spring:
             output:
                producer:
                   confirmAckChannel: bussinessMessageConfirm
+                  routing-key-expression: headers.messageType
   redis:
     host: localhost
     port: 6379

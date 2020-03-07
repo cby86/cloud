@@ -18,6 +18,6 @@ public class AuthenticationDeleteEventHandler extends AbstractMessageHandler {
 
     @Override
     public String supportMessageType() {
-        return MessageType.MenuDelete.name();
+        return MessageType.MenuDelete.getRouterKey();
     }
 }

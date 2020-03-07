@@ -22,7 +22,7 @@ import java.util.Map;
 @RefreshScope
 public class FallbackController {
     Logger logger = LoggerFactory.getLogger(FallbackController.class);
-    @Value("${route.returnFailRoutePath}")
+    @Value("${route.returnFailRoutePath:false}")
     private boolean returnFailRoutePath = false;
 
     @RequestMapping("/fallback")

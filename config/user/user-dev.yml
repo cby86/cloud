@@ -23,6 +23,7 @@ spring:
          bindings:
            input:
               consumer:
+                 bindingRoutingKey: "*.user.*"
                  autoBindDlq: true
                  republishToDlq: true
                  acknowledge-mode: manual

@@ -17,11 +17,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.expression.Expression;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.integration.handler.ExpressionEvaluatingMessageProcessor;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -40,7 +47,7 @@ public class MenuServiceImpl extends EventBaseProcessor implements MenuService {
     @Override
     public void saveOrUpdate(Menu menu) {
         if (!StringUtils.isEmpty(menu.getId())) {
-            this.publishMqEvent(new MessageApplicationEvent(JsonUtils.toJsonString(menu), MessageType.MenuChange.name()));
+            this.publishMqEvent(new MessageApplicationEvent(JsonUtils.toJsonString(menu), MessageType.MenuChange.getRouterKey()).bindSource(menu.getSourceId()));
         }
         menuRepository.save(menu);
     }
@@ -52,7 +59,7 @@ public class MenuServiceImpl extends EventBaseProcessor implements MenuService {
             throw new BusinessException("菜单下还存在子菜单,请先删除子菜单");
         }
         menuRepository.deleteById(id);
-        this.publishMqEvent(new MessageApplicationEvent(id,MessageType.MenuDelete.name()));
+        this.publishMqEvent(new MessageApplicationEvent(id,MessageType.MenuDelete.getRouterKey()));
     }
 
     @Override
@@ -130,5 +137,28 @@ public class MenuServiceImpl extends EventBaseProcessor implements MenuService {
             predicates.add(criteriaBuilder.equal(root.get(name), value));
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
         }) > 0;
+    }
+
+    public static void main(String[] args) {
+        ExpressionParser EXPRESSION_PARSER = new SpelExpressionParser();
+        Expression expression = EXPRESSION_PARSER.parseExpression("headers.get('messageType')");
+        ExpressionEvaluatingMessageProcessor routingKeyGenerator = new ExpressionEvaluatingMessageProcessor<String>(expression,
+                String.class);
+        Message menu = new Message(){
+
+            @Override
+            public Object getPayload() {
+                return "dfsa";
+            }
+
+            @Override
+            public MessageHeaders getHeaders() {
+                HashMap<String, Object> objectObjectHashMap = new HashMap<>();
+                objectObjectHashMap.put("messageType", "hello");
+                return new MessageHeaders(objectObjectHashMap);
+            }
+        };
+        Object o = routingKeyGenerator.processMessage(menu);
+        System.out.println(o);
     }
 }

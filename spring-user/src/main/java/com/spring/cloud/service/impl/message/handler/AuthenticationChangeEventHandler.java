@@ -21,6 +21,6 @@ public class AuthenticationChangeEventHandler extends AbstractMessageHandler {
 
     @Override
     public String supportMessageType() {
-        return MessageType.MenuChange.name();
+        return MessageType.MenuChange.getRouterKey();
     }
 }

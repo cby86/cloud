@@ -1,5 +1,6 @@
 package com.spring.cloud.auto;
 
+import com.spring.cloud.config.ConnectionNameConfig;
 import com.spring.cloud.config.InMessageConfig;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Processor;
@@ -12,7 +13,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import(InMessageConfig.class)
+@Import({InMessageConfig.class, ConnectionNameConfig.class})
 @EnableBinding(Sink.class)
 @EnableScheduling
 public @interface EnableInMessage {

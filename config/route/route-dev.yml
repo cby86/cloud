@@ -28,3 +28,4 @@ spring:
                  autoBindDlq: true
                  republishToDlq: true
                  acknowledge-mode: manual
+                 anonymousGroupPrefix: ${spring.application.name}.

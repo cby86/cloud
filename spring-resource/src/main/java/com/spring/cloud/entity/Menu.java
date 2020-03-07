@@ -20,7 +20,7 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Getter
 @Setter
-public class Menu extends BaseEntity implements IMessage {
+public class Menu extends BaseEntity{
 
     /**
      * 名称
@@ -68,8 +68,4 @@ public class Menu extends BaseEntity implements IMessage {
         return menuType.equals(MenuType.Menu);
     }
 
-    @Override
-    public String getSourceId() {
-        return this.getId();
-    }
 }

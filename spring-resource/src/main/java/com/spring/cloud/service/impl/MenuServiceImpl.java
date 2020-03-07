@@ -47,7 +47,7 @@ public class MenuServiceImpl extends EventBaseProcessor implements MenuService {
     @Override
     public void saveOrUpdate(Menu menu) {
         if (!StringUtils.isEmpty(menu.getId())) {
-            this.publishMqEvent(new MessageApplicationEvent(JsonUtils.toJsonString(menu), MessageType.MenuChange.getRouterKey()).bindSource(menu.getSourceId()));
+            this.publishMqEvent(new MessageApplicationEvent(JsonUtils.toJsonString(menu), MessageType.MenuChange.getRouterKey()).bindSource(menu.getId()));
         }
         menuRepository.save(menu);
     }

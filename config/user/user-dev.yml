@@ -12,10 +12,15 @@ spring:
                  username: publisher
                  password: publisher
                  virtual-host: /
+                 publisher-confirms: true
        bindings:
           input:
-            destination: bussinessMessage
-            group: ${spring.application.name}
+             destination: bussinessMessage
+             group: ${spring.application.name}
+          output:
+             destination: bussinessMessage
+             producer:
+                errorChannelEnabled: true
        default:
           consumer:
               maxAttempts: 3
@@ -27,6 +32,10 @@ spring:
                  autoBindDlq: true
                  republishToDlq: true
                  acknowledge-mode: manual
+           output:
+              producer:
+                 confirmAckChannel: bussinessMessageConfirm
+                 routing-key-expression: headers.messageType
   redis:
     host: localhost
     port: 6379

@@ -3,9 +3,13 @@ package com.spring.cloud.service.impl;
 import com.spring.cloud.entity.Authentication;
 import com.spring.cloud.entity.Role;
 import com.spring.cloud.exception.BusinessException;
+import com.spring.cloud.message.MessageApplicationEvent;
+import com.spring.cloud.message.MessageType;
 import com.spring.cloud.repository.RoleRepository;
 import com.spring.cloud.repository.component.ResourcePermit;
+import com.spring.cloud.service.EventBaseProcessor;
 import com.spring.cloud.service.RoleService;
+import com.spring.cloud.utils.JsonUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,13 +30,16 @@ import java.util.List;
  **/
 @Service
 @Transactional
-public class RoleServiceImpl implements RoleService {
+public class RoleServiceImpl  extends EventBaseProcessor implements RoleService {
 
     @Autowired
     RoleRepository roleRepository;
 
     @Override
     public void saveOrUpdate(Role role) {
+        if (!StringUtils.isEmpty(role.getId())) {
+            this.publishMqEvent(new MessageApplicationEvent(role.getId(), MessageType.AuthencationChange.getRouterKey()).bindSource(role.getId()));
+        }
         roleRepository.save(role);
     }
 

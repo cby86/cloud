@@ -1,53 +1,39 @@
 package com.spring.cloud.config;
 
 import com.spring.cloud.entity.Event;
-import com.spring.cloud.entity.EventStatus;
 import com.spring.cloud.message.MessageApplicationEvent;
-import com.spring.cloud.service.EventService;
-import com.spring.cloud.utils.RedisLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Source;
-import org.springframework.context.annotation.Conditional;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Page;
 import org.springframework.integration.amqp.support.ReturnedAmqpMessageException;
 import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.support.ErrorMessage;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-import java.util.Date;
-import java.util.UUID;
 
-
-public class OutMessageConfig {
-
-    Logger logger = LoggerFactory.getLogger(OutMessageConfig.class);
-    private final static int errorEventFetchSize = 100;
+public class OutMessageConfig extends BaseMessageConfig {
+    private final static String lockName = "_eventSendLock";
 
     @Autowired(required = false)
     @Output(Source.OUTPUT)
     private MessageChannel out;
-    @Autowired
-    private EventService eventService;
 
-    @Autowired
-    private RedisLock redisLock;
+    public String getLockName() {
+        return lockName;
+    }
+
 
     /**
      * 生产者发送消息错误处理，消息没有成功
@@ -99,18 +85,10 @@ public class OutMessageConfig {
         out.send(msg);
     }
 
-    @Scheduled(cron = "0/30 * * * * *")
-    public void work() {
-        String requestId = UUID.randomUUID().toString();
-        boolean alarmNotify = redisLock.lock("eventSendLock", requestId, 10000);
-        if (alarmNotify) {
-            try {
-                doRetrySendMessage(0, errorEventFetchSize);
-                doClearSendMessage();
-            } finally {
-                redisLock.unlock("eventSendLock", requestId);
-            }
-        }
+    @Override
+    public void redoMessage() {
+        doRetrySendMessage(0, errorEventFetchSize);
+        doClearSendMessage();
     }
 
     /**

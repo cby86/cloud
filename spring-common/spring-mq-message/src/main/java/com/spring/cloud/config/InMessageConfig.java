@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
@@ -24,21 +25,16 @@ import org.springframework.scheduling.annotation.Scheduled;
 import java.util.UUID;
 
 
-public class InMessageConfig {
-    Logger logger = LoggerFactory.getLogger(InMessageConfig.class);
-    private final static int errorEventFetchSize = 100;
-    private static final int maxRetry = 3;
-    @Autowired(required = false)
-    MessageService consumerService;
-    @Autowired
-    EventService eventService;
-    @Autowired
-    private RedisLock redisLock;
+public class InMessageConfig extends BaseMessageConfig {
+    private final static String lockName = "_eventConsumerLock";
+
+    public String getLockName() {
+        return lockName;
+    }
 
     @StreamListener(target = Sink.INPUT)
     void message(@Payload Object message, @Header(MessageApplicationEvent.messageTypeHeader) String messageType, @Header(MessageApplicationEvent.eventHeader) String eventId, @Header(AmqpHeaders.CHANNEL) Channel channel,
                     @Header(AmqpHeaders.DELIVERY_TAG) Long deliveryTag, @Header("deliveryAttempt") int deliveryAttempt) throws Exception {
-
         try {
             if (consumerService != null) {
                 if (eventService.allow(eventId, message, messageType)) {
@@ -57,18 +53,10 @@ public class InMessageConfig {
         }
     }
 
-    @Scheduled(cron = "0/30 * * * * *")
-    public void work() {
-        String requestId = UUID.randomUUID().toString();
-        boolean alarmNotify = redisLock.lock("eventConsumerLock", requestId, 10000);
-        if (alarmNotify) {
-            try {
-                doRetryConsumerMessage(0, errorEventFetchSize);
-                doClearConsumerMessage();
-            } finally {
-                redisLock.unlock("eventConsumerLock", requestId);
-            }
-        }
+    @Override
+    public void redoMessage() {
+        doRetryConsumerMessage(0, errorEventFetchSize);
+        doClearConsumerMessage();
     }
 
     private void doRetryConsumerMessage(int page, int size) {

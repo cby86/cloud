@@ -3,17 +3,6 @@ route:
 spring:
   cloud:
     stream:
-       binders:
-         business:
-           type: rabbit
-           environment:
-             spring:
-               rabbitmq:
-                 host: localhost
-                 port: 5672
-                 username: publisher
-                 password: publisher
-                 virtual-host: /
        bindings:
           input:
             destination: bussinessMessage
@@ -28,4 +17,3 @@ spring:
                  autoBindDlq: true
                  republishToDlq: true
                  acknowledge-mode: manual
-                 anonymousGroupPrefix: ${spring.application.name}.

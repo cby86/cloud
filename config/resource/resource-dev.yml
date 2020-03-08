@@ -1,18 +1,8 @@
 spring:
+  rabbitmq:
+     publisher-confirms: true
   cloud:
     stream:
-      binders:
-         business:
-           type: rabbit
-           environment:
-             spring:
-               rabbitmq:
-                 host: localhost
-                 port: 5672
-                 username: publisher
-                 password: publisher
-                 virtual-host: /
-                 publisher-confirms: true
       bindings:
          output:
            destination: bussinessMessage

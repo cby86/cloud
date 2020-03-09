@@ -110,4 +110,26 @@ public class ResourceServiceImpl implements ResourceService {
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
         }, pageable);
     }
+
+    @Override
+    public Page<Resource> findBindResource(String appName,String name, String url, String menuId, Pageable pageable) {
+        pageable.getSort().and(Sort.by(Sort.Order.desc("createDate")));
+        return resourceRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(criteriaBuilder.equal(root.get("deleted"), false));
+            Join<Object, Object> menus = root.join("menus", JoinType.LEFT);
+            Join<Object, Object> app = root.join("app", JoinType.LEFT);
+            predicates.add(criteriaBuilder.equal(menus.get("id"), menuId));
+            if (StringUtils.isNotEmpty(appName)) {
+                predicates.add(criteriaBuilder.equal(app.get("name"), appName));
+            }
+            if (StringUtils.isNotEmpty(name)) {
+                predicates.add(criteriaBuilder.equal(root.get("name"), name));
+            }
+            if (StringUtils.isNotEmpty(url)) {
+                predicates.add(criteriaBuilder.equal(root.get("url"), url));
+            }
+            return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+        }, pageable);
+    }
 }

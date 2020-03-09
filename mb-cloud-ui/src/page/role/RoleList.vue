@@ -101,7 +101,6 @@
             }
           })
         }).catch((e) => {
-          console.log("dafd")
           this.$message({
             type: 'info',
             message: '已取消删除'

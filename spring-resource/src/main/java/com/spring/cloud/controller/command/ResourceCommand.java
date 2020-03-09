@@ -6,6 +6,7 @@ import com.spring.cloud.entity.MenuType;
 import com.spring.cloud.entity.Resource;
 import com.spring.cloud.exception.BusinessException;
 import com.spring.cloud.service.ResourceService;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang.StringUtils;
@@ -22,6 +23,8 @@ public class ResourceCommand implements Command<Resource> {
     private String versionNumber;
     private String appName;
     private String appDesc;
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     @Autowired
     ResourceService resourceService;
     @Override

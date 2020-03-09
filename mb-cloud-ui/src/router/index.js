@@ -48,6 +48,15 @@ var router = new Router({
           }
         },
         {
+          path: '/menu/menuResource',
+          name: "MenuResourceList",
+          component: () => import('@/page/menu/MenuResourceList'),
+          meta: {
+            primary: false,
+            parent:MenuList.name
+          }
+        },
+        {
           path: '/role',
           name: Role.name,
           component: Role,

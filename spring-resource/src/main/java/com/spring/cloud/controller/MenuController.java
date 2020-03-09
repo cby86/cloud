@@ -2,7 +2,9 @@ package com.spring.cloud.controller;
 
 import com.spring.cloud.base.BaseController;
 import com.spring.cloud.controller.command.MenuCommand;
+import com.spring.cloud.controller.command.ResourceCommand;
 import com.spring.cloud.entity.Menu;
+import com.spring.cloud.entity.Resource;
 import com.spring.cloud.message.MessageApplicationEvent;
 import com.spring.cloud.service.MenuService;
 import com.spring.cloud.service.ResourceService;
@@ -38,9 +40,6 @@ public class MenuController extends BaseController {
     public Map<String, Object> updateMenus(MenuCommand menuCommand) {
         Menu menu = menuCommand.toDomain();
         menuService.saveOrUpdate(menu);
-//        if (StringUtils.isNotEmpty(menuCommand.getId())) {
-//            applicationContext.publishEvent(new MessageApplicationEvent(menuCommand,"updateMenu"));
-//        }
         return this.resultMap(null);
     }
 
@@ -80,6 +79,22 @@ public class MenuController extends BaseController {
     public Map<String, Object> findAllMenu() {
         List<Menu> menuList = menuService.findAllMenu();
         return this.resultMap(CommandUtils.toCommands(menuList, MenuCommand.class));
+    }
+
+    @RequestMapping("/findBindResource")
+    @ResourceDesc(model = "菜单管理", name = "查看绑定资源", desc = "查看绑定资源")
+    public Map<String, Object> findBindResource(String appName,String name, String url, String menuId, Integer page, Integer pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<Resource> resourcePageList = resourceService.findBindResource(appName,name, url, menuId, pageable);
+        return this.resultMap(CommandUtils.responsePage(resourcePageList.getTotalElements(), resourcePageList.getTotalPages(),
+                CommandUtils.toCommands(resourcePageList.getContent(), ResourceCommand.class)));
+    }
+
+    @RequestMapping("/unBindResource")
+    @ResourceDesc(model = "菜单管理", name = "删除资源绑定", desc = "删除资源绑定")
+    public Map<String, Object> unBindResource(String menuId,String resourceId) {
+        menuService.unBindResource(menuId,resourceId);
+        return this.resultMap(true);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.spring.cloud.service;
 
 import com.spring.cloud.entity.Menu;
+import com.spring.cloud.entity.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,4 +27,6 @@ public interface MenuService {
     List<Menu> findAllMenu();
 
     boolean hasSame(String id, String name, String value);
+
+    void unBindResource(String menuId,String resourceId);
 }

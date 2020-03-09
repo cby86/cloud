@@ -1,10 +1,12 @@
 package com.spring.cloud.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spring.cloud.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * 系统所有资源注册存储表
@@ -43,6 +45,14 @@ public class Resource extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "app_id")
     private App app;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name="mb_hunter_menu_resource",
+            joinColumns={@JoinColumn(name="resource_id")},
+            inverseJoinColumns={@JoinColumn(name="menu_id")}
+    )
+    @JsonIgnore
+    private List<Menu> menus;
 
     public Resource() {
     }

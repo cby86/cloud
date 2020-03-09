@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.spring.cloud.entity.Resource;
 import com.spring.cloud.message.MessageType;
+import com.spring.cloud.repository.ResourceRepository;
 import com.spring.cloud.service.EventBaseProcessor;
 import com.spring.cloud.entity.Menu;
 import com.spring.cloud.exception.BusinessException;
@@ -12,6 +14,7 @@ import com.spring.cloud.message.MessageApplicationEvent;
 import com.spring.cloud.repository.MenuRepository;
 import com.spring.cloud.service.MenuService;
 import com.spring.cloud.utils.JsonUtils;
+import net.bytebuddy.asm.Advice;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -41,8 +45,6 @@ public class MenuServiceImpl extends EventBaseProcessor implements MenuService {
 
     @Autowired
     MenuRepository menuRepository;
-    private static final ObjectMapper objectMapper = new ObjectMapper()
-            .configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
 
     @Override
     public void saveOrUpdate(Menu menu) {
@@ -139,26 +141,18 @@ public class MenuServiceImpl extends EventBaseProcessor implements MenuService {
         }) > 0;
     }
 
-    public static void main(String[] args) {
-        ExpressionParser EXPRESSION_PARSER = new SpelExpressionParser();
-        Expression expression = EXPRESSION_PARSER.parseExpression("headers.get('messageType')");
-        ExpressionEvaluatingMessageProcessor routingKeyGenerator = new ExpressionEvaluatingMessageProcessor<String>(expression,
-                String.class);
-        Message menu = new Message(){
-
-            @Override
-            public Object getPayload() {
-                return "dfsa";
+    @Override
+    public void unBindResource(String menuId,String resourceId) {
+        Menu menu = this.findMenuById(menuId);
+        List<Resource> resources = menu.getResources();
+        Iterator<Resource> iterator = resources.iterator();
+        while (iterator.hasNext()) {
+            Resource resource = iterator.next();
+            if (resource.getId().equals(resourceId)) {
+                iterator.remove();//使用迭代器的删除方法删除
+                return;
             }
-
-            @Override
-            public MessageHeaders getHeaders() {
-                HashMap<String, Object> objectObjectHashMap = new HashMap<>();
-                objectObjectHashMap.put("messageType", "hello");
-                return new MessageHeaders(objectObjectHashMap);
-            }
-        };
-        Object o = routingKeyGenerator.processMessage(menu);
-        System.out.println(o);
+        }
     }
+
 }

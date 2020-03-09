@@ -45,12 +45,12 @@
           </el-table-column>
           <el-table-column
             prop="code"
-            label="code"
+            label="唯一标识"
             sortable>
           </el-table-column>
           <el-table-column
             prop="icon"
-            label="icon"
+            label="图标"
             sortable>
           </el-table-column>
           <el-table-column
@@ -65,6 +65,7 @@
               <el-button type="text" size="small" v-if="$store.getters.hasAuth('addMenu') && scope.row.menuType=='Menu'"  @click="addMenu(scope.row)">新增</el-button>
               <el-button type="text" size="small" v-if="$store.getters.hasAuth('editMenu')"  @click="edit(scope.row)">编辑</el-button>
               <el-button type="text" size="small" v-if="$store.getters.hasAuth('deleteMenu')" @click="deleteMenu(scope.row)">删除</el-button>
+              <el-button type="text" size="small"  @click="bindResource(scope.row)">资源绑定</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -107,6 +108,9 @@
       this.init()
     },
     methods: {
+      bindResource(row) {
+        this.$router.push({name: "MenuResourceList", params: {id: row.id}})
+      },
       init(){
         this.loadMenus(null,(data)=>{
           this.dataResolver(data);

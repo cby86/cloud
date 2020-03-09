@@ -66,12 +66,14 @@
         if (!primary) {
           routerName = this.$route.meta.parent || "Home"
         }
-        for (let option of items) {
-          if (routerName === option.url) {
-            return option;
-          }
-          if (option.children) {
-            return this.findMenu(option.children)
+        if (items) {
+          for (let option of items) {
+            if (routerName === option.url) {
+              return option;
+            }
+            if (option.children) {
+              return this.findMenu(option.children)
+            }
           }
         }
         return null;

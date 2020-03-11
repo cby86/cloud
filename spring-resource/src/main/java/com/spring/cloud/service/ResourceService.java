@@ -1,13 +1,13 @@
 package com.spring.cloud.service;
 import com.spring.cloud.entity.App;
 import com.spring.cloud.entity.Resource;
+import com.spring.cloud.support.mvc.ResourceRegister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-public interface ResourceService {
-    void register(List<String> resource);
+public interface ResourceService extends ResourceRegister {
 
     App getAppByName(String appName);
 

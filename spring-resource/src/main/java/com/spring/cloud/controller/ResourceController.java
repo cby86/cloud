@@ -31,7 +31,7 @@ public class ResourceController extends BaseController {
 
     @RequestMapping("/register")
     public Map<String, Object> register(@RequestBody List<String> resource) {
-        resourceService.register(resource);
+        resourceService.registerEndpoint(resource);
         return this.resultMap(null);
     }
 

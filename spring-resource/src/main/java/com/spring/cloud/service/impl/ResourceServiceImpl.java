@@ -30,7 +30,7 @@ public class ResourceServiceImpl implements ResourceService {
     @Autowired
     ResourceRepository resourceRepository;
     @Override
-    public void register(List<String> resource) {
+    public void registerEndpoint(List<String> resource) {
         if (resource == null && resource.isEmpty()) {
             return;
         }
@@ -60,10 +60,12 @@ public class ResourceServiceImpl implements ResourceService {
             //删除对应的注册
             App appIndb = appRepository.findByName(app.getName());
             if (appIndb != null) {
-                appRepository.delete(appIndb);
+                List<Resource> overDueResource = appIndb.mergeResources(app.getResourceList());
+                appRepository.save(appIndb);
+                resourceRepository.deleteInBatch(overDueResource);
+            }else {
+                appRepository.save(app);
             }
-            //重新注册
-            appRepository.save(app);
         }
     }
 

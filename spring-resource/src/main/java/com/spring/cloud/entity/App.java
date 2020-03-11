@@ -3,9 +3,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spring.cloud.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,5 +47,25 @@ public class App extends BaseEntity {
             this.resourceList = new ArrayList<>();
         }
         this.resourceList.add(resource);
+    }
+
+    public List<Resource> mergeResources(List<Resource> resourceList) {
+        List<Resource> overDueResource = new ArrayList<>();
+        List<Resource> oldResource = this.getResourceList();
+        Iterator<Resource> iterator = oldResource.iterator();
+        while (iterator.hasNext()) {
+            Resource next = iterator.next();
+            int index = resourceList.indexOf(next);
+            if (index > -1) {
+                Resource resource = resourceList.get(index);
+                next.marge(resource);
+                resourceList.remove(resource);
+            }else {
+                overDueResource.add(next);
+                iterator.remove();
+            }
+        }
+        oldResource.addAll(resourceList);
+        return overDueResource;
     }
 }

@@ -2,6 +2,7 @@ package com.spring.cloud.support.mvc;
 
 import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.env.Environment;
 import org.springframework.web.method.HandlerMethod;
@@ -19,8 +20,10 @@ public class CustomRequestMappingHandlerMapping extends RequestMappingHandlerMap
 
     private ResourceRegister resourceRegister;
 
-    @Autowired
-    private Environment environment;
+    @Value("${spring.application.name}")
+    protected String appName;
+    @Value("${spring.application.desc}")
+    protected String discription;
 
     @Override
     protected RequestCondition<ApiVersionCondition> getCustomTypeCondition(Class<?> handlerType) {
@@ -81,8 +84,8 @@ public class CustomRequestMappingHandlerMapping extends RequestMappingHandlerMap
         if (resourceDesc == null) {
             return null;
         }
-        endpoint.put("app", environment.getProperty("spring.application.name",""));
-        endpoint.put("description", environment.getProperty("spring.application.desc",""));
+        endpoint.put("app", appName);
+        endpoint.put("description", discription);
         endpoint.put("url", url);
         endpoint.put("model", resourceDesc.model());
         endpoint.put("name", resourceDesc.name());

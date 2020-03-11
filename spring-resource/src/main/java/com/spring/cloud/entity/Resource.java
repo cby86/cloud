@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 系统所有资源注册存储表
@@ -46,7 +47,7 @@ public class Resource extends BaseEntity {
     @JoinColumn(name = "app_id")
     private App app;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JoinTable(name="mb_hunter_menu_resource",
             joinColumns={@JoinColumn(name="resource_id")},
             inverseJoinColumns={@JoinColumn(name="menu_id")},
@@ -67,4 +68,23 @@ public class Resource extends BaseEntity {
         this.versionNumber = version;
     }
 
+    public void marge(Resource resource) {
+        this.model = resource.getModel();
+        this.description = resource.getDescription();
+        this.name = resource.name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Resource resource = (Resource) o;
+        return Objects.equals(url, resource.url) &&
+                Objects.equals(versionNumber, resource.versionNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(url, versionNumber);
+    }
 }

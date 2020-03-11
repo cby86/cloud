@@ -94,13 +94,14 @@
           name: null,
           url: null
         },
-        allSelectKeys:[],
-        selectKeys:[],
+        allSelectKeys: [],
+        selectKeys: [],
         tableData: [],
         totalCount: 1,
         pageCount: 0,
         pageSize: 10,
-        currentPage:1
+        currentPage: 1,
+        pageChange:false
       };
     },
     mounted() {
@@ -108,14 +109,22 @@
     },
     methods: {
       ok() {
-        this.sysAllSelectKeys(this.currentPage,this.selectKeys,false);
         this.dialogVisible = false
-        console.log(this.allSelectKeys)
+        let selectKeys = [];
+        this.allSelectKeys.forEach(item=>{
+          selectKeys=selectKeys.concat(item.selectKeys);
+        })
+        this.$emit('submit',selectKeys)
       },
-      selectionChange(selection){
-        this.selectKeys = selection;
-        console.log(this.selectKeys)
-        this.sysAllSelectKeys(this.currentPage,this.selectKeys,false)
+      selectionChange(selection) {
+        if(this.pageChange) {
+          return;
+        }
+        this.selectKeys = [];
+        selection.forEach(item => {
+          this.selectKeys.push(item.id)
+        });
+        this.sysAllSelectKeys(this.currentPage, this.selectKeys)
       },
       show() {
         this.dialogVisible = true
@@ -126,24 +135,41 @@
       onSubmit() {
         this.loadResource(1, this.pageSize)
       },
-      sysAllSelectKeys(page,selectKeys,pageChange) {
-        let pageSelect;
-        this.allSelectKeys.forEach(item=>{
-          if(item.page==page) {
-            pageSelect = item;
-          }
-        })
-        if(pageSelect){
-          if(!pageChange){
-            pageSelect.selectKeys = selectKeys;
-          }
-        }else {
-          pageSelect = {page:page,selectKeys:selectKeys};
+      sysAllSelectKeys(page, selectKeys) {
+        let pageSelect = this.getCurrentSelect(page);
+        if (pageSelect) {
+          pageSelect.selectKeys = selectKeys;
+        } else {
+          pageSelect = {page: page, selectKeys: selectKeys};
           this.allSelectKeys.push(pageSelect)
         }
         return pageSelect;
       },
+      getCurrentSelect(page) {
+        page = page || this.currentPage
+        let pageSelect;
+        let currentPageSelect = this.allSelectKeys.filter(item => item.page == page);
+        if (currentPageSelect && currentPageSelect.length > 0) {
+          pageSelect = currentPageSelect[0]
+        }
+        return pageSelect;
+      },
+      reselect(){
+        let currentSelect = this.getCurrentSelect();
+        if (currentSelect && currentSelect.selectKeys.length>0) {
+          this.selectKeys = currentSelect.selectKeys;
+          this.tableData.forEach(item => {
+            currentSelect.selectKeys.forEach(selectItem => {
+              if (selectItem == item.id) {
+                this.$refs.multipleTable.toggleRowSelection(item, true);
+              }
+            })
+          });
+        }
+        this.pageChange = false;
+      },
       loadResource(page, pageSize) {
+        this.pageChange = true;
         this.currentPage = page;
         this.$request.post({
           url: '/spring-resource/resource/findResource',
@@ -159,16 +185,10 @@
             this.tableData = result.data.items;
             this.totalCount = result.data.totalCount;
             this.pageCount = result.data.totalPage;
-            let pageSelect=this.sysAllSelectKeys(this.currentPage,this.selectKeys,true);
-            this.tableData.forEach(item => {
-               pageSelect.selectKeys.forEach(selectItem=>{
-                 if(selectItem.id==item.id){
-                   this.$refs.multipleTable.toggleRowSelection(item,true);
-                 }
-               })
-            });
+            setTimeout(this.reselect,100)
           },
           error: e => {
+            setTimeout(this.reselect,100)
             this.$message.error(e)
           }
         })

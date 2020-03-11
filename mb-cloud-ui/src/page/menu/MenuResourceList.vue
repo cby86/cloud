@@ -4,19 +4,19 @@
     <el-row>
       <el-col>
         <el-form :inline="true" :model="queryForm" ref="queryForm" class="demo-form-inline">
-          <el-form-item label="应用名称"  prop="appName">
+          <el-form-item label="应用名称" prop="appName">
             <el-input size="small" v-model="queryForm.appName" placeholder="应用名称"></el-input>
           </el-form-item>
-          <el-form-item label="资源名称"  prop="name">
+          <el-form-item label="资源名称" prop="name">
             <el-input size="small" v-model="queryForm.name" placeholder="资源名称"></el-input>
           </el-form-item>
-          <el-form-item label="资源URL"  prop="url">
+          <el-form-item label="资源URL" prop="url">
             <el-input size="small" v-model="queryForm.url" placeholder="资源URL"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" size ="small" icon="el-icon-search" @click="onSubmit">查询</el-button>
-            <el-button type="primary" size ="small" icon="el-icon-reset" @click="reset">清空</el-button>
-            <el-button type="primary" size ="small" icon="el-icon-reset" @click="add">新增</el-button>
+            <el-button type="primary" size="small" icon="el-icon-search" @click="onSubmit">查询</el-button>
+            <el-button type="primary" size="small" icon="el-icon-reset" @click="reset">清空</el-button>
+            <el-button type="primary" size="small" icon="el-icon-reset" @click="add">新增</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -43,8 +43,8 @@
                            label="版本号">
           </el-table-column>
           <el-table-column
-                           prop="description"
-                           label="描述">
+            prop="description"
+            label="描述">
           </el-table-column>
           <el-table-column
             fixed="right"
@@ -57,7 +57,8 @@
       </el-col>
     </el-row>
     <page-nation :totalCount="totalCount" :pageCount="pageCount" v-on:pageChange="loadResource"></page-nation>
-    <resource-selector-dialog title="添加资源" width="70%" ref="resourceSelect" v-if="queryForm.menuId"></resource-selector-dialog>
+    <resource-selector-dialog title="添加资源" width="70%" ref="resourceSelect" @submit="resetResource"
+                              v-if="queryForm.menuId"></resource-selector-dialog>
   </div>
 </template>
 
@@ -65,9 +66,10 @@
   import PageNation from "../../components/PageNation"
   import Position from "../../components/Postion"
   import ResourceSelectorDialog from "../resource/ResourceSelectorDialog"
+
   export default {
     name: 'MenuResourceList',
-    components:{
+    components: {
       PageNation,
       Position,
       ResourceSelectorDialog
@@ -75,15 +77,15 @@
     data() {
       return {
         queryForm: {
-          appName:null,
+          appName: null,
           name: null,
-          menuId:null,
-          url:null
+          menuId: null,
+          url: null
         },
         tableData: [],
         totalCount: 1,
         pageCount: 0,
-        pageSize:10,
+        pageSize: 10,
         locations: [
           {
             name: "菜单管理",
@@ -97,18 +99,33 @@
     },
     mounted() {
       if (this.$route.params.id) {
-        this.queryForm.menuId=this.$route.params.id,
-        this.loadResource(1,this.pageSize)
-      }else {
-        this.$router.push({path:"/menu"})
+        this.queryForm.menuId = this.$route.params.id,
+          this.loadResource(1, this.pageSize)
+      } else {
+        this.$router.push({path: "/menu"})
       }
     },
     methods: {
+      resetResource(resourceIds) {
+        this.$request.post({
+          url: '/spring-resource/menu/bindResources',
+          data: {
+            menuId: this.queryForm.menuId,
+            resourceIds: resourceIds.toString()
+          },
+          success: result => {
+            this.loadResource(1, this.pageSize)
+          },
+          error: e => {
+            this.$message.error(e)
+          }
+        })
+      },
       reset() {
         this.$refs["queryForm"].resetFields();
       },
       onSubmit() {
-        this.loadResource(1,this.pageSize)
+        this.loadResource(1, this.pageSize)
       },
       add() {
         this.$refs.resourceSelect.show();
@@ -122,8 +139,8 @@
           this.$request.post({
             url: '/spring-resource/menu/unBindResource',
             data: {
-              menuId:this.queryForm.menuId,
-              resourceId:row["id"]
+              menuId: this.queryForm.menuId,
+              resourceId: row["id"]
             },
             success: result => {
               this.loadResource(1, this.pageSize)
@@ -139,14 +156,14 @@
           });
         });
       },
-      loadResource(page,pageSize) {
+      loadResource(page, pageSize) {
         this.$request.post({
           url: '/spring-resource/menu/findBindResource',
           data: {
-            name:this.queryForm.name,
-            code:this.queryForm.url,
-            menuId:this.queryForm.menuId,
-            appName:this.queryForm.appName,
+            name: this.queryForm.name,
+            code: this.queryForm.url,
+            menuId: this.queryForm.menuId,
+            appName: this.queryForm.appName,
             page: page - 1,
             pageSize: pageSize
           },
@@ -161,5 +178,6 @@
         })
       }
     }
-  };
+  }
+  ;
 </script>

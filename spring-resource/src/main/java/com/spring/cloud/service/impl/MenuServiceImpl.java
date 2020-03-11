@@ -46,6 +46,9 @@ public class MenuServiceImpl extends EventBaseProcessor implements MenuService {
     @Autowired
     MenuRepository menuRepository;
 
+    @Autowired
+    ResourceRepository resourceRepository;
+
     @Override
     public void saveOrUpdate(Menu menu) {
         if (!StringUtils.isEmpty(menu.getId())) {
@@ -152,6 +155,16 @@ public class MenuServiceImpl extends EventBaseProcessor implements MenuService {
                 iterator.remove();//使用迭代器的删除方法删除
                 return;
             }
+        }
+    }
+
+    @Override
+    public void bindResources(String menuId, List<String> resourceIds) {
+        Menu menu = this.findMenuById(menuId);
+        menu.getResources().clear();
+        for (String resourceId:resourceIds) {
+            Resource resource = resourceRepository.getOne(resourceId);
+            menu.addResource(resource);
         }
     }
 

@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -94,6 +95,13 @@ public class MenuController extends BaseController {
     @ResourceDesc(model = "菜单管理", name = "删除资源绑定", desc = "删除资源绑定")
     public Map<String, Object> unBindResource(String menuId,String resourceId) {
         menuService.unBindResource(menuId,resourceId);
+        return this.resultMap(true);
+    }
+
+    @RequestMapping("/bindResources")
+    @ResourceDesc(model = "菜单管理", name = "资源绑定", desc = "资源绑定")
+    public Map<String, Object> bindResources(String menuId,@RequestParam(value = "resourceIds") List<String> resourceIds) {
+        menuService.bindResources(menuId,resourceIds);
         return this.resultMap(true);
     }
 

@@ -49,7 +49,9 @@ public class Resource extends BaseEntity {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="mb_hunter_menu_resource",
             joinColumns={@JoinColumn(name="resource_id")},
-            inverseJoinColumns={@JoinColumn(name="menu_id")}
+            inverseJoinColumns={@JoinColumn(name="menu_id")},
+            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
     )
     @JsonIgnore
     private List<Menu> menus;

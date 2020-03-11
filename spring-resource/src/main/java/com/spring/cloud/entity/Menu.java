@@ -6,9 +6,11 @@ import com.spring.cloud.base.BaseEntity;
 import com.spring.cloud.message.IMessage;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -56,7 +58,9 @@ public class Menu extends BaseEntity{
     @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JoinTable(name="mb_hunter_menu_resource",
             joinColumns={@JoinColumn(name="menu_id")},
-            inverseJoinColumns={@JoinColumn(name="resource_id")}
+            inverseJoinColumns={@JoinColumn(name="resource_id")},
+            foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT),
+            inverseForeignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)
     )
     @JsonIgnore
     private List<Resource> resources;
@@ -68,4 +72,10 @@ public class Menu extends BaseEntity{
         return menuType.equals(MenuType.Menu);
     }
 
+    public void addResource(Resource resource) {
+        if (this.resources == null) {
+            this.resources = new ArrayList<>();
+        }
+        this.resources.add(resource);
+    }
 }

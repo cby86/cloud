@@ -19,7 +19,7 @@ public interface ResourceService {
 
     void saveResource(Resource resource);
 
-    Page<Resource> findResourcePageList(String name, Pageable pageable);
+    Page<Resource> findResourcePageList(String appName,String name,String url, Pageable pageable);
 
     Page<Resource> findBindResource(String appName,String name, String url, String menuId, Pageable pageable);
 }

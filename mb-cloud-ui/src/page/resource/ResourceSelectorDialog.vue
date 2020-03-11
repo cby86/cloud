@@ -176,8 +176,7 @@
           data: {
             name: this.queryForm.name,
             page: page - 1,
-            name: this.queryForm.name,
-            code: this.queryForm.url,
+            url: this.queryForm.url,
             appName: this.queryForm.appName,
             pageSize: pageSize
           },

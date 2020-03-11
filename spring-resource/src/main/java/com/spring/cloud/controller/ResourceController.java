@@ -37,9 +37,9 @@ public class ResourceController extends BaseController {
 
     @RequestMapping("/findResource")
     @ResourceDesc(model = "资源管理", name = "资源分页列表", desc = "资源分页列表")
-    public Map<String, Object> findResource(String name, Integer page, Integer pageSize) {
+    public Map<String, Object> findResource(String name,String url,String appName, Integer page, Integer pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
-        Page<Resource> appPageList = resourceService.findResourcePageList(name,pageable);
+        Page<Resource> appPageList = resourceService.findResourcePageList(appName,name,url,pageable);
         return this.resultMap(CommandUtils.responsePage(appPageList.getTotalElements(), appPageList.getTotalPages(),
                 CommandUtils.toCommands(appPageList.getContent(), ResourceCommand.class)));
     }

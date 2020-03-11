@@ -161,7 +161,7 @@
           url: '/spring-resource/menu/findBindResource',
           data: {
             name: this.queryForm.name,
-            code: this.queryForm.url,
+            url: this.queryForm.url,
             menuId: this.queryForm.menuId,
             appName: this.queryForm.appName,
             page: page - 1,

@@ -99,13 +99,23 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public Page<Resource> findResourcePageList(String name, Pageable pageable) {
+    public Page<Resource> findResourcePageList(String appName,String name,String url,Pageable pageable) {
         pageable.getSort().and(Sort.by(Sort.Order.desc("createDate")));
         return resourceRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
+            Join<Object, Object> app = root.join("app", JoinType.LEFT);
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(criteriaBuilder.equal(root.get("deleted"), false));
             if (StringUtils.isNotEmpty(name)) {
                 predicates.add(criteriaBuilder.equal(root.get("name"), name));
+            }
+            if (StringUtils.isNotEmpty(appName)) {
+                predicates.add(criteriaBuilder.equal(app.get("name"), appName));
+            }
+            if (StringUtils.isNotEmpty(name)) {
+                predicates.add(criteriaBuilder.equal(root.get("name"), name));
+            }
+            if (StringUtils.isNotEmpty(url)) {
+                predicates.add(criteriaBuilder.equal(root.get("url"), url));
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
         }, pageable);

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class AuthenticationCommand implements Command<Authentication> {
@@ -16,6 +18,7 @@ public class AuthenticationCommand implements Command<Authentication> {
     private String parentId;
     private String icon;
     private String code;
+    private List<String> details;
     private int sort;
     @Override
     public Authentication toDomain() {
@@ -29,6 +32,9 @@ public class AuthenticationCommand implements Command<Authentication> {
         authentication.setSort(sort);
         if (StringUtils.isNotEmpty(parentId)) {
             authentication.setParentId(parentId);
+        }
+        if (details != null) {
+            details.forEach(systemResource->authentication.addAuthenticationDetails(systemResource));
         }
         return authentication;
     }

@@ -57,9 +57,9 @@ public class WebSecurityConfig {
         authorizeExchangeSpec.pathMatchers("/backend/order/home").permitAll(); //无需进行权限过滤的请求路径
         authorizeExchangeSpec.anyExchange().permitAll();
         //配置URL动态权限
-//        if (customerReactiveAuthorizationManager != null) {
-//            authorizeExchangeSpec.anyExchange().access(customerReactiveAuthorizationManager);
-//        }
+        if (customerReactiveAuthorizationManager != null) {
+            authorizeExchangeSpec.anyExchange().access(customerReactiveAuthorizationManager);
+        }
         ServerAuthenticationEntryPoint serverAuthenticationEntryPoint = getServerAuthenticationEntryPoint();
         http.exceptionHandling()
                 .authenticationEntryPoint(serverAuthenticationEntryPoint)

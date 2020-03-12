@@ -10,6 +10,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,6 +34,8 @@ public class MenuCommand implements Command<Menu> {
     private String code;
 
     private int sort;
+
+    private List<String> resources;
 
 
     @Getter(AccessLevel.NONE)
@@ -79,6 +85,10 @@ public class MenuCommand implements Command<Menu> {
         this.leaf = domain.getChildren().isEmpty();
         this.code = domain.getCode();
         this.sort = domain.getSort();
+        if (!CollectionUtils.isEmpty(domain.getResources())) {
+            resources = new ArrayList<>();
+            domain.getResources().forEach(resource -> resources.add(resource.getUrl()));
+        }
         return this;
     }
 

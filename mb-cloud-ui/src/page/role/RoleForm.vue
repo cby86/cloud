@@ -104,6 +104,7 @@
             icon: item["icon"],
             code: item["code"],
             sort: item["sort"],
+            details: item["resources"],
             authentionType: item["menuType"] === "Menu" ? 0 : 1
           })
         })

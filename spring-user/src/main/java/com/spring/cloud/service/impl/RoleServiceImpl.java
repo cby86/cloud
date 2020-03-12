@@ -5,6 +5,7 @@ import com.spring.cloud.entity.Role;
 import com.spring.cloud.exception.BusinessException;
 import com.spring.cloud.message.MessageApplicationEvent;
 import com.spring.cloud.message.MessageType;
+import com.spring.cloud.repository.AuthenticationRepository;
 import com.spring.cloud.repository.RoleRepository;
 import com.spring.cloud.repository.component.ResourcePermit;
 import com.spring.cloud.service.EventBaseProcessor;
@@ -34,6 +35,8 @@ public class RoleServiceImpl  extends EventBaseProcessor implements RoleService 
 
     @Autowired
     RoleRepository roleRepository;
+    @Autowired
+    AuthenticationRepository authenticationRepository;
 
     @Override
     public void saveOrUpdate(Role role) {

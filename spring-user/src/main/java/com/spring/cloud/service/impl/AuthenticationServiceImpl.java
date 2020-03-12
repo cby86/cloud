@@ -53,4 +53,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             this.saveAll(authenticationList);
         }
     }
+
+    @Override
+    public void clearAuthentication() {
+        List<Authentication> allAuthentication = authenticationRepository.findAllAuthentication();
+        authenticationRepository.deleteAll(allAuthentication);
+    }
 }

@@ -4,6 +4,7 @@ import com.spring.cloud.base.BaseController;
 import com.spring.cloud.controller.command.RoleCommand;
 import com.spring.cloud.entity.Role;
 import com.spring.cloud.service.RoleService;
+import com.spring.cloud.support.listener.RoleChangeEvent;
 import com.spring.cloud.utils.CommandUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,6 +46,7 @@ public class RoleController extends BaseController {
     public Map<String, Object> updateRoles(RoleCommand roleCommand) {
         Role role = roleCommand.toDomain();
         roleService.saveOrUpdate(role);
+        publishEvent(new RoleChangeEvent(role.getId()));
         return this.resultMap(null);
     }
 

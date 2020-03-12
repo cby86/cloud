@@ -4,6 +4,7 @@ import com.spring.cloud.base.Command;
 import com.spring.cloud.entity.Authentication;
 import com.spring.cloud.entity.Role;
 import com.spring.cloud.exception.BusinessException;
+import com.spring.cloud.service.AuthenticationService;
 import com.spring.cloud.service.RoleService;
 import com.spring.cloud.utils.CommandUtils;
 import lombok.AccessLevel;
@@ -29,6 +30,10 @@ public class RoleCommand implements Command<Role> {
     @Setter(AccessLevel.NONE)
     @Autowired
     RoleService roleService;
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @Autowired
+    AuthenticationService authenticationService;
 
     @Override
     public Role toDomain() {
@@ -47,7 +52,7 @@ public class RoleCommand implements Command<Role> {
             role.getAuthentications().clear();
         }
         if (!CollectionUtils.isEmpty(authentications)) {
-            for (AuthenticationCommand authenticationCommand:authentications) {
+            for (AuthenticationCommand authenticationCommand : authentications) {
                 role.addAuthentication(authenticationCommand.toDomain());
             }
         }

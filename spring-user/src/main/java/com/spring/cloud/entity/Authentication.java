@@ -1,10 +1,15 @@
 package com.spring.cloud.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spring.cloud.base.BaseEntity;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "mb_hunter_authentication")
@@ -22,7 +27,7 @@ public class Authentication extends BaseEntity {
     private String name;
 
     /**
-     *  0 ：菜单授权；功能授权
+     * 0 ：菜单授权；功能授权
      */
     private int authentionType;
 
@@ -42,7 +47,20 @@ public class Authentication extends BaseEntity {
     private String code;
     private int sort;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "autentication_id")
+    @JsonIgnore
+    List<AuthenticationDetails> authenticationDetails;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    @JsonIgnore
+    private Role role;
 
-
+    public void addAuthenticationDetails(String systemResource) {
+        if (authenticationDetails == null) {
+            authenticationDetails = new ArrayList<>();
+        }
+        authenticationDetails.add(new AuthenticationDetails(systemResource));
+    }
 }

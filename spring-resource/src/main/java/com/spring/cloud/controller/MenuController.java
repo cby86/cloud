@@ -67,7 +67,7 @@ public class MenuController extends BaseController {
     }
 
     @RequestMapping("/findMenus")
-    @ResourceDesc(model = "菜单管理", name = "分页查询菜单", desc = "分页查询菜单")
+    @ResourceDesc(model = "菜单管理", name = "分页查询菜单", desc = "分页查询给定条件菜单")
     public Map<String, Object> findMenus(String name, String url, int menuType, Integer page, Integer pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<Menu> menuPageList = menuService.findMenuPageList(name, url, menuType, pageable);
@@ -83,7 +83,7 @@ public class MenuController extends BaseController {
     }
 
     @RequestMapping("/findBindResource")
-    @ResourceDesc(model = "菜单管理", name = "查看绑定资源", desc = "查看绑定资源")
+    @ResourceDesc(model = "菜单管理", name = "查看绑定资源", desc = "分页查询绑定资源")
     public Map<String, Object> findBindResource(String appName,String name, String url, String menuId, Integer page, Integer pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<Resource> resourcePageList = resourceService.findBindResource(appName,name, url, menuId, pageable);

@@ -23,6 +23,6 @@ public interface EventRepository extends BaseRepository<Event, String> {
     Event findEventBySource(String eventId);
 
     @Modifying
-    @Query("update  Event obj set obj.retryCount=obj.retryCount+1,obj.reason=2 where obj.id=?1")
+    @Query("update  Event obj set obj.retryCount=obj.retryCount+1,obj.reason=?2 where obj.id=?1")
     void retryUpdate(int eventId, String reason);
 }

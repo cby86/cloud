@@ -8,12 +8,19 @@ spring:
            destination: bussinessMessage
            producer:
               errorChannelEnabled: true #生产者发布错误回调启用
+         input:
+           destination: bussinessMessage
+           group: ${spring.application.name}
       rabbit:
          bindings:
             output:
                producer:
                   confirmAckChannel: bussinessMessageConfirm
                   routing-key-expression: headers.messageType
+            input:
+               consumer:
+                 bindingRoutingKey: "*.resource.*"
+                 acknowledge-mode: manual
   redis:
     host: localhost
     port: 6379

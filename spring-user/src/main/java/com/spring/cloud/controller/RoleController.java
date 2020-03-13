@@ -5,6 +5,7 @@ import com.spring.cloud.controller.command.RoleCommand;
 import com.spring.cloud.entity.Role;
 import com.spring.cloud.service.RoleService;
 import com.spring.cloud.support.listener.RoleChangeEvent;
+import com.spring.cloud.support.mvc.ResourceDesc;
 import com.spring.cloud.utils.CommandUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,6 +30,7 @@ public class RoleController extends BaseController {
     RoleService roleService;
 
     @RequestMapping("/findRoles")
+    @ResourceDesc(model = "角色管理", name = "根据条件查询角色分页列表", desc = "根据条件查询角色分页列表")
     public Map<String, Object> findRoles(String name, String code, Integer page, Integer pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<Role> roleList = roleService.findRoleList(name, code, pageable);
@@ -37,12 +39,14 @@ public class RoleController extends BaseController {
     }
 
     @RequestMapping("/findRoleById")
+    @ResourceDesc(model = "角色管理", name = "根据Id查询角色", desc = "根据Id查询角色")
     public Map<String, Object> findRoleById(String roleId) {
         Role role = roleService.findRoleById(roleId);
         return this.resultMap(new RoleCommand().fromDomain(role));
     }
 
     @RequestMapping("/updateRole")
+    @ResourceDesc(model = "角色管理", name = "修改或者添加角色", desc = "修改或者添加角色")
     public Map<String, Object> updateRoles(RoleCommand roleCommand) {
         Role role = roleCommand.toDomain();
         roleService.saveOrUpdate(role);
@@ -51,12 +55,14 @@ public class RoleController extends BaseController {
     }
 
     @RequestMapping("/deleteRole")
+    @ResourceDesc(model = "角色管理", name = "删除角色", desc = "删除角色")
     public Map<String, Object> deletedRole(String roleId) {
         roleService.deletedRole(roleId);
         return this.resultMap(true);
     }
 
     @RequestMapping("/findAllRoles")
+    @ResourceDesc(model = "角色管理", name = "查询所有角色", desc = "查询所有角色")
     public Map<String, Object> findAllRoles() {
         List<Role> roleList = roleService.findAllRoles();
         return this.resultMap(CommandUtils.toCommands(roleList,RoleCommand.class));

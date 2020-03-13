@@ -3,5 +3,6 @@ spring:
     active: dev
   application:
     name: spring-user
+    desc: 用户服务
 server:
   port: 8082

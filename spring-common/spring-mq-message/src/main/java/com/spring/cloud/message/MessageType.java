@@ -1,7 +1,8 @@
 package com.spring.cloud.message;
 
 public enum  MessageType {
-    MenuChange("router.user.menu_change"), MenuDelete("router.user.menu_delete"),AuthencationChange("router.geteway.authencation_change");
+    MenuChange("router.user.menu_change"), MenuDelete("router.user.menu_delete"),AuthencationChange("router.geteway.authencation_change"),
+    ResourceRegister("router.resource.register");
 
     private final String routerKey;
 

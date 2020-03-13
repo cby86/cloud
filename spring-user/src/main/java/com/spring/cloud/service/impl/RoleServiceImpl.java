@@ -31,7 +31,7 @@ import java.util.List;
  **/
 @Service
 @Transactional
-public class RoleServiceImpl  extends EventBaseProcessor implements RoleService {
+public class RoleServiceImpl extends EventBaseProcessor implements RoleService {
 
     @Autowired
     RoleRepository roleRepository;

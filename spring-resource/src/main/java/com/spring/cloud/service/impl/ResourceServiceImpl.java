@@ -1,14 +1,14 @@
 package com.spring.cloud.service.impl;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+
 import com.spring.cloud.entity.App;
 import com.spring.cloud.entity.Resource;
-import com.spring.cloud.exception.BusinessException;
+import com.spring.cloud.global.ResourceDefine;
 import com.spring.cloud.repository.AppRepository;
 import com.spring.cloud.repository.ResourceRepository;
 import com.spring.cloud.service.ResourceService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -23,6 +23,7 @@ import java.util.List;
 
 @Service
 @Transactional
+@Primary
 public class ResourceServiceImpl implements ResourceService {
     @Autowired
     AppRepository appRepository;
@@ -30,22 +31,14 @@ public class ResourceServiceImpl implements ResourceService {
     @Autowired
     ResourceRepository resourceRepository;
     @Override
-    public void registerEndpoint(List<String> resource) {
+    public void registerEndpoint(List<ResourceDefine> resource) {
         if (resource == null && resource.isEmpty()) {
             return;
         }
         List<App> apps = new ArrayList<>();
-        for (String res : resource) {
-            JSONObject appInfo = JSON.parseObject(res);
-            String appName = appInfo.getString("app");
-            String url = appInfo.getString("url");
-            String model = appInfo.getString("model");
-            String name = appInfo.getString("name");
-            String desc = appInfo.getString("desc");
-            String version = appInfo.getString("version");
-            String description = appInfo.getString("description");
-            App app = new App(appName,description);
-            Resource rs = new Resource(url,model,name,desc,version);
+        for (ResourceDefine res : resource) {
+            App app = new App(res.getApp(),res.getDescription());
+            Resource rs = new Resource(res.getUrl(), res.getModel(), res.getName(), res.getDesc(), res.getVersion());
             int index= apps.indexOf(app);
             if (index!=-1) {
                 app = apps.get(index);
@@ -69,21 +62,6 @@ public class ResourceServiceImpl implements ResourceService {
         }
     }
 
-    @Override
-    public App getAppByName(String appName) {
-        return appRepository.findByName(appName);
-    }
-
-    @Override
-    public List<Resource> findResourceByAppId(String appId) {
-        return resourceRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
-            List<Predicate> predicates = new ArrayList<>();
-            Join<Object, Object> app = root.join("app", JoinType.LEFT);
-            predicates.add(criteriaBuilder.equal(root.get("deleted"), false));
-            predicates.add(criteriaBuilder.equal(app.get("id"), appId));
-            return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-        });
-    }
 
     @Override
     public void resourceDeleteById(String resourceId) {

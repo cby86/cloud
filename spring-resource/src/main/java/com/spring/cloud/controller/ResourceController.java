@@ -28,12 +28,12 @@ import java.util.Map;
 public class ResourceController extends BaseController {
     @Autowired
     ResourceService resourceService;
-
-    @RequestMapping("/register")
-    public Map<String, Object> register(@RequestBody List<String> resource) {
-        resourceService.registerEndpoint(resource);
-        return this.resultMap(null);
-    }
+//
+//    @RequestMapping("/register")
+//    public Map<String, Object> register(@RequestBody List<String> resource) {
+//        resourceService.registerEndpoint(resource);
+//        return this.resultMap(true);
+//    }
 
     @RequestMapping("/findResource")
     @ResourceDesc(model = "资源管理", name = "资源分页列表", desc = "资源分页列表")

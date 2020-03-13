@@ -3,6 +3,8 @@ package com.spring.cloud.auto;
 import com.spring.cloud.config.ConnectionNameConfig;
 import com.spring.cloud.config.InMessageConfig;
 import com.spring.cloud.config.OutMessageConfig;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.cloud.stream.messaging.Source;
@@ -17,5 +19,6 @@ import java.lang.annotation.*;
 @Import(value = {InMessageConfig.class, OutMessageConfig.class,ConnectionNameConfig.class})
 @EnableBinding(Processor.class)
 @EnableScheduling
+@AutoConfigureBefore(WebMvcAutoConfiguration.class)
 public @interface EnableMessage {
 }

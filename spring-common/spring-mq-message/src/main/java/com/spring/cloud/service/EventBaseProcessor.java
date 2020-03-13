@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
+import org.springframework.transaction.annotation.Transactional;
 
 public abstract class EventBaseProcessor implements ApplicationContextAware {
     protected ApplicationContext applicationContext;

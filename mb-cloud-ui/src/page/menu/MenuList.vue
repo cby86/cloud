@@ -65,7 +65,7 @@
               <el-button type="text" size="small" v-if="$store.getters.hasAuth('addMenu') && scope.row.menuType=='Menu'"  @click="addMenu(scope.row)">新增</el-button>
               <el-button type="text" size="small" v-if="$store.getters.hasAuth('editMenu')"  @click="edit(scope.row)">编辑</el-button>
               <el-button type="text" size="small" v-if="$store.getters.hasAuth('deleteMenu')" @click="deleteMenu(scope.row)">删除</el-button>
-              <el-button type="text" size="small"  @click="bindResource(scope.row)">资源绑定</el-button>
+              <el-button type="text" size="small" v-if="$store.getters.hasAuth('bindResource')" @click="bindResource(scope.row)">资源绑定</el-button>
             </template>
           </el-table-column>
         </el-table>

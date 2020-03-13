@@ -8,6 +8,7 @@ import com.spring.cloud.entity.Role;
 import com.spring.cloud.entity.User;
 import com.spring.cloud.service.RoleService;
 import com.spring.cloud.service.UserService;
+import com.spring.cloud.support.mvc.ResourceDesc;
 import com.spring.cloud.utils.CommandUtils;
 import com.spring.cloud.utils.RequestUserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ public class UserController extends BaseController {
     UserService userService;
 
     @RequestMapping("/findUsers")
+    @ResourceDesc(model = "用户管理", name = "根据条件查询用户分页列表", desc = "根据条件查询用户分页列表")
     public Map<String, Object> findUsers(String name, Integer page, Integer pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<User> userList = userService.findUserList(name,pageable);
@@ -37,12 +39,14 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping("/findUserById")
+    @ResourceDesc(model = "用户管理", name = "根据ID查询用户", desc = "根据ID查询用户")
     public Map<String, Object> findRoleById(String userId) {
         User user = userService.findUserById(userId);
         return this.resultMap(new UserCommand().fromDomain(user));
     }
 
     @RequestMapping("/updateUser")
+    @ResourceDesc(model = "用户管理", name = "添加或修改用户", desc = "添加或修改用户")
     public Map<String, Object> updateRoles(UserCommand userCommand) {
         User user = userCommand.toDomain();
         userService.saveOrUpdate(user);
@@ -50,18 +54,21 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping("/deleteUser")
+    @ResourceDesc(model = "用户管理", name = "删除用户", desc = "删除用户")
     public Map<String, Object> deletedRole(String userId) {
         userService.deletedUser(userId);
         return this.resultMap(true);
     }
 
     @RequestMapping(value = "/findUserByName",method = RequestMethod.POST)
+    @ResourceDesc(model = "用户管理", name = "根据用户名查询用户", desc = "根据用户名查询用户")
     public User findUserByName(String username) {
         return userService.findUserByName(username);
     }
 
 
     @RequestMapping(value = "/findAuthentication",method = RequestMethod.GET)
+    @ResourceDesc(model = "用户管理", name = "查询用户权限", desc = "查询用户权限")
     public Map<String, Object> findAuthentication() {
         SecurityUser securityUser = RequestUserUtils.currentUser();
         List<Authentication> authentications = userService.findAuthentication(securityUser.getId());

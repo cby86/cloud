@@ -3,10 +3,12 @@ package com.spring.cloud.config;
 import com.alibaba.fastjson.JSONObject;
 import org.aspectj.lang.annotation.SuppressAjWarnings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -41,9 +43,9 @@ import java.util.Map;
 @Configuration
 @EnableWebFluxSecurity
 public class WebSecurityConfig {
-
     @Bean
     @ConditionalOnBean(ResourceLoader.class)
+    @ConditionalOnProperty(value = "spring.security.dynamic_url.authentication.enabled",havingValue = "true")
     public CustomerReactiveAuthorizationManager getCustomerReactiveAuthorizationManager(ResourceLoader resourceLoader) {
         return new CustomerReactiveAuthorizationManager(resourceLoader);
     }
@@ -54,8 +56,9 @@ public class WebSecurityConfig {
         http.httpBasic().disable();
         ServerHttpSecurity.AuthorizeExchangeSpec authorizeExchangeSpec = http.authorizeExchange();
         //配置URL静态权限
-        authorizeExchangeSpec.pathMatchers("/backend/order/home").permitAll(); //无需进行权限过滤的请求路径
-        authorizeExchangeSpec.anyExchange().permitAll();
+        authorizeExchangeSpec.pathMatchers("/**/oauth/token").permitAll(); //无需进行权限过滤的请求路径
+        authorizeExchangeSpec.pathMatchers("/**/user/findAuthentication").permitAll(); //无需进行权限过滤的请求路径
+//        authorizeExchangeSpec.anyExchange().permitAll();
         //配置URL动态权限
         if (customerReactiveAuthorizationManager != null) {
             authorizeExchangeSpec.anyExchange().access(customerReactiveAuthorizationManager);

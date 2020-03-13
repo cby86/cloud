@@ -1,7 +1,8 @@
 package com.spring.cloud.config;
-import java.util.List;
+
 import java.util.Map;
+import java.util.Set;
 
 public interface ResourceLoader {
-    Map<String, List<String>> loadResource();
+    Map<String, Set<String>> loadResource();
 }

@@ -77,6 +77,8 @@
       this.loadNode()
       if (this.$route.params.id) {
         this.loadRole(this.$route.params.id)
+      }else {
+        this.checkStrictly = false;
       }
     },
     methods: {

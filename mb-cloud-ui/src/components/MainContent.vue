@@ -46,7 +46,7 @@
             if (this.activeTab != option.name) {
               this.activeTab = option.name
               this.$router.push({
-                name: option.cacheName,
+                name: option.cacheName[option.cacheName.length-1],
                 params: {menuName: option.title, menuPath: option.route}
               })
             }
@@ -112,7 +112,7 @@
           if (tab.cacheName[tab.cacheName.length - 1] == to.name) {
             return
           }
-          if (!from.meta.cache && !from.meta.primary) {
+          if (!from.meta.cache) {
             this.cacheTag = this.cacheTag.filter(name => name !== from.name)
             tab.cacheName = tab.cacheName.filter(name => name !== from.name)
           }

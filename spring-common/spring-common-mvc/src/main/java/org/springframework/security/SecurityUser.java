@@ -11,6 +11,8 @@ public class SecurityUser implements UserDetails {
 
     private Collection<Role> authorities;
 
+
+
     public String getId() {
         return id;
     }

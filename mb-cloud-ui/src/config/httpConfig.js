@@ -33,6 +33,7 @@ instance.interceptors.response.use(response => {
       return Promise.reject("网络错误")
     }
     if (error.response.status === 401) {
+      window.localStorage.clear();
       router.push({path: "/login"})
     }
     return Promise.reject(error.response.data); // 返回接口返回的错误信息

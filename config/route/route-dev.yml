@@ -17,3 +17,7 @@ spring:
                  autoBindDlq: true
                  republishToDlq: true
                  acknowledge-mode: manual
+  security:
+    dynamic_url:
+      authentication:
+        enabled: true

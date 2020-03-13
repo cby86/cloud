@@ -1,29 +1,35 @@
 package com.spring.cloud.repository.component;
+
+import lombok.Getter;
+
 import java.io.Serializable;
+import java.util.Objects;
 
-public class ResourcePermit implements Serializable{
+@Getter
+public class ResourcePermit implements Serializable {
     private String url;
-    private String roles;
+    private String role;
+    /**
+     * 前缀
+     */
+    private final static String urlPrefixMarcher = "/**";
 
-
-    public ResourcePermit(String url, String roles) {
-        this.url = url;
-        this.roles = roles;
+    public ResourcePermit(String url, String role) {
+        this.url = urlPrefixMarcher+url.replaceAll("\\{[^}]*\\}", "*");
+        this.role = role;
     }
 
-    public String getUrl() {
-        return url;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ResourcePermit that = (ResourcePermit) o;
+        return Objects.equals(role, that.role);
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+    @Override
+    public int hashCode() {
 
-    public String getRoles() {
-        return roles;
-    }
-
-    public void setRoles(String roles) {
-        this.roles = roles;
+        return Objects.hash(role);
     }
 }

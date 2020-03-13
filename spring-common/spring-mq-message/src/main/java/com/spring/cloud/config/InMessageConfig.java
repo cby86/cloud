@@ -3,26 +3,12 @@ package com.spring.cloud.config;
 import com.rabbitmq.client.Channel;
 import com.spring.cloud.entity.Event;
 import com.spring.cloud.message.MessageApplicationEvent;
-import com.spring.cloud.service.MessageService;
-import com.spring.cloud.service.EventService;
-import com.spring.cloud.utils.RedisLock;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.amqp.support.AmqpHeaders;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Page;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
-
-import java.util.UUID;
 
 
 public class InMessageConfig extends BaseMessageConfig {

@@ -47,6 +47,9 @@ public class Authentication extends BaseEntity {
     private String code;
     private int sort;
 
+    @Column(columnDefinition="tinyint default 1")
+    private int forPrivate;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "autentication_id")
     @JsonIgnore

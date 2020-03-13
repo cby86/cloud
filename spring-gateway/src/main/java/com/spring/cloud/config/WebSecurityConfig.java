@@ -55,20 +55,16 @@ public class WebSecurityConfig {
         http.csrf().disable();
         http.httpBasic().disable();
         ServerHttpSecurity.AuthorizeExchangeSpec authorizeExchangeSpec = http.authorizeExchange();
-        //配置URL静态权限
-        authorizeExchangeSpec.pathMatchers("/**/oauth/token").permitAll(); //无需进行权限过滤的请求路径
-        authorizeExchangeSpec.pathMatchers("/**/user/findAuthentication").permitAll(); //无需进行权限过滤的请求路径
-//        authorizeExchangeSpec.anyExchange().permitAll();
         //配置URL动态权限
         if (customerReactiveAuthorizationManager != null) {
             authorizeExchangeSpec.anyExchange().access(customerReactiveAuthorizationManager);
+        }else {
+            authorizeExchangeSpec.anyExchange().permitAll();
         }
         ServerAuthenticationEntryPoint serverAuthenticationEntryPoint = getServerAuthenticationEntryPoint();
         http.exceptionHandling()
                 .authenticationEntryPoint(serverAuthenticationEntryPoint)
                 .accessDeniedHandler(getAccessDeniedHandler())
-//                .and().oauth2ResourceServer().jwt().jwtDecoder(new NimbusJwtDecoderJwkSupport())
-//                .and().bearerTokenConverter(new ServerBearerTokenAuthenticationConverter())
                 .and().addFilterAt(new JwtReactorContextWebFilter(serverAuthenticationEntryPoint), SecurityWebFiltersOrder.REACTOR_CONTEXT);
 
         return http.build();

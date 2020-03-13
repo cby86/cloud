@@ -107,8 +107,9 @@
             code: item["code"],
             sort: item["sort"],
             details: item["resources"],
-            authentionType: item["menuType"] === "Menu" ? 0 : 1
-          })
+            authentionType: item["menuType"] === "Menu" ? 0 : 1,
+            forPrivate: item["forPrivate"] ? 1 : 0
+          });
         })
         this.form.authentications = auth;
         this.$refs["form"].validate((valid) => {

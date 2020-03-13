@@ -8,14 +8,12 @@ import java.util.Objects;
 @Getter
 public class ResourcePermit implements Serializable {
     private String url;
+    private int permit;
     private String role;
-    /**
-     * 前缀
-     */
-    private final static String urlPrefixMarcher = "/**";
 
-    public ResourcePermit(String url, String role) {
-        this.url = urlPrefixMarcher+url.replaceAll("\\{[^}]*\\}", "*");
+    public ResourcePermit(String url,int permit, String role) {
+        this.permit = permit;
+        this.url = url;
         this.role = role;
     }
 

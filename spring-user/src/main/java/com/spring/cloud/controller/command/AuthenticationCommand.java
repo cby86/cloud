@@ -20,6 +20,7 @@ public class AuthenticationCommand implements Command<Authentication> {
     private String code;
     private List<String> details;
     private int sort;
+    private int forPrivate;
     @Override
     public Authentication toDomain() {
         Authentication authentication = new Authentication();
@@ -30,6 +31,7 @@ public class AuthenticationCommand implements Command<Authentication> {
         authentication.setCode(code);
         authentication.setIcon(icon);
         authentication.setSort(sort);
+        authentication.setForPrivate(this.forPrivate);
         if (StringUtils.isNotEmpty(parentId)) {
             authentication.setParentId(parentId);
         }
@@ -46,6 +48,7 @@ public class AuthenticationCommand implements Command<Authentication> {
         this.url = domain.getUrl();
         this.authentionType = domain.getAuthentionType();
         this.parentId = domain.getParentId();
+        this.forPrivate = domain.getForPrivate();
         this.icon = domain.getIcon();
         this.code = domain.getCode();
         return this;

@@ -5,6 +5,7 @@ import com.spring.cloud.controller.command.MenuCommand;
 import com.spring.cloud.controller.command.ResourceCommand;
 import com.spring.cloud.entity.Menu;
 import com.spring.cloud.entity.Resource;
+import com.spring.cloud.global.ResourceDefine;
 import com.spring.cloud.service.ResourceService;
 import com.spring.cloud.support.mvc.ResourceDesc;
 import com.spring.cloud.utils.CommandUtils;
@@ -28,12 +29,12 @@ import java.util.Map;
 public class ResourceController extends BaseController {
     @Autowired
     ResourceService resourceService;
-//
-//    @RequestMapping("/register")
-//    public Map<String, Object> register(@RequestBody List<String> resource) {
-//        resourceService.registerEndpoint(resource);
-//        return this.resultMap(true);
-//    }
+
+    @RequestMapping("/register")
+    public Map<String, Object> register(@RequestBody List<ResourceDefine> endpoints) {
+        resourceService.registerEndpoint(endpoints);
+        return this.resultMap(true);
+    }
 
     @RequestMapping("/findResource")
     @ResourceDesc(model = "资源管理", name = "资源分页列表", desc = "资源分页列表")

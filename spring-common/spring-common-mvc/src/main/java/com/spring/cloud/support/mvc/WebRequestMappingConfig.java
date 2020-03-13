@@ -5,13 +5,14 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 
 public class WebRequestMappingConfig {
     @Bean
     @ConditionalOnBean(value = ResourceRegister.class)
-    WebMvcRegistrations getWebMvcRegistrations(ResourceRegister resourceRegister) {
+    WebMvcRegistrations getWebMvcRegistrations(@Lazy  ResourceRegister resourceRegister) {
         CustomRequestMappingHandlerMapping handlerMapping = new CustomRequestMappingHandlerMapping(resourceRegister);
         return new WebMvcRegistrations() {
             @Override

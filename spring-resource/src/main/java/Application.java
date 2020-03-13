@@ -1,5 +1,4 @@
-import com.spring.cloud.auto.EnableMessage;
-import com.spring.cloud.auto.EnableOutMessage;
+import com.spring.cloud.auto.EnableMqMessage;
 import com.spring.cloud.support.mvc.EnableResourceRegister;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(basePackages = {"com.spring.cloud.repository"})
 @EntityScan(basePackages = {"com.spring.cloud.entity"})
 @EnableAsync
-@EnableMessage
+@EnableMqMessage
 @EnableResourceRegister
 public class Application {
     public static void main(String[] args) {

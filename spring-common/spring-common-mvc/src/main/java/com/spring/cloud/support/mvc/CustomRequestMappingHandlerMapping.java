@@ -5,6 +5,7 @@ import com.spring.cloud.global.ResourceRegister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
@@ -25,7 +26,7 @@ public class CustomRequestMappingHandlerMapping extends RequestMappingHandlerMap
 
     @Value("${spring.application.name}")
     protected String appName;
-    @Value("${spring.application.desc}")
+    @Value("${spring.application.desc:}")
     protected String discription;
 
     public CustomRequestMappingHandlerMapping(ResourceRegister resourceRegister) {
@@ -71,12 +72,15 @@ public class CustomRequestMappingHandlerMapping extends RequestMappingHandlerMap
                 endpointInfo.add(endpoint);
             }
         }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                resourceRegister.registerEndpoint(endpointInfo);
-            }
-        }).start();
+        endpointInfo.addAll(resourceRegister.getCustomerResource(this.appName,this.discription));
+        if (!CollectionUtils.isEmpty(endpointInfo)) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    resourceRegister.registerEndpoint(endpointInfo);
+                }
+            }).start();
+        }
     }
 
     private ResourceDefine getEndpoint(String url, HandlerMethod method) {

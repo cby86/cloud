@@ -3,5 +3,6 @@ spring:
     active: dev
   application:
     name: spring-auth-center
+    desc: 授权中心
 server:
   port: 8086

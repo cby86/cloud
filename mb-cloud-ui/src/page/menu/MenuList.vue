@@ -9,13 +9,13 @@
           <el-form-item label="菜单URL" prop="url">
             <el-input size="small" v-model="queryForm.url" placeholder="菜单URL"></el-input>
           </el-form-item>
-          <!--<el-form-item label="菜单类型" prop="menuType">-->
-            <!--<el-select size="small" v-model="queryForm.menuType" placeholder="请选择" @change="obtainValue">-->
-              <!--<el-option label="全部" :value=-1></el-option>-->
-              <!--<el-option label="菜单" :value=0></el-option>-->
-              <!--<el-option label="功能" :value=1></el-option>-->
-            <!--</el-select>-->
-          <!--</el-form-item>-->
+          <el-form-item label="菜单类型" prop="menuType">
+            <el-select size="small" v-model="queryForm.menuType" placeholder="请选择" @change="obtainValue">
+              <el-option label="全部" value="all"></el-option>
+              <el-option label="菜单" value="Menu"></el-option>
+              <el-option label="功能" value="Function"></el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item>
             <el-button type="primary" size="small" icon="el-icon-search" @click="onSubmit">查询</el-button>
             <el-button type="primary" size="small" icon="el-icon-reset" @click="reset">清空</el-button>
@@ -59,6 +59,11 @@
             sortable>
           </el-table-column>
           <el-table-column
+            prop="forPrivate"
+            label="是否私有" :formatter="(row, column, cellValue)=>{return cellValue === true ? '是' : '否';}"
+            sortable>
+          </el-table-column>
+          <el-table-column
             fixed="right"
             label="操作">
             <template slot-scope="scope">
@@ -88,8 +93,8 @@
       return {
         queryForm: {
           menuName: null,
-          url: null
-          // menuType: -1
+          url: null,
+          menuType: "all"
         },
         tableData: [],
         totalCount: 1,
@@ -179,13 +184,17 @@
         this.$router.push({name: "MenuForm", params: {parentName: row.menuName,parentId:row.id}})
       },
       loadMenus(parentId,callback) {
+        let parameters = {
+          name:this.queryForm.menuName,
+          url:this.queryForm.url,
+          parentId:parentId
+        };
+        if(this.queryForm.menuType!="all"){
+          parameters.menuType = this.queryForm.menuType;
+        }
         this.$request.post({
           url: '/spring-resource/menu/findMenuByParentId',
-          data: {
-            name:this.queryForm.menuName,
-            url:this.queryForm.url,
-            parentId:parentId
-          },
+          data: parameters,
           success: result => {
             callback(result.data);
           },

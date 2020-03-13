@@ -30,8 +30,8 @@ public class CustomerReactiveAuthorizationManager implements ReactiveAuthorizati
     /**
      * 设置定时器执行周期,定时刷新权限配置，默认为秒
      */
-    @Value("${resource.refresh.period:90}")
-    private int resourceRefreshPeriod = 90;
+    @Value("${resource.refresh.period:1800}")
+    private int resourceRefreshPeriod = 1800;
 
     public CustomerReactiveAuthorizationManager(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;

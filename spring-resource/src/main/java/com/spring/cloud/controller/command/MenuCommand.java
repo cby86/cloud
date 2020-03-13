@@ -37,6 +37,7 @@ public class MenuCommand implements Command<Menu> {
 
     private List<String> resources;
 
+    private boolean forPrivate;
 
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
@@ -60,6 +61,7 @@ public class MenuCommand implements Command<Menu> {
         menu.setIcon(icon);
         menu.setCode(code);
         menu.setSort(sort);
+        menu.setForPrivate(this.forPrivate);
         if (menuService.hasSame(id,"code",code)) {
             throw new BusinessException("编码必须唯一");
         }
@@ -78,6 +80,7 @@ public class MenuCommand implements Command<Menu> {
         this.url = domain.getUrl();
         this.menuType = domain.getMenuType();
         this.icon = domain.getIcon();
+        this.forPrivate = domain.isForPrivate();
         if (domain.getParent() != null) {
             this.parentId = domain.getParent().getId();
             this.parentName = domain.getParent().getName();

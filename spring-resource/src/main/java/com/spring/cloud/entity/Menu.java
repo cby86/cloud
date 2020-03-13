@@ -54,6 +54,8 @@ public class Menu extends BaseEntity{
     private String url;
 
     private String icon;
+    @Column(columnDefinition="tinyint default 1")
+    private boolean forPrivate;
 
     @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JoinTable(name="mb_hunter_menu_resource",

@@ -31,6 +31,10 @@
       <el-form-item label="排序" prop="url">
         <el-input v-model="menuForm.sort" placeholder="数字越小排在越前"></el-input>
       </el-form-item>
+      <el-form-item label="安全" prop="forPrivate">
+        <el-radio v-model="menuForm.forPrivate" :label="true">私有</el-radio>
+        <el-radio v-model="menuForm.forPrivate" :label="false">公共</el-radio>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" @click="onSubmit">保存</el-button>
         <el-button type="info" icon="el-icon-search" @click="cancel">取消</el-button>
@@ -65,7 +69,8 @@
           menuType: "Menu",
           code: null,
           icon: null,
-          sort: 0
+          sort: 0,
+          forPrivate:true
         },
         rules: {
           menuName: [

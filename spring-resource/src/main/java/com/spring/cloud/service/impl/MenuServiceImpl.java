@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.spring.cloud.entity.MenuType;
 import com.spring.cloud.entity.Resource;
 import com.spring.cloud.message.MessageType;
 import com.spring.cloud.repository.ResourceRepository;
@@ -64,7 +65,7 @@ public class MenuServiceImpl extends EventBaseProcessor implements MenuService {
             throw new BusinessException("菜单下还存在子菜单,请先删除子菜单");
         }
         menuRepository.deleteById(id);
-        this.publishMqEvent(new MessageApplicationEvent(id,MessageType.MenuDelete.getRouterKey()));
+        this.publishMqEvent(new MessageApplicationEvent(id, MessageType.MenuDelete.getRouterKey()));
     }
 
     @Override
@@ -95,12 +96,15 @@ public class MenuServiceImpl extends EventBaseProcessor implements MenuService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Menu> findMenuByParentId(String parentId, String name, String url, String excludeMenuId) {
+    public List<Menu> findMenuByParentId(String parentId, String name, String url, MenuType menuType, String excludeMenuId) {
         return menuRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(criteriaBuilder.equal(root.get("deleted"), false));
             predicates.add(criteriaBuilder.equal(root.get("menuType"), 0));
             Join<Object, Object> parent = root.join("parent", JoinType.LEFT);
+            if (menuType != null) {
+                predicates.add(criteriaBuilder.equal(root.get("menuType"), menuType));
+            }
             if (StringUtils.isNotEmpty(name)) {
                 predicates.add(criteriaBuilder.equal(root.get("name"), name));
             }
@@ -116,7 +120,7 @@ public class MenuServiceImpl extends EventBaseProcessor implements MenuService {
                 predicates.add(criteriaBuilder.notEqual(root.get("id"), excludeMenuId));
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-        },Sort.by(Sort.Order.asc("sort")));
+        }, Sort.by(Sort.Order.asc("sort")));
     }
 
     @Override
@@ -132,7 +136,7 @@ public class MenuServiceImpl extends EventBaseProcessor implements MenuService {
 
     @Override
     @Transactional(readOnly = true)
-    public boolean hasSame(String id, String name,String value) {
+    public boolean hasSame(String id, String name, String value) {
         return menuRepository.count((root, criteriaQuery, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(criteriaBuilder.equal(root.get("deleted"), false));
@@ -145,7 +149,7 @@ public class MenuServiceImpl extends EventBaseProcessor implements MenuService {
     }
 
     @Override
-    public void unBindResource(String menuId,String resourceId) {
+    public void unBindResource(String menuId, String resourceId) {
         Menu menu = this.findMenuById(menuId);
         List<Resource> resources = menu.getResources();
         Iterator<Resource> iterator = resources.iterator();
@@ -162,7 +166,7 @@ public class MenuServiceImpl extends EventBaseProcessor implements MenuService {
     public void bindResources(String menuId, List<String> resourceIds) {
         Menu menu = this.findMenuById(menuId);
         menu.getResources().clear();
-        for (String resourceId:resourceIds) {
+        for (String resourceId : resourceIds) {
             Resource resource = resourceRepository.getOne(resourceId);
             menu.addResource(resource);
         }

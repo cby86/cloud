@@ -1,6 +1,7 @@
 package com.spring.cloud.service;
 
 import com.spring.cloud.entity.Menu;
+import com.spring.cloud.entity.MenuType;
 import com.spring.cloud.entity.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,15 +21,15 @@ public interface MenuService {
 
     Menu findMenuById(String id);
 
-    Page<Menu> findMenuPageList(String name,String url, int menuType, Pageable pageable);
+    Page<Menu> findMenuPageList(String name, String url, int menuType, Pageable pageable);
 
-    List<Menu> findMenuByParentId(String parentId,String name,String url,String excludeMenuId);
+    List<Menu> findMenuByParentId(String parentId, String name, String url, MenuType menuType, String excludeMenuId);
 
     List<Menu> findAllMenu();
 
     boolean hasSame(String id, String name, String value);
 
-    void unBindResource(String menuId,String resourceId);
+    void unBindResource(String menuId, String resourceId);
 
     void bindResources(String menuId, List<String> resourceIds);
 }

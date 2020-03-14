@@ -15,8 +15,7 @@ public abstract class BaseMessageConfig {
     protected Logger logger = LoggerFactory.getLogger(BaseMessageConfig.class);
     protected final static int errorEventFetchSize = 100;
     protected static final int maxRetry = 3;
-    @Autowired(required = false)
-    protected MessageService consumerService;
+
     @Autowired
     protected EventService eventService;
     @Autowired

@@ -6,10 +6,11 @@ import com.spring.cloud.base.BaseEntity;
 import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "mb_hunter_authentication")
@@ -65,5 +66,20 @@ public class Authentication extends BaseEntity {
             authenticationDetails = new ArrayList<>();
         }
         authenticationDetails.add(new AuthenticationDetails(systemResource));
+    }
+
+    public void addAllAuthenticationDetails(List<String> urls) {
+        if (!CollectionUtils.isEmpty(urls)) {
+            urls.forEach(url->{
+                this.addAuthenticationDetails(url);
+            });
+        }
+    }
+
+    public  List<AuthenticationDetails> removeAuthenticationDetails(List<String> urls) {
+        List<AuthenticationDetails> authenticationDetailsList = this.getAuthenticationDetails();
+        List<AuthenticationDetails> deleteDetails = authenticationDetailsList.stream().
+                filter(item -> urls.contains(item.getSystemResource())).collect(Collectors.toList());
+        return deleteDetails;
     }
 }

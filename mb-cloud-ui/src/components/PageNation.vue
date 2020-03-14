@@ -1,7 +1,7 @@
 <template>
   <el-row class="page">
     <el-col>
-      <el-pagination size ="small" background layout="sizes,prev, pager, next" :page-sizes="pageSizes" :total="totalCount"
+      <el-pagination size ="small" background layout="sizes,prev, pager, next" :page-sizes="pageSizes" :total="totalCount" :current_page="currentPage"
                      :page-count="pageCount" :page-size="pageSize" @size-change="handleSizeChange" @current-change="pageChange" ></el-pagination>
     </el-col>
   </el-row>

@@ -17,6 +17,7 @@
             <el-button type="primary" size="small" icon="el-icon-search" @click="onSubmit">查询</el-button>
             <el-button type="primary" size="small" icon="el-icon-reset" @click="reset">清空</el-button>
             <el-button type="primary" size="small" icon="el-icon-reset" @click="add">新增</el-button>
+            <el-button type="primary" size="small" icon="el-icon-reset" @click="batchDelete">批量删除</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -24,8 +25,12 @@
     <el-row>
       <el-col>
         <el-table size="small"
+                  @selection-change="selectionChange"
                   :data="tableData"
                   style="width: 100%">
+          <el-table-column
+            type="selection">
+          </el-table-column>
           <el-table-column sortable
                            prop="appName"
                            label="应用名称">
@@ -50,7 +55,7 @@
             fixed="right"
             label="操作">
             <template slot-scope="scope">
-              <el-button type="text" size="small" @click="deleteResource(scope.row)">删除</el-button>
+              <el-button type="text" size="small" @click="deleteResource([scope.row.id])">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -94,7 +99,8 @@
           {
             name: "绑定资源",
           }
-        ]
+        ],
+        selection: []
       };
     },
     mounted() {
@@ -106,6 +112,9 @@
       }
     },
     methods: {
+      selectionChange(selection) {
+        this.selection = selection;
+      },
       resetResource(resourceIds) {
         this.$request.post({
           url: '/spring-resource/menu/bindResources',
@@ -130,7 +139,21 @@
       add() {
         this.$refs.resourceSelect.show();
       },
-      deleteResource(row) {
+      batchDelete() {
+        let resourceIds = [];
+        if (this.selection.length == 0) {
+          this.$message({
+            type: 'info',
+            message: '请选择要删除的记录'
+          });
+          return;
+        }
+        this.selection.forEach(item => {
+          resourceIds.push(item.id)
+        });
+        this.deleteResource(resourceIds)
+      },
+      deleteResource(resourceIds) {
         this.$confirm('此操作将永久删除数据, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -140,7 +163,7 @@
             url: '/spring-resource/menu/unBindResource',
             data: {
               menuId: this.queryForm.menuId,
-              resourceId: row["id"]
+              resourceIds: resourceIds.toString()
             },
             success: result => {
               this.loadResource(1, this.pageSize)
@@ -148,7 +171,7 @@
             error: e => {
               this.$message.error(e)
             }
-          })
+          });
         }).catch((e) => {
           this.$message({
             type: 'info',

@@ -70,16 +70,4 @@ public class ResourceMatcher {
     public void reInit(Map<String, Set<String>> mappings) {
         this.mappings = mappings;
     }
-
-    public static void main(String[] args) {
-        long l = System.currentTimeMillis();
-        int i = 0;
-        PathPattern parse = new PathPatternParser().parse(urlPrefixMarcher + "/user");
-        while (i < 100000) {
-            parse.matches(PathContainer.parsePath("/user"));
-//            System.out.println(new PathPatternParser().parse(urlPrefixMarcher + "/user").matches(PathContainer.parsePath("/user")));
-            i++;
-        }
-        System.out.println(System.currentTimeMillis()-l);
-    }
 }

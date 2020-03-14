@@ -18,7 +18,7 @@ public class ResourceRegisterEventHandler extends AbstractMessageHandler {
     private ResourceService resourceService;
 
     @Override
-    public void onMessage(String eventId, Object message) {
+    public void onMessage(String sourceId,Object message) {
         List<ResourceDefine> resource = JsonUtils.jsonToObjectList(message.toString(), new TypeReference<List<ResourceDefine>>() {});
         resourceService.registerEndpoint(resource);
     }

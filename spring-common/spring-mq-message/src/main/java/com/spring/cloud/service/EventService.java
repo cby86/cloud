@@ -4,6 +4,8 @@ import com.spring.cloud.entity.Event;
 import com.spring.cloud.entity.EventStatus;
 import org.springframework.data.domain.Page;
 
+import java.util.Optional;
+
 
 public interface EventService {
     void errorToSendEventMessage(Object eventId,String reason);
@@ -16,7 +18,7 @@ public interface EventService {
 
     void clearSendMessage();
 
-    boolean allow(String eventId, Object message, String messsageType);
+    Optional<Integer> check(String fromEventId, String sourceId, Object message, String messageType);
 
     void errorToConsumerEventMessage(String eventId, String message);
 

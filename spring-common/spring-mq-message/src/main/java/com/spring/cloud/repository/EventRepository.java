@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import javax.persistence.LockModeType;
 import java.util.Date;
 
-public interface EventRepository extends BaseRepository<Event, String> {
+public interface EventRepository extends BaseRepository<Event, Integer> {
 
 
     @Modifying
@@ -19,8 +19,8 @@ public interface EventRepository extends BaseRepository<Event, String> {
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     @Query("select obj from Event obj  where obj.id=?1 and obj.deleted=false")
     Event findEventForUpdate(Object eventId);
-    @Query("select obj from Event obj  where obj.sourceId=?1 and obj.deleted=false")
-    Event findEventBySource(String eventId);
+    @Query("select obj from Event obj  where obj.fromEvent=?1 and obj.deleted=false")
+    Event findByFromEvent(String eventId);
 
     @Modifying
     @Query("update  Event obj set obj.retryCount=obj.retryCount+1,obj.reason=?2 where obj.id=?1")

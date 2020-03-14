@@ -16,6 +16,7 @@ import com.spring.cloud.repository.MenuRepository;
 import com.spring.cloud.service.MenuService;
 import com.spring.cloud.utils.JsonUtils;
 import net.bytebuddy.asm.Advice;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,12 +30,11 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @Author panyuanjun
@@ -149,16 +149,21 @@ public class MenuServiceImpl extends EventBaseProcessor implements MenuService {
     }
 
     @Override
-    public void unBindResource(String menuId, String resourceId) {
+    public void unBindResource(String menuId, String [] resourceIds) {
+        if (ArrayUtils.isEmpty(resourceIds)) {
+            return;
+        }
         Menu menu = this.findMenuById(menuId);
+        List<String> deletedResourceIds = Arrays.asList(resourceIds);
         List<Resource> resources = menu.getResources();
-        Iterator<Resource> iterator = resources.iterator();
-        while (iterator.hasNext()) {
-            Resource resource = iterator.next();
-            if (resource.getId().equals(resourceId)) {
-                iterator.remove();//使用迭代器的删除方法删除
-                return;
-            }
+
+        List<Resource> waitingDeletedResource = resources.stream().filter(item -> deletedResourceIds.contains(item.getId())).collect(Collectors.toList());
+        resources.removeAll(waitingDeletedResource);
+
+        List<String> urls = waitingDeletedResource.stream().map(item -> item.getUrl()).collect(Collectors.toList());
+
+        if (!CollectionUtils.isEmpty(urls)) {
+            this.publishMqEvent(new MessageApplicationEvent(urls, MessageType.UnbindResource.getRouterKey()).bindSource(menu.getId()));
         }
     }
 
@@ -166,9 +171,14 @@ public class MenuServiceImpl extends EventBaseProcessor implements MenuService {
     public void bindResources(String menuId, List<String> resourceIds) {
         Menu menu = this.findMenuById(menuId);
         menu.getResources().clear();
+        List<String> urlList = new ArrayList<>();
         for (String resourceId : resourceIds) {
             Resource resource = resourceRepository.getOne(resourceId);
             menu.addResource(resource);
+            urlList.add(resource.getUrl());
+        }
+        if (!CollectionUtils.isEmpty(urlList)) {
+            this.publishMqEvent(new MessageApplicationEvent(JsonUtils.toJsonString(urlList), MessageType.BindResource.getRouterKey()).bindSource(menu.getId()));
         }
     }
 

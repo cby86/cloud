@@ -2,7 +2,7 @@ package com.spring.cloud.service.impl.message.handler;
 
 public interface MessageHandler  {
 
-    void doProcess(String eventId, Object message);
+    void doProcess(int eventId,String sourceId, Object message);
 
     public String supportMessageType();
 }

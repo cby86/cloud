@@ -16,6 +16,7 @@ import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -71,18 +72,21 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public boolean allow(String eventId, Object message, String messageType) {
-        Event event = this.findEventBySource(eventId);
+    public Optional<Integer> check(String fromEvent, String sourceId, Object message, String messageType) {
+        Event event = this.findByFromEvent(fromEvent);
         if (event == null) {
-            event = Event.createEvent(EventStatus.CONSUMER_NEW, message, messageType,eventId);
+            event = Event.createEvent(EventStatus.CONSUMER_NEW, message, messageType,sourceId,fromEvent);
             eventRepository.save(event);
         }
-        return event.getEventStatus().equals(EventStatus.CONSUMER_NEW) ||  event.getEventStatus().equals(EventStatus.CONSUMER_ERROR);
+        if (event.getEventStatus().equals(EventStatus.CONSUMER_NEW) || event.getEventStatus().equals(EventStatus.CONSUMER_ERROR)) {
+            return Optional.of(event.getId());
+        }
+        return Optional.empty();
     }
 
     @Override
     public void errorToConsumerEventMessage(String eventId, String message) {
-        Event event = this.findEventBySource(eventId);
+        Event event = this.findByFromEvent(eventId);
         if (event != null) {
             event.setEventStatus(EventStatus.CONSUMER_ERROR);
             event.setMarkerError(true);
@@ -117,7 +121,7 @@ public class EventServiceImpl implements EventService {
         eventRepository.retryUpdate(eventId,reason);
     }
 
-    private Event findEventBySource(String eventId) {
-        return eventRepository.findEventBySource(eventId);
+    private Event findByFromEvent(String eventId) {
+        return eventRepository.findByFromEvent(eventId);
     }
 }

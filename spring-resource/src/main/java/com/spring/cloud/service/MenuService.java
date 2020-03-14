@@ -29,7 +29,7 @@ public interface MenuService {
 
     boolean hasSame(String id, String name, String value);
 
-    void unBindResource(String menuId, String resourceId);
+    void unBindResource(String menuId, String []  resourceId);
 
     void bindResources(String menuId, List<String> resourceIds);
 }

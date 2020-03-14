@@ -38,19 +38,22 @@ public class Event extends IntIdBaseEntity {
 
     private String sourceId;
 
+    private String fromEvent;
+
 
     public void increaseRetry() {
         this.retryCount++;
     }
 
 
-    public static Event createEvent(EventStatus status, Object message, String messageType,String sourceId) {
+    public static Event createEvent(EventStatus status, Object message, String messageType,String sourceId,String fromEventId) {
         Event event = new Event();
         event.setPayload(JSON.toJSONString(message));
         event.setEventStatus(status);
         event.setEventType(messageType);
         event.setSourceId(sourceId);
         event.setOverdue(JodaTimeUtils.plusMinutes(new Date(),Event.timeout));
+        event.setFromEvent(fromEventId);
         return event;
     }
 }

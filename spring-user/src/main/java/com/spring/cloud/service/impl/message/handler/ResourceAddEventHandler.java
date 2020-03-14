@@ -1,27 +1,32 @@
 package com.spring.cloud.service.impl.message.handler;
 
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.spring.cloud.global.ResourceDefine;
 import com.spring.cloud.message.MessageType;
 import com.spring.cloud.service.AuthenticationService;
-import com.spring.cloud.service.dto.MenuMessage;
 import com.spring.cloud.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
-public class AuthenticationChangeEventHandler extends AbstractMessageHandler {
+public class ResourceAddEventHandler extends AbstractMessageHandler {
     @Autowired
     private AuthenticationService authenticationService;
 
     @Override
-    public void onMessage(String sourceId,Object message) {
-        MenuMessage menuMessage = JsonUtils.jsonToObject(message.toString(), MenuMessage.class);
-        authenticationService.updateAuthentications(menuMessage);
+    public void onMessage(String menuId,Object message) {
+        List<String> urls= JsonUtils.jsonToObjectList(message.toString(), new TypeReference<List<String>>() {});
+        authenticationService.addAuthenticationDetails(menuId,urls);
     }
 
     @Override
     public String supportMessageType() {
-        return MessageType.MenuChange.getRouterKey();
+        return MessageType.BindResource.getRouterKey();
     }
 }

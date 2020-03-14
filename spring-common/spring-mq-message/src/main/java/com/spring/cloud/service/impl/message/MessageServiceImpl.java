@@ -17,12 +17,12 @@ public class MessageServiceImpl implements MessageService, ApplicationContextAwa
     private Map<String, MessageHandler> handler;
 
     @Override
-    public void doProcess(String eventId, Object message, String messageType) {
+    public void doProcess(int eventId, String sourceId, Object message, String messageType) {
         if (handler == null || handler.get(messageType) == null) {
             throw new UnsupportedOperationException("不支持消息处理");
         }
         MessageHandler messageHandler = handler.get(messageType);
-        messageHandler.doProcess(eventId,message);
+        messageHandler.doProcess(eventId,sourceId,message);
     }
 
     @Override

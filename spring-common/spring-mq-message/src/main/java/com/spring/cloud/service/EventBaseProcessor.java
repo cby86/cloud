@@ -12,6 +12,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 public abstract class EventBaseProcessor implements ApplicationContextAware {
     protected ApplicationContext applicationContext;
     @Autowired
@@ -19,16 +21,16 @@ public abstract class EventBaseProcessor implements ApplicationContextAware {
 
     public void publishMqEvent(MessageApplicationEvent messageApplicationEvent) {
         Event event = Event.createEvent(EventStatus.PRODUCER_NEW, messageApplicationEvent.getSource(),
-                messageApplicationEvent.getMessageType(),messageApplicationEvent.getSourceId());
+                messageApplicationEvent.getMessageType(),messageApplicationEvent.getSourceId(),null);
         repository.save(event);
         applicationContext.publishEvent(messageApplicationEvent.bindEvent(event.getId()));
     }
-    public void commitMqEvent (String eventId) {
-        Event event = repository.findEventBySource(eventId);
-        if (event != null) {
+    public void commitMqEvent (int eventId) {
+        Optional<Event> eventOptional = repository.findById(eventId);
+        eventOptional.ifPresent(event->{
             event.setEventStatus(EventStatus.CONSUMER_PROCESSORED);
-        }
-        repository.save(event);
+            repository.save(event);
+        });
     }
 
     @Override

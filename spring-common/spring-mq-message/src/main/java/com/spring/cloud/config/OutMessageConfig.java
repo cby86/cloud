@@ -79,8 +79,10 @@ public class OutMessageConfig extends BaseMessageConfig {
     }
 
     private void sendMessage(MessageApplicationEvent event) {
-        Message<Object> msg = MessageBuilder.withPayload(event.getSource()).setHeader(MessageApplicationEvent.eventHeader, event.getEvent())
+        Message<Object> msg = MessageBuilder.withPayload(event.getSource())
+                .setHeader(MessageApplicationEvent.eventHeader, event.getEvent())
                 .setHeader(MessageApplicationEvent.messageTypeHeader, event.getMessageType())
+                .setHeader(MessageApplicationEvent.messageSourceIdHeader, event.getSourceId())
                 .build();
         out.send(msg);
     }

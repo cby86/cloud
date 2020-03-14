@@ -7,12 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 public class AuthenticationDeleteEventHandler extends AbstractMessageHandler {
     @Autowired
     private AuthenticationService authenticationService;
     @Override
-    public void onMessage(String eventId, Object message) {
+    public void onMessage(String sourceId,Object message) {
         authenticationService.deleteAllAuthentication(message.toString());
     }
 

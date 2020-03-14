@@ -94,8 +94,8 @@ public class MenuController extends BaseController {
 
     @RequestMapping("/unBindResource")
     @ResourceDesc(model = "菜单管理", name = "删除资源绑定", desc = "删除资源绑定")
-    public Map<String, Object> unBindResource(String menuId,String resourceId) {
-        menuService.unBindResource(menuId,resourceId);
+    public Map<String, Object> unBindResource(String menuId,String [] resourceIds) {
+        menuService.unBindResource(menuId,resourceIds);
         return this.resultMap(true);
     }
 

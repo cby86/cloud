@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationEvent;
 public class MessageApplicationEvent extends ApplicationEvent {
     public final static String eventHeader = "event";
     public final static String messageTypeHeader = "messageType";
+    public final static String messageSourceIdHeader = "sourceId";
     String messageType;
     Object event;
     String sourceId;

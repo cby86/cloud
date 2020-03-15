@@ -1,4 +1,5 @@
-package com.spring.cloud.config.resource;
+package com.spring.cloud.support;
+
 import org.springframework.cloud.bus.event.RemoteApplicationEvent;
 
 public class ResourceRemoteApplicationEvent extends RemoteApplicationEvent {

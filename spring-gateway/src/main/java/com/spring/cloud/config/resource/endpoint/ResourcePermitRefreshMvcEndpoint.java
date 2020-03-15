@@ -1,6 +1,7 @@
 package com.spring.cloud.config.resource.endpoint;
-import com.spring.cloud.config.resource.ResourceRemoteApplicationEvent;
+
 import com.spring.cloud.config.CustomerReactiveAuthorizationManager;
+import com.spring.cloud.support.ResourceRemoteApplicationEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

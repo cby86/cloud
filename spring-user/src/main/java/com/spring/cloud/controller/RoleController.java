@@ -4,10 +4,13 @@ import com.spring.cloud.base.BaseController;
 import com.spring.cloud.controller.command.RoleCommand;
 import com.spring.cloud.entity.Role;
 import com.spring.cloud.service.RoleService;
-import com.spring.cloud.support.listener.RoleChangeEvent;
+import com.spring.cloud.support.AuthenticationChangeRemoteApplicationEvent;
+import com.spring.cloud.support.RoleChangeEvent;
 import com.spring.cloud.support.mvc.ResourceDesc;
 import com.spring.cloud.utils.CommandUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.bus.BusProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +31,8 @@ public class RoleController extends BaseController {
 
     @Autowired
     RoleService roleService;
+    @Autowired
+    private BusProperties busProperties;
 
     @RequestMapping("/findRoles")
     @ResourceDesc(model = "角色管理", name = "根据条件查询角色分页列表", desc = "根据条件查询角色分页列表")
@@ -50,6 +55,9 @@ public class RoleController extends BaseController {
     public Map<String, Object> updateRoles(RoleCommand roleCommand) {
         Role role = roleCommand.toDomain();
         roleService.saveOrUpdate(role);
+        if (StringUtils.isNotEmpty(roleCommand.getId())) {
+            publishEvent(new AuthenticationChangeRemoteApplicationEvent(role.getId(),busProperties.getId()));
+        }
         publishEvent(new RoleChangeEvent(role.getId()));
         return this.resultMap(null);
     }

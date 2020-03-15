@@ -1,4 +1,4 @@
-package com.spring.cloud.support.listener;
+package com.spring.cloud.support;
 
 import org.springframework.context.ApplicationEvent;
 

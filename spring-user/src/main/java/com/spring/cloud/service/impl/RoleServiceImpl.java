@@ -27,7 +27,7 @@ import java.util.List;
  **/
 @Service
 @Transactional
-public class RoleServiceImpl extends EventBaseProcessor implements RoleService {
+public class RoleServiceImpl implements RoleService {
 
     @Autowired
     RoleRepository roleRepository;
@@ -36,9 +36,6 @@ public class RoleServiceImpl extends EventBaseProcessor implements RoleService {
 
     @Override
     public void saveOrUpdate(Role role) {
-        if (!StringUtils.isEmpty(role.getId())) {
-            this.publishMqEvent(new MessageApplicationEvent(role.getId(), MessageType.AuthenticationChange.getRouterKey()).bindSource(role.getId()));
-        }
         roleRepository.save(role);
     }
 

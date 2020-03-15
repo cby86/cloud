@@ -1,4 +1,4 @@
-package com.spring.cloud.support.listener;
+package com.spring.cloud.support;
 
 import com.spring.cloud.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RoleChangeListener implements ApplicationListener<RoleChangeEvent> {
+
     @Autowired
     private AuthenticationService authenticationService;
     @Override

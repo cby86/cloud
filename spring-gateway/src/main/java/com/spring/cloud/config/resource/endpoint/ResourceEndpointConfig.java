@@ -1,7 +1,7 @@
-package com.spring.cloud.config.resource;
+package com.spring.cloud.config.resource.endpoint;
 
 import com.spring.cloud.config.CustomerReactiveAuthorizationManager;
-import com.spring.cloud.config.resource.endpoint.ResourcePermitRefreshMvcEndpoint;
+import com.spring.cloud.support.ResourceRemoteApplicationEvent;
 import org.springframework.boot.actuate.autoconfigure.endpoint.condition.ConditionalOnEnabledEndpoint;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.cloud.bus.BusProperties;
@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConditionalOnClass(CustomerReactiveAuthorizationManager.class)
-@RemoteApplicationEventScan(basePackageClasses = ResourceRemoteApplicationEvent.class)
+@RemoteApplicationEventScan(basePackages = "com.spring.cloud.support")
 public class ResourceEndpointConfig{
     @Bean
     @ConditionalOnEnabledEndpoint()

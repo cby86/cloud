@@ -58,6 +58,18 @@ public class CustomRequestMappingHandlerMapping extends RequestMappingHandlerMap
 
 
     public void doRegister() {
+        List<ResourceDefine> endpointInfo = getResourceDefines();
+        if (!CollectionUtils.isEmpty(endpointInfo)) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    resourceRegister.registerEndpoint(endpointInfo);
+                }
+            }).start();
+        }
+    }
+
+    public List<ResourceDefine> getResourceDefines() {
         Map<RequestMappingInfo, HandlerMethod> handlerMethods = this.getHandlerMethods();
         List<ResourceDefine> endpointInfo = new ArrayList<>();
         for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMethods.entrySet()) {
@@ -73,14 +85,7 @@ public class CustomRequestMappingHandlerMapping extends RequestMappingHandlerMap
             }
         }
         endpointInfo.addAll(resourceRegister.getCustomerResource(this.appName,this.discription));
-        if (!CollectionUtils.isEmpty(endpointInfo)) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    resourceRegister.registerEndpoint(endpointInfo);
-                }
-            }).start();
-        }
+        return endpointInfo;
     }
 
     private ResourceDefine getEndpoint(String url, HandlerMethod method) {

@@ -12,5 +12,5 @@ import java.util.Map;
 @FeignClient(value = "spring-resource", fallback = ResourceFallBack.class)
 public interface ResourceInterface {
     @RequestMapping(value = "/resource/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Map<String, Object> registerEndpoint(List<ResourceDefine> endpoints);
+    public void registerEndpoint(List<ResourceDefine> endpoints);
 }

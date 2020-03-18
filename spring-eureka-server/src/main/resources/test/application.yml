@@ -3,12 +3,12 @@ spring:
     active: dev
   application:
     name: spring-register-server
-    security:
-      basic:
-        enabled: true               # 开启基于HTTP basic的认证
-      user:
-        name: user                  # 配置登录的账号是user
-        password: password123
+#    security:
+#      basic:
+#        enabled: true               # 开启基于HTTP basic的认证
+#      user:
+#        name: user                  # 配置登录的账号是user
+#        password: password123
 server:
   port: 8761
 
@@ -19,8 +19,8 @@ eureka:
     preferIpAddress: true
     instance-id: ${spring.cloud.client.ip-address}:${server.port}:${spring.application.name}
   client:
-    registerWithEureka: true
-    fetchRegistry: true
+    registerWithEureka: false
+    fetchRegistry: false
     serviceUrl:
       defaultZone: http://${eureka.instance.hostname}:8761/eureka/
   server:
@@ -34,4 +34,3 @@ eureka:
      wait-time-in-ms-when-sync-empty: 6000
      # 集群之间相互更新节点信息的时间频率
      peer-eureka-nodes-update-interval-ms: 60000
-

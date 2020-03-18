@@ -48,7 +48,11 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://192.168.3.89:8761/eureka/
+      defaultZone: http://${eureka.client.security.basic.user}:${eureka.client.security.basic.password}@localhost:8761/eureka/
+    security:
+      basic:
+        user: user
+        password: password123
   instance:
     appname: ${spring.application.name}
     preferIpAddress: true

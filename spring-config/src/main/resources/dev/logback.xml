@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false">
     <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
-    <property name="LOG_HOME" value="E:/cloudlogs/"/>
+    <property name="LOG_HOME" value="F:/var/datalogs/"/>
     <springProperty scope="context" name="appName" source="spring.application.name"/>
     <springProperty scope="context" name="port" source="server.port"/>
     <property name="log_pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"></property>

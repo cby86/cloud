@@ -3,12 +3,12 @@ spring:
     active: dev
   application:
     name: spring-register-server
-    security:
-      basic:
-        enabled: true               # 开启基于HTTP basic的认证
-      user:
-        name: user                  # 配置登录的账号是user
-        password: password123
+  security:
+    basic:
+      enabled: true               # 开启基于HTTP basic的认证
+    user:
+      name: user                  # 配置登录的账号是user
+      password: password123
 server:
   port: 8761
 

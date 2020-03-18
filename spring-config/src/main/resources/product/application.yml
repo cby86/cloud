@@ -1,6 +1,12 @@
 spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: publisher
+    password: publisher
+    virtual-host: /
   profiles:
-    active: prod
+    active: native
   application:
     name: spring-config
   mvc:
@@ -16,7 +22,20 @@ spring:
             username:
             password:
             search-paths: config/{application}
-#            default-label: optimize
+            default-label: optimize
+          native:
+            search-locations: file:F:/project/cloud/config/{application}/
+            default-label:
+      bus:
+        trace:
+          enabled: true
+        refresh:
+          enabled: false  # 不采用系统默认的，因为所有的更新消息分发点都在config,如果要刷新其他服务,本地事件也会监听，导致重启config
+      stream:
+        rabbit:
+          default:
+            consumer:
+              anonymousGroupPrefix: ${spring.application.name}.${server.port}. #配置队列名称
   security:
     basic:
       enabled: true               # 开启基于HTTP basic的认证
@@ -29,13 +48,20 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://${eureka.client.security.basic.user}:${eureka.client.security.basic.password}@localhost:8761/eureka/
+    security:
+      basic:
+        user: user
+        password: password123
   instance:
     appname: ${spring.application.name}
     preferIpAddress: true
     instance-id: ${spring.cloud.client.ip-address}:${server.port}:${spring.application.name}
-    lease-renewal-interval-in-seconds: 1
-    lease-expiration-duration-in-seconds: 2
+#    lease-renewal-interval-in-seconds: 1
+#    lease-expiration-duration-in-seconds: 2
 
-
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

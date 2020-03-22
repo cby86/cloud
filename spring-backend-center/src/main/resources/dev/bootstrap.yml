@@ -15,3 +15,7 @@ spring:
            max-attempts: 6
            max-interval: 4000
            multiplier: 1.1
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://user:password123@localhost:8761/eureka/

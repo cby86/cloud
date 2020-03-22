@@ -42,8 +42,6 @@ public class CustomerReactiveAuthorizationManager implements ReactiveAuthorizati
                         .build());
     }
 
-
-    @Override
     public Mono<AuthorizationDecision> check(Mono authentication, AuthorizationContext context) {
         return Flux.just(mappings)
                 .flatMap(mapping -> mapping.check(context.getExchange(), authentication, context)
@@ -62,10 +60,10 @@ public class CustomerReactiveAuthorizationManager implements ReactiveAuthorizati
                     if (resourceLoader == null) {
                         return;
                     }
-                   refresh();
+                    refresh();
                 } catch (Exception ex) {
                     if (logger.isDebugEnabled()) {
-                        logger.debug("获取权限配置信息错误",ex.getMessage());
+                        logger.debug("获取权限配置信息错误", ex.getMessage());
                     }
                 }
             }

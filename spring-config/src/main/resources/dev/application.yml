@@ -24,7 +24,7 @@ spring:
             search-paths: config/{application}
             default-label: optimize
           native:
-            search-locations: file:F:/project/cloud/config/{application}/
+            search-locations: file:./config/{application}/
             default-label:
       bus:
         trace:
@@ -48,11 +48,7 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://${eureka.client.security.basic.user}:${eureka.client.security.basic.password}@localhost:8761/eureka/
-    security:
-      basic:
-        user: user
-        password: password123
+      defaultZone: http://user:password123@localhost:8761/eureka/
   instance:
     appname: ${spring.application.name}
     preferIpAddress: true

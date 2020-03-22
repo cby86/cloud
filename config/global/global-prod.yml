@@ -10,11 +10,23 @@ spring:
         sampler:
           probability: 1.0 # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
   zipkin:
-      base-url: http://192.168.3.15:9411/ # 指定了 Zipkin 服务器的地址
+      base-url: http://localhost:9411/ # 指定了 Zipkin 服务器的地址
+  cloud:
+    stream:
+      rabbit:
+        default:
+          consumer:
+            anonymousGroupPrefix: ${spring.application.name}.${server.port}. #配置队列名称
+  rabbitmq:
+     host: localhost
+     port: 5672
+     username: publisher
+     password: publisher
+     virtual-host: /
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+       defaultZone: http://user:password123@localhost:8761/eureka/
     registry-fetch-interval-seconds: 5
   instance:
       appname: ${spring.application.name}
@@ -22,6 +34,7 @@ eureka:
       instance-id: ${spring.cloud.client.ip-address}:${server.port}:${spring.application.name}
       lease-renewal-interval-in-seconds: 1
       lease-expiration-duration-in-seconds: 2
+
 #tomcat 配置
 server:
   tomcat:

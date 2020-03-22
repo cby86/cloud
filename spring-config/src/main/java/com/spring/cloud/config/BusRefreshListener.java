@@ -10,12 +10,13 @@ public class BusRefreshListener extends RefreshListener {
     private ServiceMatcher serviceMatcher;
     public BusRefreshListener(ContextRefresher contextRefresher) {
         super(contextRefresher);
-    }
+}
     @Override
     public void onApplicationEvent(RefreshRemoteApplicationEvent event) {
         //只有刷新自己时才进行处理
         if (serviceMatcher.isForSelf(event)) {
             super.onApplicationEvent(event);
+
         }
     }
 }

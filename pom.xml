@@ -179,6 +179,7 @@
                     <imageTags>
                         <imageTag>${project.version}</imageTag>
                     </imageTags>
+
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>

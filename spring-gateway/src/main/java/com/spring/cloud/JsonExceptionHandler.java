@@ -61,7 +61,7 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler {
         if (httpStatus.equals(HttpStatus.NOT_FOUND)) {
             message = "系统资源不存在";
         }else {
-            message = error.containsKey("message") ? error.get("message").toString() : "系统错误";
+            message = error.containsKey("message") && error.get("message")!=null? error.get("message").toString() : "系统错误";
         }
         data.put("message",message);
         return ServerResponse.status(httpStatus).contentType(MediaType.APPLICATION_JSON_UTF8)

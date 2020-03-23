@@ -57,6 +57,9 @@ public class ResourceMatcher implements ServerWebExchangeMatcher,ReactiveAuthori
     @Override
     public Mono<AuthorizationDecision> check(Mono<Authentication> authentication, AuthorizationContext context) {
         Set<String> authorities = (Set<String>) context.getVariables().get(MAPPING_ROLE_NAME);
+        if (CollectionUtils.isEmpty(authorities)) {
+            return Mono.just(new AuthorizationDecision(true));
+        }
         return authentication
                 .filter(a -> a.isAuthenticated())
                 .flatMapIterable(a -> a.getAuthorities())

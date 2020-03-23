@@ -51,14 +51,11 @@ public class CustomerReactiveAuthorizationManager implements ReactiveAuthorizati
                 .concatMap(mapping -> mapping.matches(context.getExchange())
                         .filter(ServerWebExchangeMatcher.MatchResult::isMatch)
                         .map(r -> r.getVariables())
-                        .flatMap(variables -> {
-                                    context.getVariables().putAll(variables);
-                                    return mapping.check(authentication, context);
-                                }
+                        .flatMap(variables -> mapping.check(authentication, new AuthorizationContext(context.getExchange(),variables))
                         )
                 )
                 .next()
-                .defaultIfEmpty(new AuthorizationDecision(true));
+                .defaultIfEmpty(new AuthorizationDecision(false));
     }
 
     /**

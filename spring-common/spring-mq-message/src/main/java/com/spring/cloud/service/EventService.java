@@ -4,6 +4,7 @@ import com.spring.cloud.entity.Event;
 import com.spring.cloud.entity.EventStatus;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -27,4 +28,8 @@ public interface EventService {
     void clearConsumerMessage();
 
     void retryUpdate(int eventId, String reason);
+
+    List<Event> findAllEvent();
+
+    void clear();
 }

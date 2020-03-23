@@ -56,6 +56,7 @@ public class WebSecurityConfig {
         http.csrf().disable();
         http.httpBasic().disable();
         ServerHttpSecurity.AuthorizeExchangeSpec authorizeExchangeSpec = http.authorizeExchange();
+        authorizeExchangeSpec.pathMatchers("/**/actuator/**").permitAll();
         //配置URL动态权限
         if (customerReactiveAuthorizationManager != null) {
             authorizeExchangeSpec.anyExchange().access(customerReactiveAuthorizationManager);

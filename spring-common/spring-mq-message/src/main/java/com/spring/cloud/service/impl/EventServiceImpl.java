@@ -121,6 +121,16 @@ public class EventServiceImpl implements EventService {
         eventRepository.retryUpdate(eventId,reason);
     }
 
+    @Override
+    public List<Event> findAllEvent() {
+        return eventRepository.findAll();
+    }
+
+    @Override
+    public void clear() {
+        eventRepository.deleteAll();
+    }
+
     private Event findByFromEvent(String eventId) {
         return eventRepository.findByFromEvent(eventId);
     }

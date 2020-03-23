@@ -1,0 +1,16 @@
+spring:
+  rabbitmq:
+     publisher-confirms: true
+  cloud:
+    stream:
+      bindings:
+         output:
+           destination: bussinessMessage
+           producer:
+              errorChannelEnabled: true #生产者发布错误回调启用
+      rabbit:
+         bindings:
+            output:
+               producer:
+                  confirmAckChannel: bussinessMessageConfirm
+                  routing-key-expression: headers.messageType

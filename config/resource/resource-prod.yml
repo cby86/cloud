@@ -1,4 +1,26 @@
 spring:
+  rabbitmq:
+     publisher-confirms: true
+  cloud:
+    stream:
+      bindings:
+         output:
+           destination: bussinessMessage
+           producer:
+              errorChannelEnabled: true #生产者发布错误回调启用
+         input:
+           destination: bussinessMessage
+           group: ${spring.application.name}
+      rabbit:
+         bindings:
+            output:
+               producer:
+                  confirmAckChannel: bussinessMessageConfirm
+                  routing-key-expression: headers.messageType
+            input:
+               consumer:
+                 bindingRoutingKey: "*.resource.*"
+                 acknowledge-mode: manual
   redis:
     host: localhost
     port: 6379
@@ -7,7 +29,7 @@ spring:
       platform: mysql
       url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&autoReconnect=true&failOverReadOnly=false&serverTimezone=GMT%2B8
       username: root
-      password: 123456
+      password: '{cipher}4d4f73c89b5da08930b08c85ff856dc7a3384f67b47851341d471232df7dba96'
       driverClassName: com.mysql.cj.jdbc.Driver
       max-active: 5
       max-idle: 2
@@ -28,4 +50,4 @@ spring:
             format_sql: false
             use_sql_comments: true
             naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
-            dialect: org.hibernate.dialect.MySQL5Dialect
+            dialect: com.spring.cloud.base.dialect.CustomerMysql5Dialect

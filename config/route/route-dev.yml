@@ -1,22 +1,6 @@
 route:
     returnFailRoutePath: true
 spring:
-  cloud:
-    stream:
-       bindings:
-          input:
-            destination: bussinessMessage
-       default:
-          consumer:
-              maxAttempts: 3
-       rabbit:
-         bindings:
-           input:
-              consumer:
-                 bindingRoutingKey: "*.geteway.*"
-                 autoBindDlq: true
-                 republishToDlq: true
-                 acknowledge-mode: manual
   security:
     dynamic_url:
       authentication:

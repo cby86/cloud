@@ -1,0 +1,7 @@
+route:
+    returnFailRoutePath: true
+spring:
+  security:
+    dynamic_url:
+      authentication:
+        enabled: true

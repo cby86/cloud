@@ -6,7 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.ReactiveAuthorizationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.web.server.authorization.AuthorizationContext;
+import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -42,10 +45,20 @@ public class CustomerReactiveAuthorizationManager implements ReactiveAuthorizati
                         .build());
     }
 
-    public Mono<AuthorizationDecision> check(Mono authentication, AuthorizationContext context) {
+    @Override
+    public Mono<AuthorizationDecision> check(Mono<Authentication> authentication, AuthorizationContext context) {
         return Flux.just(mappings)
-                .flatMap(mapping -> mapping.check(context.getExchange(), authentication, context)
-                ).next();
+                .concatMap(mapping -> mapping.matches(context.getExchange())
+                        .filter(ServerWebExchangeMatcher.MatchResult::isMatch)
+                        .map(r -> r.getVariables())
+                        .flatMap(variables -> {
+                                    context.getVariables().putAll(variables);
+                                    return mapping.check(authentication, context);
+                                }
+                        )
+                )
+                .next()
+                .defaultIfEmpty(new AuthorizationDecision(true));
     }
 
     /**
@@ -69,6 +82,7 @@ public class CustomerReactiveAuthorizationManager implements ReactiveAuthorizati
             }
         }, resourceLoaderDelay, resourceRefreshPeriod, TimeUnit.SECONDS);
     }
+
     @Override
     public String toString() {
         return mappings.toString();

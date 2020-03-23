@@ -9,20 +9,23 @@ import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.ReactiveAuthorizationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.server.authorization.AuthorizationContext;
+import org.springframework.security.web.server.util.matcher.PathPatternParserServerWebExchangeMatcher;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.util.pattern.PathPattern;
 import org.springframework.web.util.pattern.PathPatternParser;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.*;
 
-public class ResourceMatcher {
+public class ResourceMatcher implements ServerWebExchangeMatcher,ReactiveAuthorizationManager<AuthorizationContext>{
     /**
      * 前缀 所有路由到服务的URL 都有固定前缀
      */
     private final static String urlPrefixMarcher = "/**";
+    private final static String MAPPING_ROLE_NAME = "mapping_role_name";
     private Map<String, Set<String>> mappings;
 
     public ResourceMatcher(Map<String, Set<String>> mappings) {
@@ -30,28 +33,30 @@ public class ResourceMatcher {
         this.reInit(mappings);
     }
 
-    public Set<String> matches(ServerWebExchange exchange) {
+    @Override
+    public Mono<MatchResult> matches(ServerWebExchange exchange) {
         ServerHttpRequest request = exchange.getRequest();
         PathContainer path = request.getPath().pathWithinApplication().subPath(2);
         String value = path.value();
         Set<String> roles = mappings.get(value);
+        HashMap<String, Object> variables = new HashMap<>();
         if (roles != null) {
-            return roles;
+            variables.put(MAPPING_ROLE_NAME, roles);
+            return MatchResult.match(variables);
         }
         for (Map.Entry<String, Set<String>> entry : mappings.entrySet()) {
             if (new PathPatternParser().parse(urlPrefixMarcher + entry.getKey()).matches(path)) {
+                variables.put(MAPPING_ROLE_NAME, roles);
                 roles = entry.getValue();
                 break;
             }
         }
-        return roles == null ? new HashSet<>() : roles;
+        return roles == null ? MatchResult.notMatch() : MatchResult.match(variables);
     }
 
-    public Mono<AuthorizationDecision> check(ServerWebExchange exchange, Mono<Authentication> authentication, AuthorizationContext object) {
-        Set<String> authorities = this.matches(exchange);
-        if (authorities.isEmpty()) {
-            return Mono.just(new AuthorizationDecision(true));
-        }
+    @Override
+    public Mono<AuthorizationDecision> check(Mono<Authentication> authentication, AuthorizationContext context) {
+        Set<String> authorities = (Set<String>) context.getVariables().get(MAPPING_ROLE_NAME);
         return authentication
                 .filter(a -> a.isAuthenticated())
                 .flatMapIterable(a -> a.getAuthorities())
@@ -70,4 +75,5 @@ public class ResourceMatcher {
     public void reInit(Map<String, Set<String>> mappings) {
         this.mappings = mappings;
     }
+
 }

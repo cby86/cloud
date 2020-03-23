@@ -14,7 +14,7 @@ spring:
         - StripPrefix=1
         - name: Hystrix
           args:
-            name: gateway-user-service
+            name: user-service
             fallbackUri: forward:/fallback
       - id: spring-auth-center
         uri: lb://spring-auth-center
@@ -24,7 +24,7 @@ spring:
         - StripPrefix=1
         - name: Hystrix
           args:
-            name: gateway-auth-service
+            name: auth-service
             fallbackUri: forward:/fallback
       - id: spring-backend-center
         uri: lb://spring-backend-center
@@ -39,7 +39,7 @@ spring:
             key-resolver: "#{@ipKeyResolver}"
         - name: Hystrix
           args:
-            name: gateway-order-service
+            name: backend-service
             fallbackUri: forward:/fallback
         - name: Retry
           args:

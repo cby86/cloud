@@ -45,9 +45,14 @@ public class ResourcePermitRefreshMvcEndpoint {
         return null;
     }
 
+    /**
+     *
+     * @param arg0 目标服务，参数名称固定，如果需要自定义，需要修改编译方式
+     * @return
+     */
     @WriteOperation
-    public String refresh(@Selector String destination) {
-        context.publishEvent(new ResourceRemoteApplicationEvent(this,appId,destination));
+    public String refresh(@Selector String arg0) {
+        context.publishEvent(new ResourceRemoteApplicationEvent(this,appId,arg0));
         return "success";
     }
 }

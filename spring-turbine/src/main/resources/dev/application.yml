@@ -3,28 +3,15 @@ spring:
     active: dev
   application:
     name: spring-turbine
-  mvc:
-    throw-exception-if-no-handler-found: true
-  resources:
-    add-mappings: false
-    static-locations: /
+    desc: 熔断监控
 server:
   port: 8087
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-  instance:
-    appname: ${spring.application.name}
-    preferIpAddress: true
-    instance-id: ${spring.cloud.client.ip-address}:${server.port}:${spring.application.name}
-    lease-renewal-interval-in-seconds: 1
-    lease-expiration-duration-in-seconds: 2
-
 turbine:
-   app-config: spring-user,spring-backend-center,spring-auth,spring-gateway
+   app-config: spring-user,spring-backend-center,spring-auth-center,spring-gateway,spring-resource
    cluster-name-expression: new String('default')
    combine-host-port: true
+
+
 
 

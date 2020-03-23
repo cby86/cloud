@@ -1,7 +1,6 @@
 package com.spring.cloud.config.resource.endpoint;
 
 import com.spring.cloud.config.CustomerReactiveAuthorizationManager;
-import com.spring.cloud.support.ResourceRemoteApplicationEvent;
 import org.springframework.boot.actuate.autoconfigure.endpoint.condition.ConditionalOnEnabledEndpoint;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.cloud.bus.BusProperties;

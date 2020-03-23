@@ -1,6 +1,5 @@
 package com.spring.cloud.service;
 
-import com.spring.cloud.entity.Authentication;
 import com.spring.cloud.entity.Role;
 import com.spring.cloud.repository.component.ResourcePermit;
 import org.springframework.data.domain.Page;

@@ -2,9 +2,7 @@ package com.spring.cloud.service;
 
 import com.spring.cloud.entity.Menu;
 import com.spring.cloud.entity.MenuType;
-import com.spring.cloud.entity.Resource;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

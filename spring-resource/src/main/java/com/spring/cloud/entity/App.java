@@ -1,9 +1,9 @@
 package com.spring.cloud.entity;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spring.cloud.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;

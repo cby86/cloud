@@ -1,16 +1,13 @@
 package com.spring.cloud.endpoint;
 
 import com.spring.cloud.entity.Event;
-import com.spring.cloud.global.ResourceDefine;
 import com.spring.cloud.service.EventService;
-import com.spring.cloud.support.mvc.CustomRequestMappingHandlerMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.annotation.Endpoint;
 import org.springframework.boot.actuate.endpoint.annotation.ReadOperation;
 import org.springframework.boot.actuate.endpoint.annotation.WriteOperation;
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
 
 import java.util.List;
 

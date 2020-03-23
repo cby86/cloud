@@ -1,7 +1,6 @@
 package com.spring.cloud.config;
 
 import com.spring.cloud.service.EventService;
-import com.spring.cloud.service.MessageService;
 import com.spring.cloud.utils.RedisLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

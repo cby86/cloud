@@ -3,13 +3,13 @@ package com.spring.cloud.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.spring.cloud.base.BaseEntity;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity

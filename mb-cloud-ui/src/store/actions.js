@@ -1,4 +1,4 @@
-import {SET_USER, DELETE_USER, SET_AUTHENTICATION,SET_MENU} from "./mutation-type";
+import {DELETE_USER, SET_AUTHENTICATION, SET_MENU, SET_USER} from "./mutation-type";
 
 export default {
   setUserInfo({commit}, user) {

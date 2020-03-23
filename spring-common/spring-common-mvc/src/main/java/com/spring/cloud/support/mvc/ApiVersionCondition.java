@@ -1,11 +1,9 @@
 package com.spring.cloud.support.mvc;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 
-import java.math.BigDecimal;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 版本号规则配置类

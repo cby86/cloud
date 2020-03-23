@@ -1,5 +1,5 @@
 import axios from './httpConfig'
-import {Message, Loading} from 'element-ui'
+import {Loading, Message} from 'element-ui'
 import Qs from 'qs'
 
 var request = {}

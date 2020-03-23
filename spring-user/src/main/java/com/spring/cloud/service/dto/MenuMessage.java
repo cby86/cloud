@@ -2,7 +2,6 @@ package com.spring.cloud.service.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @Getter
 @Setter

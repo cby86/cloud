@@ -6,7 +6,6 @@ import com.spring.cloud.entity.User;
 import com.spring.cloud.exception.BusinessException;
 import com.spring.cloud.service.RoleService;
 import com.spring.cloud.service.UserService;
-import com.spring.cloud.utils.CommandUtils;
 import com.spring.cloud.utils.SecurityUtils;
 import lombok.AccessLevel;
 import lombok.Getter;

@@ -2,12 +2,9 @@ package com.spring.cloud.service.impl;
 
 import com.spring.cloud.entity.Role;
 import com.spring.cloud.exception.BusinessException;
-import com.spring.cloud.message.MessageApplicationEvent;
-import com.spring.cloud.message.MessageType;
 import com.spring.cloud.repository.AuthenticationRepository;
 import com.spring.cloud.repository.RoleRepository;
 import com.spring.cloud.repository.component.ResourcePermit;
-import com.spring.cloud.service.EventBaseProcessor;
 import com.spring.cloud.service.RoleService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,5 +1,4 @@
-import {SET_USER, DELETE_USER, SET_AUTHENTICATION} from "./mutation-type";
-
+import {DELETE_USER, SET_AUTHENTICATION, SET_USER} from "./mutation-type";
 
 
 export default {

@@ -1,7 +1,6 @@
 package com.spring.cloud.controller.command;
 
 import com.spring.cloud.base.Command;
-import com.spring.cloud.entity.Authentication;
 import com.spring.cloud.entity.Role;
 import com.spring.cloud.exception.BusinessException;
 import com.spring.cloud.service.AuthenticationService;
@@ -14,7 +13,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter

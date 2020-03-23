@@ -3,7 +3,6 @@ package com.spring.cloud.service.impl.message;
 import com.spring.cloud.service.MessageService;
 import com.spring.cloud.service.impl.message.handler.MessageHandler;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;

@@ -1,9 +1,7 @@
 package com.spring.cloud.controller;
 
 import com.spring.cloud.base.BaseController;
-import com.spring.cloud.controller.command.MenuCommand;
 import com.spring.cloud.controller.command.ResourceCommand;
-import com.spring.cloud.entity.Menu;
 import com.spring.cloud.entity.Resource;
 import com.spring.cloud.global.ResourceDefine;
 import com.spring.cloud.service.ResourceService;

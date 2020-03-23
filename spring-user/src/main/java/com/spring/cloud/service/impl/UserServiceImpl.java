@@ -1,6 +1,6 @@
 package com.spring.cloud.service.impl;
+
 import com.spring.cloud.entity.Authentication;
-import com.spring.cloud.entity.Role;
 import com.spring.cloud.entity.User;
 import com.spring.cloud.exception.BusinessException;
 import com.spring.cloud.repository.UserRepository;
@@ -13,8 +13,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;

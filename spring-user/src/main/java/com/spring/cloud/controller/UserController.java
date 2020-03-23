@@ -1,12 +1,10 @@
 package com.spring.cloud.controller;
+
 import com.spring.cloud.base.BaseController;
 import com.spring.cloud.controller.command.AuthenticationCommand;
-import com.spring.cloud.controller.command.RoleCommand;
 import com.spring.cloud.controller.command.UserCommand;
 import com.spring.cloud.entity.Authentication;
-import com.spring.cloud.entity.Role;
 import com.spring.cloud.entity.User;
-import com.spring.cloud.service.RoleService;
 import com.spring.cloud.service.UserService;
 import com.spring.cloud.support.mvc.ResourceDesc;
 import com.spring.cloud.utils.CommandUtils;

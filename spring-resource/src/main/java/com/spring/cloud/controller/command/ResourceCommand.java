@@ -1,8 +1,6 @@
 package com.spring.cloud.controller.command;
 
 import com.spring.cloud.base.Command;
-import com.spring.cloud.entity.Menu;
-import com.spring.cloud.entity.MenuType;
 import com.spring.cloud.entity.Resource;
 import com.spring.cloud.exception.BusinessException;
 import com.spring.cloud.service.ResourceService;

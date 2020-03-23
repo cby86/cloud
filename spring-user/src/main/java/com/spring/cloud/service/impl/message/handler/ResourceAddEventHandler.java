@@ -2,17 +2,13 @@ package com.spring.cloud.service.impl.message.handler;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.spring.cloud.global.ResourceDefine;
 import com.spring.cloud.message.MessageType;
 import com.spring.cloud.service.AuthenticationService;
 import com.spring.cloud.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ResourceAddEventHandler extends AbstractMessageHandler {

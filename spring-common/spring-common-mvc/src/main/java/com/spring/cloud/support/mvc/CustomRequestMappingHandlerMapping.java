@@ -2,7 +2,6 @@ package com.spring.cloud.support.mvc;
 
 import com.spring.cloud.global.ResourceDefine;
 import com.spring.cloud.global.ResourceRegister;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.CollectionUtils;

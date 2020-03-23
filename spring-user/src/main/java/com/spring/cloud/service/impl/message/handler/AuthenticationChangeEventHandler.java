@@ -7,7 +7,6 @@ import com.spring.cloud.service.dto.MenuMessage;
 import com.spring.cloud.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AuthenticationChangeEventHandler extends AbstractMessageHandler {

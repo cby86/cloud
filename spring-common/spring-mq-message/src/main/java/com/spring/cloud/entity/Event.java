@@ -2,7 +2,6 @@ package com.spring.cloud.entity;
 
 import com.alibaba.fastjson.JSON;
 import com.spring.cloud.base.IntIdBaseEntity;
-import com.spring.cloud.service.EventService;
 import com.spring.cloud.utils.JodaTimeUtils;
 import lombok.Getter;
 import lombok.Setter;

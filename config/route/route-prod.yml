@@ -5,3 +5,56 @@ spring:
     dynamic_url:
       authentication:
         enabled: true
+
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
+  cloud:
+    gateway:
+      routes:
+      - id: spring-user
+        uri: lb://spring-user
+        predicates:
+        - Path=/spring-user/**
+        filters:
+        - StripPrefix=1
+        - name: Hystrix
+          args:
+            name: user-service
+            fallbackUri: forward:/fallback
+      - id: spring-auth-center
+        uri: lb://spring-auth-center
+        predicates:
+        - Path=/auth/**
+        filters:
+        - StripPrefix=1
+        - name: Hystrix
+          args:
+            name: auth-service
+            fallbackUri: forward:/fallback
+      - id: spring-backend-center
+        uri: lb://spring-backend-center
+        predicates:
+        - Path=/backend/**
+        filters:
+        - StripPrefix=1
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter.replenishRate: 10
+            redis-rate-limiter.burstCapacity: 20
+            key-resolver: "#{@ipKeyResolver}"
+        - name: Hystrix
+          args:
+            name: backend-service
+            fallbackUri: forward:/fallback
+        - name: Retry
+          args:
+            retries: 3
+            statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
+            methods: GET
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true

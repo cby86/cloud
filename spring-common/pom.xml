@@ -17,6 +17,7 @@
         <module>spring-common-dao</module>
         <module>spring-common-mvc</module>
         <module>spring-common-utils</module>
+        <module>spring-common-logs</module>
         <module>spring-mq-message</module>
     </modules>
 </project>

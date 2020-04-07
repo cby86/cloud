@@ -128,7 +128,7 @@
         <module>spring-backend-center</module>
         <module>spring-resource</module>
         <module>spring-auth-center</module>
-        <module>spring-turbine</module>
+        <module>spring-monitor-center</module>
         <module>spring-config</module>
         <module>spring-task</module>
         <module>spring-gateway</module>

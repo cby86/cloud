@@ -18,6 +18,8 @@
         <module>spring-common-mvc</module>
         <module>spring-common-utils</module>
         <module>spring-common-logs</module>
+        <module>spring-common-swagger</module>
+        <module>spring-common-redis</module>
         <module>spring-mq-message</module>
     </modules>
 </project>

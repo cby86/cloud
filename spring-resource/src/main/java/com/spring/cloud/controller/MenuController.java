@@ -10,11 +10,15 @@ import com.spring.cloud.service.MenuService;
 import com.spring.cloud.service.ResourceService;
 import com.spring.cloud.support.mvc.ResourceDesc;
 import com.spring.cloud.utils.CommandUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +31,7 @@ import java.util.Map;
  **/
 @RestController
 @RequestMapping("/menu")
+@Api(description = "菜单管理")
 public class MenuController extends BaseController {
 
     @Autowired
@@ -35,16 +40,20 @@ public class MenuController extends BaseController {
     @Autowired
     ResourceService resourceService;
 
-    @RequestMapping("/updateMenus")
+    @RequestMapping(value = "/updateMenus",method = RequestMethod.POST)
     @ResourceDesc(model = "菜单管理", name = "菜单编辑", desc = "菜单编辑")
+    @ApiOperation(value = "添加或者修改菜单",notes = "添加或者修改菜单")
+    @ApiImplicitParam(name="menuCommand",value = "菜单数据对象",required = true,dataTypeClass = MenuCommand.class)
     public Map<String, Object> updateMenus(MenuCommand menuCommand) {
         Menu menu = menuCommand.toDomain();
         menuService.saveOrUpdate(menu);
         return this.resultMap(null);
     }
 
-    @RequestMapping("/findMenuById")
+    @RequestMapping(value = "/findMenuById",method = {RequestMethod.POST,RequestMethod.GET})
     @ResourceDesc(model = "菜单管理", name = "查询菜单", desc = "根据ID查询菜单")
+    @ApiOperation(value = "根据ID查询菜单",notes = "根据ID查询菜单")
+    @ApiImplicitParam(name="menuId",value = "菜单ID",required = true,dataTypeClass =String.class)
     public Map<String, Object> findMenuById(String menuId) {
         Menu menu = menuService.findMenuById(menuId);
 

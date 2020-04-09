@@ -117,11 +117,6 @@
             <artifactId>feign-httpclient</artifactId>
             <version>10.6.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.spring.cloud</groupId>
-            <artifactId>spring-common-logs</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
         <!--<dependency>-->
             <!--<groupId>org.springframework.boot</groupId>-->
             <!--<artifactId>spring-boot-devtools</artifactId>-->
@@ -137,7 +132,7 @@
         <module>spring-auth-center</module>
         <module>spring-monitor-center</module>
         <module>spring-config</module>
-        <module>spring-task</module>
+        <module>spring-job</module>
         <module>spring-gateway</module>
     </modules>
 

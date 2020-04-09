@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>com.spring.cloud</groupId>
-            <artifactId>spring-mq-message</artifactId>
+            <artifactId>spring-common-transaction-mq</artifactId>
             <version>${project.parent.version} </version>
         </dependency>
         <dependency>

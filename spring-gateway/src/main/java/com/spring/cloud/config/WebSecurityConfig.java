@@ -42,6 +42,7 @@ public class WebSecurityConfig {
         ServerHttpSecurity.AuthorizeExchangeSpec authorizeExchangeSpec = http.authorizeExchange();
         //swagger聚合不授权
         authorizeExchangeSpec.pathMatchers("/**/v2/api-docs").permitAll();
+        authorizeExchangeSpec.pathMatchers("/").permitAll();
         authorizeExchangeSpec.pathMatchers("/*.html").permitAll();
         authorizeExchangeSpec.pathMatchers("/webjars/**").permitAll();
         authorizeExchangeSpec.pathMatchers("/swagger-resources/**").permitAll();

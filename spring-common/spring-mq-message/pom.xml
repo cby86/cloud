@@ -14,7 +14,12 @@
     <dependencies>
         <dependency>
             <groupId>com.spring.cloud</groupId>
-            <artifactId>spring-common-mvc</artifactId>
+            <artifactId>spring-common-utils</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.spring.cloud</groupId>
+            <artifactId>spring-common-redis</artifactId>
             <version>${project.parent.version} </version>
         </dependency>
         <dependency>

@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: spring-admin-server
+    desc: admin监控
+server:
+  port: 8089
+
+
+
+
+

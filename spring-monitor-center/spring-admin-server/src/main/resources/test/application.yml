@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: spring-turbine
+    desc: 熔断监控
+server:
+  port: 8087
+
+turbine:
+   app-config: spring-user,spring-backend-center,spring-auth-center,spring-gateway,spring-resource
+   cluster-name-expression: new String('default')
+   combine-host-port: true

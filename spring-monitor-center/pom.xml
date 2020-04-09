@@ -15,5 +15,6 @@
     <description>监控中心</description>
     <modules>
         <module>spring-turbine</module>
+        <module>spring-admin-server</module>
     </modules>
 </project>

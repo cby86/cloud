@@ -44,6 +44,15 @@
         <appender-ref ref="FILE"/>
     </appender>
     <!-- 日志输出级别 -->
+    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <param name="Encoding" value="UTF-8"/>
+        <remoteHost>192.168.3.18</remoteHost>
+        <port>10514</port>
+        <!-- encoder is required -->
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder" >
+            <customFields>{"appname":"${appName}"}</customFields> // 索引名
+        </encoder>
+    </appender>
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>

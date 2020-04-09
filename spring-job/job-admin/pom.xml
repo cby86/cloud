@@ -69,7 +69,7 @@
 		<!-- xxl-job-core -->
 		<dependency>
 			<groupId>com.xuxueli</groupId>
-			<artifactId>xxl-job-core</artifactId>
+			<artifactId>job-core</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
 

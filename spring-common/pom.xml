@@ -16,6 +16,7 @@
     <modules>
         <module>spring-common-dao</module>
         <module>spring-common-mvc</module>
+        <module>spring-common-nacos</module>
         <module>spring-common-utils</module>
         <module>spring-common-logs</module>
         <module>spring-common-swagger</module>

@@ -15,6 +15,17 @@ spring:
            max-attempts: 6
            max-interval: 4000
            multiplier: 1.1
+    nacos:
+      discovery:
+        server-addr: 10.154.2.170:8848
+        namespace: business-platform-api-b
+      config:
+        server-addr: 10.154.2.170:8848
+        file-extension: yaml
+        group: DEFAULT_GROUP
+        #启用服务器配置文件-true,使用本地文件-false
+        enabled: true
+        namespace: business-platform-api-b
 
 # 查找config通过注册中心查找，那么注册中心地址需要优先配置
 eureka:

@@ -19,6 +19,7 @@
         <swagger.version>2.9.2</swagger.version>
         <docker.repostory>hub.jhmy.com</docker.repostory>
         <docker.registry.name>library</docker.registry.name>
+        <spring-cloud.version>Greenwich.SR6</spring-cloud.version>
     </properties>
 
 
@@ -37,17 +38,17 @@
             <url>http://jcenter.bintray.com</url>
         </repository>
     </repositories>
-    <!--<dependencyManagement>-->
-    <!--<dependencies>-->
-    <!--<dependency>-->
-    <!--<groupId>org.springframework.cloud</groupId>-->
-    <!--<artifactId>spring-cloud-dependencies</artifactId>-->
-    <!--<version>${spring-cloud.version}</version>-->
-    <!--<type>pom</type>-->
-    <!--<scope>import</scope>-->
-    <!--</dependency>-->
-    <!--</dependencies>-->
-    <!--</dependencyManagement>-->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <profiles>
         <profile>

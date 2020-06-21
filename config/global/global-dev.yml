@@ -4,13 +4,13 @@ spring:
   resources:
     add-mappings: false
   sleuth:
-     web:
-        client:
-            enabled: true
-        sampler:
-          probability: 1.0 # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
+    web:
+      client:
+        enabled: true
+      sampler:
+        probability: 1.0 # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
   zipkin:
-      base-url: http://localhost:9411/ # 指定了 Zipkin 服务器的地址
+    base-url: http://localhost:9411/ # 指定了 Zipkin 服务器的地址
   cloud:
     stream:
       rabbit:
@@ -18,22 +18,22 @@ spring:
           consumer:
             anonymousGroupPrefix: ${spring.application.name}.${server.port}. #配置队列名称
   rabbitmq:
-     host: localhost
-     port: 5672
-     username: publisher
-     password: publisher
-     virtual-host: /
+    host: http://192.168.1.20
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
 eureka:
   client:
     serviceUrl:
       defaultZone: http://user:password123@localhost:8761/eureka/
     registry-fetch-interval-seconds: 5
   instance:
-      appname: ${spring.application.name}
-      preferIpAddress: true
-      instance-id: ${spring.cloud.client.ip-address}:${server.port}:${spring.application.name}
-      lease-renewal-interval-in-seconds: 1
-      lease-expiration-duration-in-seconds: 2
+    appname: ${spring.application.name}
+    preferIpAddress: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}:${spring.application.name}
+    lease-renewal-interval-in-seconds: 1
+    lease-expiration-duration-in-seconds: 2
 
 #tomcat 配置
 server:
@@ -49,51 +49,51 @@ server:
 
 #使用httpclient 替代默认的URL连接方式，并配置线程池
 feign:
-   httpclient:
-     enable: true
-     max-connections: 200
-     max-connections-per-route: 50
-   #开启熔断
-   hystrix:
-      enabled: true
-   #开启压缩
-   compression:
-      request:
-         enabled: true # 开启请求压缩
-      response:
-         enabled: true # 开启响应压缩
+  httpclient:
+    enable: true
+    max-connections: 200
+    max-connections-per-route: 50
+  #开启熔断
+  hystrix:
+    enabled: true
+  #开启压缩
+  compression:
+    request:
+      enabled: true # 开启请求压缩
+    response:
+      enabled: true # 开启响应压缩
 
 hystrix:
-   command:
-      default:
-        #command 执行策略配置
-        execution:
-          isolation:
-            strategy: THREAD
-            thread:
-              timeoutInMilliseconds: 3000
-              interruptOnTimeout: true
-              interruptOnCancel: true
-            #只对信号量的策略有效，配置并发数
-            semaphore:
-              maxConcurrentRequests: 1000
-        #熔断配置策略
-        fallback:
-          isolation:
-            semaphore:
-              maxConcurrentRequests: 1000
-        #断路器配置策略
-        circuitBreaker:
-          sleepWindowInMilliseconds: 5000
-   #线程池配置
-   threadpool:
-      default:
-          coreSize: 10
-          maximumSize: 500
-          #设置allowMaximumSizeToDivergeFromCoreSize值为true时，maximumSize才有作用
-          allowMaximumSizeToDivergeFromCoreSize: true
-          maxQueueSize: 1500
-          queueSizeRejectionThreshold: 1000
+  command:
+    default:
+      #command 执行策略配置
+      execution:
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 3000
+            interruptOnTimeout: true
+            interruptOnCancel: true
+          #只对信号量的策略有效，配置并发数
+          semaphore:
+            maxConcurrentRequests: 1000
+      #熔断配置策略
+      fallback:
+        isolation:
+          semaphore:
+            maxConcurrentRequests: 1000
+      #断路器配置策略
+      circuitBreaker:
+        sleepWindowInMilliseconds: 5000
+  #线程池配置
+  threadpool:
+    default:
+      coreSize: 10
+      maximumSize: 500
+      #设置allowMaximumSizeToDivergeFromCoreSize值为true时，maximumSize才有作用
+      allowMaximumSizeToDivergeFromCoreSize: true
+      maxQueueSize: 1500
+      queueSizeRejectionThreshold: 1000
 #监控断点配置
 management:
   endpoints:
@@ -102,11 +102,11 @@ management:
         include: '*'
 
 ribbon:
-    ReadTimeout: 3000
-    ConnectTimeout: 3000
-    MaxAutoRetries: 0
-    MaxAutoRetriesNextServer: 0
-    ServerListRefreshInterval: 1000
+  ReadTimeout: 3000
+  ConnectTimeout: 3000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 0
+  ServerListRefreshInterval: 1000
 
 logging:
   config: classpath:logback.xml

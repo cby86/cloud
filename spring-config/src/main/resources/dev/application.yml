@@ -1,9 +1,9 @@
 spring:
   rabbitmq:
-    host: localhost
+    host: 192.168.1.20
     port: 5672
-    username: publisher
-    password: publisher
+    username: guest
+    password: guest
     virtual-host: /
   profiles:
     active: native
